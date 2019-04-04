@@ -1,4 +1,4 @@
-from ckan import model, logic
+from ckan import model, logic, authz
 from ckan.lib.dictization import model_dictize
 from ckan.common import _
 from pylons import config
@@ -7,7 +7,6 @@ from ckan.lib.helpers import url_for
 from ckanext.ytp.request.mail import mail_new_membership_request
 from ckanext.ytp.request.helper import get_safe_locale
 import logging
-import ckan.new_authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +28,6 @@ def _create_member_request(context, data_dict):
     if not role:
         raise logic.NotFound
     group = model.Group.get(data_dict.get('group', None))
-
     if not group or group.type != 'organization':
         raise logic.NotFound
 
@@ -65,10 +63,14 @@ def _create_member_request(context, data_dict):
 
     member.state = 'pending'
     member.capacity = role
+    member.group = group
 
     revision = model.repo.new_revision()
     revision.author = user
     revision.message = u'New member request'
+
+    logging.warning("Member's Group ID: " + str(type(member.group_id)))
+    logging.warning(repr(member))
 
     model.Session.add(member)
     # We need to flush since we need membership_id (member.id) already
@@ -76,8 +78,15 @@ def _create_member_request(context, data_dict):
 
     memberRequest = MemberRequest(
         membership_id=member.id, role=role, status="pending", language=locale)
+    member_id = member.id
     model.Session.add(memberRequest)
     model.repo.commit()
+
+    fetched_member = model.Session.query(model.Member).filter(
+        model.Member.id == member_id
+    ).first()
+    logging.warning(repr(group))
+    logging.warning("Fetched member's group ID: " + str(fetched_member.group_id))
 
     url = config.get('ckan.site_url', "")
     if url:

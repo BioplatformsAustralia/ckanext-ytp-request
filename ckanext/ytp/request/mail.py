@@ -18,43 +18,43 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 
 %(link)s
 
-Best regards
-
-Avoindata.fi support
-valtori@avoindata.fi
+Best wishes,
+The AIDS Data Exchange
 """)
 
 
 def _SUBJECT_MEMBERSHIP_APPROVED():
     return _(
-            "Organization membership approved (%(organization)s)")
+        "Organization membership approved (%(organization)s)"
+    )
 
 
 def _MESSAGE_MEMBERSHIP_APPROVED():
-    return _("""\
-Your membership request to organization %(organization)s with %(role)s access has been approved.
+    return _(
+        """\
+        Your membership request to organization %(organization)s with %(role)s access has been approved.
 
-Best regards
-
-Avoindata.fi support
-valtori@avoindata.fi
-""")
+        Best wishes,
+        The AIDS Data Exchange
+        """
+    )
 
 
 def _SUBJECT_MEMBERSHIP_REJECTED():
     return _(
-            "Organization membership rejected (%(organization)s)")
+        "Organization membership rejected (%(organization)s)"
+    )
 
 
 def _MESSAGE_MEMBERSHIP_REJECTED():
-    return _("""\
-Your membership request to organization %(organization)s with %(role)s access has been rejected.
+    return _(
+        """\
+        Unfortunately your membership request to organization %(organization)s with %(role)s access has been rejected.  If you think this was a mistake, please contact the organisation's administrator directly.
 
-Best regards
-
-Avoindata.fi support
-valtori@avoindata.fi
-""")
+        Best wishes,
+        The AIDS Data Exchange
+        """
+    )
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):

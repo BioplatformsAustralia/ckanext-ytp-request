@@ -5,7 +5,7 @@ from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
 
 import logging
-import ckan.new_authz as authz
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def member_request(context, data_dict):
 
 
 def member_requests_mylist(context, data_dict):
-    ''' Users wil see a list of her member requests
+    ''' Users wil see a list of their member requests
     '''
     logic.check_access('member_requests_mylist', context, data_dict)
 
@@ -113,6 +113,7 @@ def get_available_roles(context, data_dict=None):
 def _membeship_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
+    logging.warning(obj_list)
     for obj in obj_list:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)

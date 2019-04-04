@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
-from ckan.plugins import implements, toolkit
+from ckan.plugins import implements
+import ckantoolkit as toolkit
 import logging
 
 log = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript/', 'request_js')
+        logging.warning("ytp_request plugin enabled")
 
     # IActions
     def get_actions(self):
