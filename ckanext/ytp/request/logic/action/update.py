@@ -3,7 +3,7 @@ from ckanext.ytp.request.model import MemberRequest
 from ckan.common import c
 from ckanext.ytp.request.helper import get_default_locale
 from ckanext.ytp.request.mail import mail_process_status
-
+from ckan.lib.helpers import flash_success
 import logging
 import datetime
 
@@ -94,6 +94,12 @@ def _process(context, action, data_dict):
     # successfully?
     mail_process_status(locale, member_user, approve,
                         member.group.display_name, member.capacity)
+
+    if action == 'approve':
+        flash_success("Membership request approved")
+    elif action == 'reject':
+        flash_success("Membership request rejected")
+
     return True
 
 

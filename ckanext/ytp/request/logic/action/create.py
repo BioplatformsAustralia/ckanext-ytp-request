@@ -3,7 +3,7 @@ from ckan.lib.dictization import model_dictize
 from ckan.common import _
 from pylons import config
 from ckanext.ytp.request.model import MemberRequest
-from ckan.lib.helpers import url_for
+from ckan.lib.helpers import url_for, flash_success
 from ckanext.ytp.request.mail import mail_new_membership_request
 from ckanext.ytp.request.helper import get_safe_locale
 import logging
@@ -100,6 +100,10 @@ def _create_member_request(context, data_dict):
         for admin in _get_organization_admins(group.id):
             mail_new_membership_request(
                 locale, admin, group.display_name, url, userobj.display_name, userobj.email)
+
+    flash_success(
+        "Membership request sent to organisation administrator"
+    )
 
     return member
 

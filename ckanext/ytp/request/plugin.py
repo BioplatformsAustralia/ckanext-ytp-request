@@ -1,16 +1,21 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements
+from ckan.common import c
 import ckantoolkit as toolkit
 import logging
+import authz
+
 
 log = logging.getLogger(__name__)
 
 
 class YtpRequestPlugin(plugins.SingletonPlugin):
+
     implements(plugins.IRoutes, inherit=True)
     implements(plugins.IConfigurer, inherit=True)
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
+    implements(plugins.ITemplateHelpers)
 
     # IConfigurer #
     def update_config(self, config):
@@ -18,6 +23,30 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript/', 'request_js')
         logging.warning("ytp_request plugin enabled")
+
+    def get_helpers(self):
+
+        def is_sysadmin(user):
+            """Determine if current user is sys admin"""
+            return authz.is_sysadmin(user)
+
+        def get_list(org_id='hello'):
+            """Get membership requests filtered by organisation ID"""
+            context = {'user': c.user or c.author}
+            member_requests = toolkit.get_action(
+                    'member_requests_list'
+            )(context, {})
+            if org_id:
+                member_requests = filter(
+                    lambda x: x['group_id'] == org_id,
+                    member_requests
+                )
+            return member_requests
+
+        return {
+            'is_sysadmin': is_sysadmin,
+            'get_member_request_list': get_list
+        }
 
     # IActions
     def get_actions(self):

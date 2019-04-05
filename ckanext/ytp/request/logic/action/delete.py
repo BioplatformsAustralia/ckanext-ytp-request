@@ -5,6 +5,7 @@ from ckan.lib.dictization import model_dictize
 from ckan.common import c
 from sqlalchemy.sql import func
 from ckanext.ytp.request.helper import get_safe_locale
+from ckan.lib.helpers import flash_success
 
 import logging
 
@@ -28,6 +29,8 @@ def member_request_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
+    flash_success("Membership request cancelled")
+
     return _process_request(context, organization_id, member, 'pending')
 
 
@@ -45,6 +48,8 @@ def member_request_membership_cancel(context, data_dict):
 
     if not member or not member.group.is_organization:
         raise logic.NotFound
+
+    flash_success("Membership cancelled")
 
     return _process_request(context, organization_id, member, 'active')
 
@@ -82,5 +87,7 @@ def _process_request(context, organization_id, member, status):
 
     member.save()
     model.repo.commit()
+
+
 
     return model_dictize.member_dictize(member, context)
