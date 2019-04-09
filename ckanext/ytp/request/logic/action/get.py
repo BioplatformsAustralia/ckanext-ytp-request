@@ -95,9 +95,6 @@ def member_requests_list(context, data_dict):
 def get_available_roles(context, data_dict=None):
     roles = logic.get_action("member_roles_list")(context, {})
 
-    # Remove member role from the list
-    roles = [role for role in roles if role['value'] != 'member']
-
     # If organization has no associated admin, then role editor is not
     # available
     organization_id = logic.get_or_bust(data_dict, 'organization_id')

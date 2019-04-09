@@ -43,7 +43,7 @@ class YtpRequestController(BaseController):
         extra_vars = {'selected_organization': selected_organization, 'organizations': organizations,
                       'errors': errors or {}, 'error_summary': error_summary or {}}
         c.roles = self._get_available_roles(context, selected_organization)
-        c.user_role = 'admin'
+        c.user_role = 'member'
         c.form = render("request/new_request_form.html", extra_vars=extra_vars)
         return render("request/new.html")
 
