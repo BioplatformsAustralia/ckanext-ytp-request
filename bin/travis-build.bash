@@ -55,9 +55,9 @@ cd ckan
 paster db init -c test-core.ini
 cd -
 
-echo "Installing ckanext-restricted and its requirements..."
+echo "Installing ckanext-ytp-request and its requirements..."
 sudo python setup.py develop
-# pip install --user -r dev-requirements.txt
+pip install --user -r dev-requirements.txt
 
 echo "Moving test.ini into a subdir..."
 mkdir subdir
