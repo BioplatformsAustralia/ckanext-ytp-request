@@ -8,7 +8,7 @@ import ckan.plugins
 # import ckan.logic as logic
 
 
-class TestRestrictedPlugin(object):
+class TestYTPRequestsPlugin(object):
     '''Tests for the ckanext.example_iauthfunctions.plugin module.
 
     Specifically tests that overriding parent auth functions will cause
@@ -19,13 +19,13 @@ class TestRestrictedPlugin(object):
         '''Nose runs this method once to setup our test class.'''
         # Test code should use CKAN's plugins.load() function to load plugins
         # to be tested.
-        ckan.plugins.load('ytp.request')
+        ckan.plugins.load('ytp_request')
 
     def teardown(self):
         '''Nose runs this method after each test method in our test class.'''
         # Rebuild CKAN's database after each test method, so that each test
         # method runs with a clean slate.
-        model.repo.rebuild_db('ytp.request')
+        model.repo.rebuild_db('ytp_request')
 
     @classmethod
     def teardown_class(cls):
@@ -35,7 +35,7 @@ class TestRestrictedPlugin(object):
         '''
         # We have to unload the plugin we loaded, so it doesn't affect any
         # tests that run after ours.
-        ckan.plugins.unload('ytp.request')
+        ckan.plugins.unload('ytp_request')
 
     def sample_test(self):
         '''
