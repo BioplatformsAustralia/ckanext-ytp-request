@@ -25,7 +25,7 @@ class TestYTPRequestsPlugin(object):
         '''Nose runs this method after each test method in our test class.'''
         # Rebuild CKAN's database after each test method, so that each test
         # method runs with a clean slate.
-        model.repo.rebuild_db('ytp_request')
+        model.repo.rebuild_db()
 
     @classmethod
     def teardown_class(cls):
