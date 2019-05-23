@@ -9,11 +9,11 @@ nosetests --ckan \
           --nologcapture \
           --with-pylons=subdir/test.ini \
           --with-coverage \
-          --cover-package=ckanext.restricted \
+          --cover-package=ckanext.ytp.request \
           --cover-inclusive \
           --cover-erase \
           --cover-tests \
-          ckanext/restricted
+          ckanext/ytp/request
 
 # strict linting
 flake8 . --count --max-complexity=12 --max-line-length=127 --statistics --exclude ckan,{{ project }}
