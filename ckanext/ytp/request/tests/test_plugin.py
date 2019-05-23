@@ -1,11 +1,11 @@
 """Tests for plugin.py."""
 # encoding: utf-8
 
-from nose.tools import assert_raises
+# from nose.tools import assert_raises
 import ckan.model as model
 import ckan.plugins
-import ckan.tests.factories as factories
-import ckan.logic as logic
+# import ckan.tests.factories as factories
+# import ckan.logic as logic
 
 
 class TestRestrictedPlugin(object):

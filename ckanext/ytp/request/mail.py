@@ -32,7 +32,8 @@ def _SUBJECT_MEMBERSHIP_APPROVED():
 def _MESSAGE_MEMBERSHIP_APPROVED():
     return _(
         """\
-        Your membership request to organization %(organization)s with %(role)s access has been approved.
+        Your membership request to organization %(organization)s with %(role)s
+        access has been approved.
 
         Best wishes,
         The AIDS Data Exchange
@@ -49,7 +50,9 @@ def _SUBJECT_MEMBERSHIP_REJECTED():
 def _MESSAGE_MEMBERSHIP_REJECTED():
     return _(
         """\
-        Unfortunately your membership request to organization %(organization)s with %(role)s access has been rejected.  If you think this was a mistake, please contact the organisation's administrator directly.
+        Unfortunately your membership request to organization %(organization)s
+        with %(role)s access has been rejected.  If you think this was a
+        mistake, please contact the organisation's administrator directly.
 
         Best wishes,
         The AIDS Data Exchange
@@ -58,9 +61,10 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
-    # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it. We default to finnish for the time being
+    # TODO: Set admin locale. Admin/user locale is stored at drupal database so
+    # may be a bit challenging to fetch it. We default to english for now
     current_locale = get_lang()
-    i18n.set_lang("fi")
+    i18n.set_lang("en")
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name

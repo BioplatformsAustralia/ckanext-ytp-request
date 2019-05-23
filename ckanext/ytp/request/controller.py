@@ -70,7 +70,10 @@ class YtpRequestController(BaseController):
             return self.new(errors, error_summary)
 
     def show(self, mrequest_id):
-        """" Shows a single member request. To be used by admins in case they want to modify granted role or accept via e-mail """
+        """"
+        Shows a single member request. To be used by admins in case they
+        want to modify granted role or accept via e-mail.
+        """
         context = {'user': c.user or c.author}
         try:
             membershipdto = toolkit.get_action('member_request_show')(

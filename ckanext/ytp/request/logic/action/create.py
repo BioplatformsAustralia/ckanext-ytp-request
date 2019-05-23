@@ -12,8 +12,10 @@ log = logging.getLogger(__name__)
 
 
 def member_request_create(context, data_dict):
-    ''' Create new member request. User is taken from context.
-    Sysadmins should not be able to create "member" requests since they have full access to all organizations
+    '''
+    Create new member request. User is taken from context.
+    Sysadmins should not be able to create "member" requests since they have
+    full access to all organizations
     :param group: name of the group or organization
     :type group: string
     '''
@@ -39,7 +41,9 @@ def _create_member_request(context, data_dict):
 
     userobj = model.User.get(user)
 
-    member = model.Session.query(model.Member).filter(model.Member.table_name == "user").filter(model.Member.table_id == userobj.id) \
+    member = model.Session.query(model.Member) \
+        .filter(model.Member.table_name == "user") \
+        .filter(model.Member.table_id == userobj.id) \
         .filter(model.Member.group_id == group.id).first()
 
     # If there is a member for this organization and it is NOT deleted. Reuse
@@ -52,13 +56,16 @@ def _create_member_request(context, data_dict):
             message = _("You are already part of the organization")
         # Unknown status. Should never happen..
         elif member.state != 'deleted':
-            raise logic.ValidationError({"organization": _(
-                "Duplicate organization request")}, {_("Organization"): message})
+            raise logic.ValidationError(
+                {"organization": _("Duplicate organization request")},
+                {_("Organization"): message}
+            )
     else:
         member = model.Member(table_name="user", table_id=userobj.id,
                               group_id=group.id, capacity=role, state='pending')
 
-    # TODO: Is there a way to get language associated to all admins. User table there is nothing as such stored
+    # TODO: Is there a way to get language associated to all admins.
+    # User table there is nothing as such stored
     locale = get_safe_locale()
 
     member.state = 'pending'
@@ -109,16 +116,25 @@ def _create_member_request(context, data_dict):
 
 
 def _get_organization_admins(group_id):
-    admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
-                 filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
-                 filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
+    admins = set(
+        model.Session.query(model.User)
+        .join(model.Member, model.User.id == model.Member.table_id)
+        .filter(model.Member.table_name == "user")
+        .filter(model.Member.group_id == group_id)
+        .filter(model.Member.state == 'active')
+        .filter(model.Member.capacity == 'admin')
+    )
 
-    admins.update(set(model.Session.query(model.User).filter(model.User.sysadmin == True)))  # noqa
+    admins.update(set(
+        model.Session.query(model.User).filter(model.User.sysadmin == True)
+    ))  # noqa
 
     return admins
 
 
 def _get_ckan_admins():
-    admins = set(model.Session.query(model.User).filter(model.User.sysadmin == True))  # noqa
+    admins = set(
+        model.Session.query(model.User).filter(model.User.sysadmin == True)
+    )  # noqa
 
     return admins

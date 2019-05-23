@@ -14,15 +14,23 @@ def get_user_member(organization_id, state=None):
     else:
         state_query = or_(model.Member.state == state)
 
-    query = model.Session.query(model.Member).filter(state_query) \
-        .filter(model.Member.table_name == 'user').filter(model.Member.group_id == organization_id).filter(model.Member.table_id == c.userobj.id)
+    query = model.Session.query(model.Member) \
+        .filter(state_query) \
+        .filter(model.Member.table_name == 'user') \
+        .filter(model.Member.group_id == organization_id)\
+        .filter(model.Member.table_id == c.userobj.id)
     return query.first()
 
 
 def get_organization_admins(group_id):
-    admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
-                 filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
-                 filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
+    admins = set(
+        model.Session.query(model.User)
+        .join(model.Member, model.User.id == model.Member.table_id)
+        .filter(model.Member.table_name == "user")
+        .filter(model.Member.group_id == group_id)
+        .filter(model.Member.state == 'active')
+        .filter(model.Member.capacity == 'admin')
+    )
 
     return admins
 
@@ -40,5 +48,5 @@ def get_default_locale():
 def get_safe_locale():
     try:
         return helpers.lang()
-    except:
+    except Exception:
         return get_default_locale()

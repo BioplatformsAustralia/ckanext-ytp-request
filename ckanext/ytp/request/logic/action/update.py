@@ -11,21 +11,28 @@ log = logging.getLogger(__name__)
 
 
 def member_request_reject(context, data_dict):
-    ''' Cancel request (from admin or group editor). Member request must be provided since we need both organization/user
-        Difference is that this action should be logged and showed to the user. If a user cancels herself her own request can be safely
-        deleted '''
+    '''
+    Cancel request (from admin or group editor). Member request must be
+    provided since we need both organization/user
+    Difference is that this action should be logged and showed to the user.
+    If a user cancels herself her own request can be safely deleted
+    '''
     logic.check_access('member_request_reject', context, data_dict)
     _process(context, 'reject', data_dict)
 
 
 def member_request_approve(context, data_dict):
-    ''' Approve request (from admin or group editor). Member request must be provided since we need both organization/user'''
+    '''
+    Approve request (from admin or group editor). Member request must be
+    provided since we need both organization/user
+    '''
     logic.check_access('member_request_approve', context, data_dict)
     _process(context, 'approve', data_dict)
 
 
 def _process(context, action, data_dict):
-    ''' Approve or reject member request.
+    '''
+    Approve or reject member request.
     :param member request: member request id
     :type member: string
     :param approve: approve or reject request
@@ -41,7 +48,7 @@ def _process(context, action, data_dict):
     role = data_dict.get("role", None)
     if not mrequest_id:
         raise logic.NotFound
-    if role is not None and role is not 'admin' and role is not 'editor':
+    if role is not None and role != 'admin' and role != 'editor':
         raise logic.ValidationError("Role is not a valid value")
 
     member = model.Session.query(model.Member).filter(
@@ -71,8 +78,9 @@ def _process(context, action, data_dict):
     # TODO: Move this query to a helper method since it is widely used
     # Fetch the newest member_request associated to this membership (sort by
     # last modified field)
-    member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+    member_request = model.Session.query(MemberRequest) \
+        .filter(MemberRequest.membership_id == member.id) \
+        .order_by('request_date desc').limit(1).first()
 
     # BFW: In case of pending state overwrite it since it is no final state
     member_request.status = request_status
@@ -105,10 +113,14 @@ def _process(context, action, data_dict):
 
 def _log_process(member_user, member_org, approve, admin_user):
     if approve:
-        log.info("Membership request of %s approved to %s by admin: %s" %
-                 (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  admin_user.fullname if admin_user.fullname else admin_user.name))
+        log.info("Membership request of %s approved to %s by admin: %s" % (
+            member_user.fullname if member_user.fullname else member_user.name,
+            member_org,
+            admin_user.fullname if admin_user.fullname else admin_user.name)
+        )
     else:
-        log.info("Membership request of %s rejected to %s by admin: %s" %
-                 (member_user.fullname if member_user.fullname else member_user.name, member_org,
-                  admin_user.fullname if admin_user.fullname else admin_user.name))
+        log.info("Membership request of %s rejected to %s by admin: %s" % (
+            member_user.fullname if member_user.fullname else member_user.name,
+            member_org,
+            admin_user.fullname if admin_user.fullname else admin_user.name)
+        )
