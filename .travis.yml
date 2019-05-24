@@ -1,39 +1,40 @@
-# use an older trusty image, because the newer images cause build errors with
-# psycopg2 that comes with CKAN<2.8:
-#   "Error: could not determine PostgreSQL version from '10.1'"
-# see https://github.com/travis-ci/travis-ci/issues/8897
 dist: trusty
 group: deprecated-2017Q4
-
-# matrix
 python:
-  - 2.7
+- 2.7
 env:
-  - CKANVERSION=2.8.2
-  - CKANVERSION=master
-# tests
+- CKANVERSION=2.8.2
+- CKANVERSION=master
 services:
-  - postgresql
-  - redis-server
+- postgresql
+- redis-server
 install:
-  - bash bin/travis-build.bash
-  - pip install coveralls
+- bash bin/travis-build.bash
+- pip install coveralls
 script: sh bin/travis-run.sh
 after_success:
-  - coveralls
-
-# additional jobs
+- coveralls
 matrix:
   include:
-    - name: "Flake8 on Python 3.7"
-      dist: xenial    # required for Python 3.7
-      cache: pip
-      install: pip install --user flake8
-      script:
-        - flake8 --version
-        - flake8 . --count --max-complexity=12 --max-line-length=127 --statistics --exclude ckan,{{ project }}
-      python: 3.7
-      # overwrite matrix
-      env:
-        - FLAKE8=true
-        - CKANVERSION=master
+  - name: Flake8 on Python 3.7
+    dist: xenial
+    cache: pip
+    install: pip install --user flake8
+    script:
+    - flake8 --version
+    - flake8 . --count --max-complexity=12 --max-line-length=127 --statistics --exclude
+      ckan,{{ project }}
+    python: 3.7
+    env:
+    - FLAKE8=true
+    - CKANVERSION=master
+notifications:
+  slack:
+    rooms:
+      secure: ZO+OLAC3d+VugEPIybfunCg5SF1scerLbRFY/ysRfJl1TiwbrQ0/isv2EHNWo6dihLxlv3R8IKzr2Fl2A+/FyeZkMGw7a/c9hKRp1t2p6n3ziHwV/ZoebXc+8vVMYbrpH8B781x0RKA2NWDQwlcCO0sf874br99lhYysUCbIVMg1krNeLS66zGalGuW8UMPlgMjxTu9KxB+ltTJVxg3r6y3HRRI1RkwNjyzI0fUStVBttMlUVCqh9eft7o5A4WpJTghExKagvAGs8PeB2Ne+cWqgZhS0n/k/+9XSJiTY4x4+fZXw3OXiVjmuN8tHtscldbUTpxYMvVx+UBeH85nSI2IPDvEm2foUr1/xgPabLc0HGqsGlaeL0ZlnizhxvP9uT/B4Orog2t6/X8RtvhSLyfBclA7wj8fyKzwBb1wQrnbvNqA9MD67l8GHfA6NzZA4VZDL83wYL7o1XxSTdCTvNEVbR2139M4l88fFm+NUz5NI/Z/nUqBqenz+7vvOVe+ZS8HjwhdTXjm9y1eHM5f86CX+lts7nHi+so1t+AaPTWxxzT7YJhiTZ0OFm3gsKPuIjeLQ2cKZx5Lk91m+r73NdsWavRv6y3xc4um2z+yOzrhBf+Cgd1MU6mo1Ku1TwCU+RZ+fNJ6ewOItwPQ/IYc/GQHTvyK7o8mS2N8viQ7XiFE=
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
+  email:
+    on_success: never
+    on_failure: never
