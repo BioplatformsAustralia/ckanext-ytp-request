@@ -61,10 +61,6 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
 
 
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
-    # TODO: Set admin locale. Admin/user locale is stored at drupal database so
-    # may be a bit challenging to fetch it. We default to english for now
-    current_locale = get_lang()
-    i18n.set_lang("en")
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
@@ -80,8 +76,6 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         mail_user(admin, subject, message)
     except Exception:
         log.exception("Mail could not be sent")
-    finally:
-        set_lang(current_locale)
 
 
 def mail_process_status(locale, member_user, approve, group_name, capacity):
