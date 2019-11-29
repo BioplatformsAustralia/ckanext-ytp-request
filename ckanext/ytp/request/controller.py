@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 class YtpRequestController(BaseController):
 
     not_auth_message = _('Unauthorized')
-    request_not_found_message = _('Request not found')
+    request_not_found_message = _('Membership Request has already been approved, or does not exist.')
 
     def _list_organizations(context, errors=None, error_summary=None):
         data_dict = {}
