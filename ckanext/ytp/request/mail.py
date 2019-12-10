@@ -19,7 +19,7 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 %(link)s
 
 Best wishes,
-The AIDS Data Exchange
+The AIDS Data Repository
 """)
 
 
@@ -36,7 +36,7 @@ def _MESSAGE_MEMBERSHIP_APPROVED():
         access has been approved.
 
         Best wishes,
-        The AIDS Data Exchange
+        The AIDS Data Repository
         """
     )
 
@@ -55,7 +55,7 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
         mistake, please contact the organisation's administrator directly.
 
         Best wishes,
-        The AIDS Data Exchange
+        The AIDS Data Repository
         """
     )
 
