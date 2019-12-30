@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-09 14:53+0200\n"
+"POT-Creation-Date: 2019-12-30 11:10+0000\n"
 "PO-Revision-Date: 2019-12-23 08:39+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -24,7 +24,7 @@ msgid "Unauthorized"
 msgstr ""
 
 #: ckanext/ytp/request/controller.py:15
-msgid "Request not found"
+msgid "Membership Request has already been approved, or does not exist."
 msgstr ""
 
 #: ckanext/ytp/request/controller.py:62
@@ -35,16 +35,16 @@ msgstr ""
 msgid "Item not found"
 msgstr ""
 
-#: ckanext/ytp/request/controller.py:100 ckanext/ytp/request/controller.py:115
+#: ckanext/ytp/request/controller.py:103 ckanext/ytp/request/controller.py:118
 msgid "Member request processed successfully"
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:9
+#: ckanext/ytp/request/mail.py:11
 #, python-format
 msgid "New membership request (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:11
+#: ckanext/ytp/request/mail.py:16
 #, python-format
 msgid ""
 "User %(user)s (%(email)s) has requested membership to organization "
@@ -52,52 +52,53 @@ msgid ""
 "\n"
 "%(link)s\n"
 "\n"
-"Best regards\n"
-"\n"
-"Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"Best wishes,\n"
+"The AIDS Data Repository\n"
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:22
+#: ckanext/ytp/request/mail.py:27
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:24
+#: ckanext/ytp/request/mail.py:33
 #, python-format
 msgid ""
-"Your membership request to organization %(organization)s with %(role)s "
-"access has been approved.\n"
+"        Your membership request to organization %(organization)s with "
+"%(role)s\n"
+"        access has been approved.\n"
 "\n"
-"Best regards\n"
-"\n"
-"Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"        Best wishes,\n"
+"        The AIDS Data Repository\n"
+"        "
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:33
+#: ckanext/ytp/request/mail.py:45
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
 msgstr ""
 
-#: ckanext/ytp/request/mail.py:35
+#: ckanext/ytp/request/mail.py:51
 #, python-format
 msgid ""
-"Your membership request to organization %(organization)s with %(role)s "
-"access has been rejected.\n"
+"        Unfortunately your membership request to organization "
+"%(organization)s\n"
+"        with %(role)s access has been rejected.  If you think this was a\n"
+"        mistake, please contact the organisation's administrator "
+"directly.\n"
 "\n"
-"Best regards\n"
-"\n"
-"Avoindata.fi support\n"
-"valtori@avoindata.fi\n"
+"        Best wishes,\n"
+"        The AIDS Data Repository\n"
+"        "
 msgstr ""
 
 #: ckanext/ytp/request/logic/action/create.py:39
 #: ckanext/ytp/request/logic/action/get.py:47
-#: ckanext/ytp/request/templates/request/list.html:34
-#: ckanext/ytp/request/templates/request/mylist.html:33
-#: ckanext/ytp/request/templates/request/new_request_form.html:23
-#: ckanext/ytp/request/templates/request/show.html:50
+#: ckanext/ytp/request/templates/organization/members.html:12
+#: ckanext/ytp/request/templates/request/list.html:29
+#: ckanext/ytp/request/templates/request/mylist.html:29
+#: ckanext/ytp/request/templates/request/new_request_form.html:24
+#: ckanext/ytp/request/templates/request/show.html:48
 msgid "Role"
 msgstr ""
 
@@ -106,28 +107,28 @@ msgstr ""
 msgid "As a sysadmin, you already have access to all organizations"
 msgstr ""
 
-#: ckanext/ytp/request/logic/action/create.py:51
+#: ckanext/ytp/request/logic/action/create.py:53
 msgid "You already have a pending request to the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic/action/create.py:54
+#: ckanext/ytp/request/logic/action/create.py:56
 msgid "You are already part of the organization"
 msgstr ""
 
-#: ckanext/ytp/request/logic/action/create.py:57
+#: ckanext/ytp/request/logic/action/create.py:60
 msgid "Duplicate organization request"
 msgstr ""
 
-#: ckanext/ytp/request/logic/action/create.py:58
-#: ckanext/ytp/request/templates/request/list.html:32
-#: ckanext/ytp/request/templates/request/mylist.html:32
+#: ckanext/ytp/request/logic/action/create.py:61
+#: ckanext/ytp/request/templates/request/list.html:27
+#: ckanext/ytp/request/templates/request/mylist.html:28
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
-#: ckanext/ytp/request/templates/request/show.html:27
+#: ckanext/ytp/request/templates/request/show.html:25
 msgid "Organization"
 msgstr ""
 
 #: ckanext/ytp/request/logic/auth/create.py:11
-#: ckanext/ytp/request/logic/auth/get.py:42
+#: ckanext/ytp/request/logic/auth/get.py:46
 msgid "User is not logged in"
 msgstr ""
 
@@ -135,49 +136,49 @@ msgstr ""
 msgid "The user has already a pending request or an active membership"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:8
-msgid "Add Dataset"
+#: ckanext/ytp/request/templates/organization/members.html:6
+msgid "Membership requests"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:15
-msgid "Add open data"
+#: ckanext/ytp/request/templates/organization/members.html:11
+#: ckanext/ytp/request/templates/request/list.html:28
+#: ckanext/ytp/request/templates/request/show.html:29
+msgid "User"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:18
-msgid "Add interoperability tools"
+#: ckanext/ytp/request/templates/organization/members.html:13
+#: ckanext/ytp/request/templates/request/list.html:30
+#: ckanext/ytp/request/templates/request/mylist.html:30
+#: ckanext/ytp/request/templates/request/show.html:41
+msgid "Request date"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:22
-msgid "Add public service"
+#: ckanext/ytp/request/templates/organization/members.html:14
+#: ckanext/ytp/request/templates/request/list.html:31
+#: ckanext/ytp/request/templates/request/mylist.html:34
+msgid "Action"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:32
-msgid "Request membership"
+#: ckanext/ytp/request/templates/organization/members.html:24
+#: ckanext/ytp/request/templates/request/list.html:42
+#: ckanext/ytp/request/templates/request/show.html:63
+msgid "Approve"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:36
-#: ckanext/ytp/request/templates/request/mylist.html:52
-msgid "Are you sure you want to end the membership?"
+#: ckanext/ytp/request/templates/organization/members.html:25
+#: ckanext/ytp/request/templates/request/list.html:43
+#: ckanext/ytp/request/templates/request/show.html:66
+msgid "Reject"
 msgstr ""
 
-#: ckanext/ytp/request/templates/organization/read.html:39
-#: ckanext/ytp/request/templates/request/mylist.html:55
-msgid "Cancel membership"
-msgstr ""
-
-#: ckanext/ytp/request/templates/organization/read.html:42
-#: ckanext/ytp/request/templates/request/mylist.html:58
-msgid "Are you sure you want to cancel this pending request?"
-msgstr ""
-
-#: ckanext/ytp/request/templates/organization/read.html:45
-#: ckanext/ytp/request/templates/request/mylist.html:61
-msgid "Cancel request"
+#: ckanext/ytp/request/templates/organization/members.html:26
+#: ckanext/ytp/request/templates/request/list.html:44
+msgid "Modify"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
-#: ckanext/ytp/request/templates/request/list.html:26
+#: ckanext/ytp/request/templates/request/list.html:21
 msgid "Received membership requests"
 msgstr ""
 
@@ -189,38 +190,8 @@ msgid ""
 "Editor can only edit datasets."
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/list.html:33
-#: ckanext/ytp/request/templates/request/show.html:31
-msgid "User"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:35
-#: ckanext/ytp/request/templates/request/mylist.html:34
-#: ckanext/ytp/request/templates/request/show.html:43
-msgid "Request date"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:36
-#: ckanext/ytp/request/templates/request/mylist.html:38
-msgid "Action"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:47
-#: ckanext/ytp/request/templates/request/show.html:65
-msgid "Approve"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:48
-#: ckanext/ytp/request/templates/request/show.html:68
-msgid "Reject"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:49
-msgid "Modify"
-msgstr ""
-
-#: ckanext/ytp/request/templates/request/list.html:55
-#: ckanext/ytp/request/templates/request/mylist.html:70
+#: ckanext/ytp/request/templates/request/list.html:50
+#: ckanext/ytp/request/templates/request/mylist.html:66
 msgid "No requests found."
 msgstr ""
 
@@ -236,20 +207,37 @@ msgid ""
 "right."
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/mylist.html:26
+#: ckanext/ytp/request/templates/request/mylist.html:22
 msgid "My memberships"
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/mylist.html:35
+#: ckanext/ytp/request/templates/request/mylist.html:31
 msgid "Status"
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/mylist.html:36
+#: ckanext/ytp/request/templates/request/mylist.html:32
 msgid "Handling date"
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/mylist.html:37
+#: ckanext/ytp/request/templates/request/mylist.html:33
 msgid "Handler"
+msgstr ""
+
+#: ckanext/ytp/request/templates/request/mylist.html:48
+#: ckanext/ytp/request/templates/snippets/organization.html:12
+msgid "Are you sure you want to end the membership?"
+msgstr ""
+
+#: ckanext/ytp/request/templates/request/mylist.html:51
+msgid "Cancel membership"
+msgstr ""
+
+#: ckanext/ytp/request/templates/request/mylist.html:54
+msgid "Are you sure you want to cancel this pending request?"
+msgstr ""
+
+#: ckanext/ytp/request/templates/request/mylist.html:57
+msgid "Cancel request"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/new.html:6
@@ -270,12 +258,16 @@ msgid "Select an organization..."
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:27
+msgid "Select a role..."
+msgstr ""
+
+#: ckanext/ytp/request/templates/request/new_request_form.html:38
 msgid "Send request"
 msgstr ""
 
 #: ckanext/ytp/request/templates/request/show.html:3
 #: ckanext/ytp/request/templates/request/show.html:9
-#: ckanext/ytp/request/templates/request/show.html:23
+#: ckanext/ytp/request/templates/request/show.html:21
 msgid "Organization membership request"
 msgstr ""
 
@@ -285,15 +277,85 @@ msgid ""
 " reject requests."
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/show.html:46
+#: ckanext/ytp/request/templates/request/show.html:44
 msgid "State"
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/show.html:64
+#: ckanext/ytp/request/templates/request/show.html:62
 msgid "Are you sure you want approve this request?"
 msgstr ""
 
-#: ckanext/ytp/request/templates/request/show.html:67
+#: ckanext/ytp/request/templates/request/show.html:65
 msgid "Are you sure you want reject this request?"
 msgstr ""
+
+#: ckanext/ytp/request/templates/snippets/organization.html:8
+msgid "Request to Join"
+msgstr ""
+
+#: ckanext/ytp/request/templates/snippets/organization.html:15
+msgid "Leave"
+msgstr ""
+
+#: ckanext/ytp/request/templates/snippets/organization.html:18
+msgid ""
+"Are you sure you want to cancel this pending request to join the "
+"organisation?"
+msgstr ""
+
+#: ckanext/ytp/request/templates/snippets/organization.html:21
+msgid "Cancel Request"
+msgstr ""
+
+#~ msgid "Request not found"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "User %(user)s (%(email)s) has requested "
+#~ "membership to organization %(organization)s.\n"
+#~ "\n"
+#~ "%(link)s\n"
+#~ "\n"
+#~ "Best regards\n"
+#~ "\n"
+#~ "Avoindata.fi support\n"
+#~ "valtori@avoindata.fi\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your membership request to organization "
+#~ "%(organization)s with %(role)s access has "
+#~ "been approved.\n"
+#~ "\n"
+#~ "Best regards\n"
+#~ "\n"
+#~ "Avoindata.fi support\n"
+#~ "valtori@avoindata.fi\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your membership request to organization "
+#~ "%(organization)s with %(role)s access has "
+#~ "been rejected.\n"
+#~ "\n"
+#~ "Best regards\n"
+#~ "\n"
+#~ "Avoindata.fi support\n"
+#~ "valtori@avoindata.fi\n"
+#~ msgstr ""
+
+#~ msgid "Add Dataset"
+#~ msgstr ""
+
+#~ msgid "Add open data"
+#~ msgstr ""
+
+#~ msgid "Add interoperability tools"
+#~ msgstr ""
+
+#~ msgid "Add public service"
+#~ msgstr ""
+
+#~ msgid "Request membership"
+#~ msgstr ""
 
