@@ -107,36 +107,25 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     # ITranslation
 
     def i18n_directory(self):
-        '''Change the directory of the *.mo translation files
-
-        The default implementation assumes the plugin is
-        ckanext/myplugin/plugin.py and the translations are stored in
-        i18n/
-        '''
-        # assume plugin is called ckanext.<myplugin>.<...>.PluginClass
+        '''Change the directory of the *.mo translation files'''
         plugin_module_name = '.'.join(self.__module__.split('.')[:4])
         plugin_module = sys.modules[plugin_module_name]
         plugin_module_path = os.path.join(os.path.dirname(plugin_module.__file__))
         i18n_path = "/".join(plugin_module_path.split('/')[:-3] + ['i18n'])
+        log.debug('i18n Path: {}'.format(i18n_path))
         return i18n_path
 
     def i18n_locales(self):
-        '''Change the list of locales that this plugin handles
-
-        By default the will assume any directory in subdirectory in the
-        directory defined by self.directory() is a locale handled by this
-        plugin
-        '''
+        '''Change the list of locales that this plugin handles'''
         directory = self.i18n_directory()
-        return [ d for
-                 d in os.listdir(directory)
-                 if os.path.isdir(os.path.join(directory, d))
+        locales = [
+            d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))
         ]
+        log.debug("Locales: {}".format(locales))
+        return locales
 
     def i18n_domain(self):
-        '''Change the gettext domain handled by this plugin
-
-        This implementation assumes the gettext domain is
-        ckanext-{extension name}, hence your pot, po and mo files should be
-        named ckanext-{extension name}.mo'''
-        return 'ckanext-{name}'.format(name=self.name)
+        '''Change the gettext domain handled by this plugin'''
+        domain = 'ckanext-ytp-request'
+        log.debug("Domain: {}".format(domain))
+        return domain
