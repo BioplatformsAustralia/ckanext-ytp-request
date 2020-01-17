@@ -6,6 +6,7 @@ from ckan.common import c
 from sqlalchemy.sql import func
 from ckanext.ytp.request.helper import get_safe_locale
 from ckan.lib.helpers import flash_success
+from ckan.common import _
 
 import logging
 
@@ -34,7 +35,7 @@ def member_request_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    flash_success("Membership request cancelled")
+    flash_success(_("Membership request cancelled"))
 
     return _process_request(context, organization_id, member, 'pending')
 
@@ -59,7 +60,7 @@ def member_request_membership_cancel(context, data_dict):
     if not member or not member.group.is_organization:
         raise logic.NotFound
 
-    flash_success("Membership cancelled")
+    flash_success(_("Membership cancelled"))
 
     return _process_request(context, organization_id, member, 'active')
 
@@ -83,7 +84,7 @@ def _process_request(context, organization_id, member, status):
         .order_by('request_date desc').limit(1).first()
 
     # BFW: Create a new instance every time membership status is changed
-    message = u'MemberRequest cancelled by own user'
+    message = u'Member request cancelled by own user'
     locale = get_safe_locale()
     mrequest_date = func.now()
     if member_request is not None and member_request.status == status:

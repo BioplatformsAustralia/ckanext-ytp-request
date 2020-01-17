@@ -109,7 +109,7 @@ def _create_member_request(context, data_dict):
                 locale, admin, group.display_name, url, userobj.display_name, userobj.email)
 
     flash_success(
-        "Membership request sent to organisation administrator"
+        _("Membership request sent to organisation administrator")
     )
 
     return member

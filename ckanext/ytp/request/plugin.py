@@ -4,6 +4,8 @@ from ckan.common import c
 import ckantoolkit as toolkit
 import logging
 import authz
+import os
+import sys
 
 
 log = logging.getLogger(__name__)
@@ -16,6 +18,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
     implements(plugins.ITemplateHelpers)
+    implements(plugins.ITranslation)
 
     # IConfigurer #
     def update_config(self, config):
@@ -100,3 +103,29 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
         m.connect('member_request_show',
                   '/member-request/{mrequest_id}', action='show', controller=controller)
         return m
+
+    # ITranslation
+
+    def i18n_directory(self):
+        '''Change the directory of the *.mo translation files'''
+        plugin_module_name = '.'.join(self.__module__.split('.')[:4])
+        plugin_module = sys.modules[plugin_module_name]
+        plugin_module_path = os.path.join(os.path.dirname(plugin_module.__file__))
+        i18n_path = "/".join(plugin_module_path.split('/')[:-3] + ['i18n'])
+        log.debug('i18n Path: {}'.format(i18n_path))
+        return i18n_path
+
+    def i18n_locales(self):
+        '''Change the list of locales that this plugin handles'''
+        directory = self.i18n_directory()
+        locales = [
+            d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))
+        ]
+        log.debug("Locales: {}".format(locales))
+        return locales
+
+    def i18n_domain(self):
+        '''Change the gettext domain handled by this plugin'''
+        domain = 'ckanext-ytp-request'
+        log.debug("Domain: {}".format(domain))
+        return domain
