@@ -21,28 +21,28 @@ msgstr ""
 
 #: ckanext/ytp/request/controller.py:14
 msgid "Unauthorized"
-msgstr "Untranslated French"
+msgstr "Non autorisé"
 
 #: ckanext/ytp/request/controller.py:15
 msgid "Membership Request has already been approved, or does not exist."
-msgstr "Untranslated French"
+msgstr "La demande d’inscription a déjà été approuvée ou n’existe pas."
 
 #: ckanext/ytp/request/controller.py:62
 msgid "Integrity Error"
-msgstr "Untranslated French"
+msgstr "Erreur d’intégrité"
 
 #: ckanext/ytp/request/controller.py:64
 msgid "Item not found"
-msgstr "Untranslated French"
+msgstr "Élément non trouvé"
 
 #: ckanext/ytp/request/controller.py:103 ckanext/ytp/request/controller.py:118
 msgid "Member request processed successfully"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription traitée avec succès"
 
 #: ckanext/ytp/request/mail.py:11
 #, python-format
 msgid "New membership request (%(organization)s)"
-msgstr "Untranslated French"
+msgstr "Nouvelle demande d’inscription (%(organization)s)"
 
 #: ckanext/ytp/request/mail.py:16
 #, python-format
@@ -54,12 +54,18 @@ msgid ""
 "\n"
 "Best wishes,\n"
 "The AIDS Data Repository\n"
-msgstr "Untranslated French"
+msgstr ""
+"L’utilisateur %(user)s (%(email)s) a demandé une inscription auprès de l’organisation %(organization)s.\n"
+"\n"
+"%(link)s\n"
+"\n"
+"Cordialement,\n"
+"Le fichier des données sur le sida (ADR)\n"
 
 #: ckanext/ytp/request/mail.py:27
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
-msgstr "Untranslated French"
+msgstr "Inscription auprès de l’organisation approuvée (%(organization)s)"
 
 #: ckanext/ytp/request/mail.py:33
 #, python-format
@@ -71,12 +77,18 @@ msgid ""
 "        Best wishes,\n"
 "        The AIDS Data Repository\n"
 "        "
-msgstr "Untranslated French"
+msgstr ""
+"        Votre demande d’inscription auprès de l’organisation %(organization)s en tant que %(role)s\n"
+"        a été approuvée.\n"
+"\n"
+"        Cordialement,\n"
+"        Le fichier des données sur le sida (ADR)\n"
+"        "
 
 #: ckanext/ytp/request/mail.py:45
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
-msgstr "Untranslated French"
+msgstr "Inscription auprès de l’organisation refusée (%(organization)s)"
 
 #: ckanext/ytp/request/mail.py:51
 #, python-format
@@ -90,7 +102,14 @@ msgid ""
 "        Best wishes,\n"
 "        The AIDS Data Repository\n"
 "        "
-msgstr "Untranslated French"
+msgstr ""
+"        Malheureusement, votre demande d’inscription auprès de l’organisation %(organization)s\n"
+"        en tant que %(role)s a été refusée. Si vous estimez que c’est une erreur,\n"
+"        veuillez vous adresser à l’administrateur de votre organisation.\n"
+"\n"
+"        Cordialement,\n"
+"        Le fichier des données sur le sida (ADR)\n"
+"        "
 
 #: ckanext/ytp/request/logic/action/create.py:39
 #: ckanext/ytp/request/logic/action/get.py:47
@@ -100,24 +119,24 @@ msgstr "Untranslated French"
 #: ckanext/ytp/request/templates/request/new_request_form.html:24
 #: ckanext/ytp/request/templates/request/show.html:48
 msgid "Role"
-msgstr "Untranslated French"
+msgstr "Rôle"
 
 #: ckanext/ytp/request/logic/action/create.py:39
 #: ckanext/ytp/request/logic/action/get.py:47
 msgid "As a sysadmin, you already have access to all organizations"
-msgstr "Untranslated French"
+msgstr "En tant qu’administrateur système, vous avez accès à toutes les organisations."
 
 #: ckanext/ytp/request/logic/action/create.py:53
 msgid "You already have a pending request to the organization"
-msgstr "Untranslated French"
+msgstr "Vous avez déjà une demande en cours auprès de cette organisation."
 
 #: ckanext/ytp/request/logic/action/create.py:56
 msgid "You are already part of the organization"
-msgstr "Untranslated French"
+msgstr "Vous faites déjà partie de cette organisation."
 
 #: ckanext/ytp/request/logic/action/create.py:60
 msgid "Duplicate organization request"
-msgstr "Untranslated French"
+msgstr "Demande déjà déposée auprès de l’organisation"
 
 #: ckanext/ytp/request/logic/action/create.py:61
 #: ckanext/ytp/request/templates/request/list.html:27
@@ -125,82 +144,82 @@ msgstr "Untranslated French"
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:25
 msgid "Organization"
-msgstr "Untranslated French"
+msgstr "Organisation"
 
 #: ckanext/ytp/request/logic/action/create.py:112
 msgid "Membership request sent to organisation administrator"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription envoyée à l’administrateur de l’organisation"
 
 #: ckanext/ytp/request/logic/action/delete.py:38
 msgid "Membership request cancelled"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription annulée"
 
 #: ckanext/ytp/request/logic/action/delete.py:63
 msgid "Membership cancelled"
-msgstr "Untranslated French"
+msgstr "Inscription annulée"
 
 #: ckanext/ytp/request/logic/action/update.py:108
 msgid "Membership request approved"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription approuvée"
 
 #: ckanext/ytp/request/logic/action/update.py:110
 msgid "Membership request rejected"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription refusée"
 
 #: ckanext/ytp/request/logic/auth/create.py:11
 #: ckanext/ytp/request/logic/auth/get.py:46
 msgid "User is not logged in"
-msgstr "Untranslated French"
+msgstr "L’utilisateur n’est pas identifié"
 
 #: ckanext/ytp/request/logic/auth/create.py:18
 msgid "The user has already a pending request or an active membership"
-msgstr "Untranslated French"
+msgstr "L’utilisateur a déjà une demande en cours ou est déjà inscrit."
 
 #: ckanext/ytp/request/templates/organization/members.html:6
 msgid "Membership requests"
-msgstr "Untranslated French"
+msgstr "Demandes d’inscription"
 
 #: ckanext/ytp/request/templates/organization/members.html:11
 #: ckanext/ytp/request/templates/request/list.html:28
 #: ckanext/ytp/request/templates/request/show.html:29
 msgid "User"
-msgstr "Untranslated French"
+msgstr "Utilisateur"
 
 #: ckanext/ytp/request/templates/organization/members.html:13
 #: ckanext/ytp/request/templates/request/list.html:30
 #: ckanext/ytp/request/templates/request/mylist.html:30
 #: ckanext/ytp/request/templates/request/show.html:41
 msgid "Request date"
-msgstr "Untranslated French"
+msgstr "Date de la demande"
 
 #: ckanext/ytp/request/templates/organization/members.html:14
 #: ckanext/ytp/request/templates/request/list.html:31
 #: ckanext/ytp/request/templates/request/mylist.html:34
 msgid "Action"
-msgstr "Untranslated French"
+msgstr "Action"
 
 #: ckanext/ytp/request/templates/organization/members.html:24
 #: ckanext/ytp/request/templates/request/list.html:42
 #: ckanext/ytp/request/templates/request/show.html:63
 msgid "Approve"
-msgstr "Untranslated French"
+msgstr "Approuver"
 
 #: ckanext/ytp/request/templates/organization/members.html:25
 #: ckanext/ytp/request/templates/request/list.html:43
 #: ckanext/ytp/request/templates/request/show.html:66
 msgid "Reject"
-msgstr "Untranslated French"
+msgstr "Refuser"
 
 #: ckanext/ytp/request/templates/organization/members.html:26
 #: ckanext/ytp/request/templates/request/list.html:44
 msgid "Modify"
-msgstr "Untranslated French"
+msgstr "Modifier"
 
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
 #: ckanext/ytp/request/templates/request/list.html:21
 msgid "Received membership requests"
-msgstr "Untranslated French"
+msgstr "Demandes d’inscription reçues"
 
 #: ckanext/ytp/request/templates/request/list.html:10
 msgid ""
@@ -208,121 +227,125 @@ msgid ""
 "can approve or reject requests. To process a request, select edit. Admins"
 " can edit the organization, datasets and accept membership requests. "
 "Editor can only edit datasets."
-msgstr "Untranslated French"
+msgstr ""
+"Toutes les demandes d’inscription reçues sont répertoriées ici. L’administrateur de l’organisation peut les approuver ou les refuser. Pour traiter une demande, cliquez sur « Modifier ». Les administrateurs peuvent modifier l’organisation et les jeux de données, et accepter les demandes d’inscription. L’éditeur peut uniquement modifier les jeux de données."
 
 #: ckanext/ytp/request/templates/request/list.html:50
 #: ckanext/ytp/request/templates/request/mylist.html:66
 msgid "No requests found."
-msgstr "Untranslated French"
+msgstr "Aucune demande trouvée."
 
 #: ckanext/ytp/request/templates/request/mylist.html:3
 #: ckanext/ytp/request/templates/request/mylist.html:7
 msgid "My own memberships"
-msgstr "Untranslated French"
+msgstr "Mes inscriptions"
 
 #: ckanext/ytp/request/templates/request/mylist.html:10
 msgid ""
 "All membership and memberships requests are listed here. You can cancel "
 "any pending request or already accepted membership from the menu on the "
 "right."
-msgstr "Untranslated French"
+msgstr ""
+"Toutes les inscriptions et les demandes d’inscription sont répertoriées ici. Vous pouvez annuler toute demande en cours ou toute inscription déjà acceptée à partir du menu sur la droite de l’écran."
 
 #: ckanext/ytp/request/templates/request/mylist.html:22
 msgid "My memberships"
-msgstr "Untranslated French"
+msgstr "Mes inscriptions"
 
 #: ckanext/ytp/request/templates/request/mylist.html:31
 msgid "Status"
-msgstr "Untranslated French"
+msgstr "État d’avancement"
 
 #: ckanext/ytp/request/templates/request/mylist.html:32
 msgid "Handling date"
-msgstr "Untranslated French"
+msgstr "Date de traitement"
 
 #: ckanext/ytp/request/templates/request/mylist.html:33
 msgid "Handler"
-msgstr "Untranslated French"
+msgstr "Traitée par"
 
 #: ckanext/ytp/request/templates/request/mylist.html:48
 #: ckanext/ytp/request/templates/snippets/organization.html:12
 msgid "Are you sure you want to end the membership?"
-msgstr "Untranslated French"
+msgstr "Voulez-vous annuler cette inscription ?"
 
 #: ckanext/ytp/request/templates/request/mylist.html:51
 msgid "Cancel membership"
-msgstr "Untranslated French"
+msgstr "Annuler l’inscription"
 
 #: ckanext/ytp/request/templates/request/mylist.html:54
 msgid "Are you sure you want to cancel this pending request?"
-msgstr "Untranslated French"
+msgstr "Voulez-vous annuler cette demande en cours ?"
 
 #: ckanext/ytp/request/templates/request/mylist.html:57
 msgid "Cancel request"
-msgstr "Untranslated French"
+msgstr "Annuler la demande"
 
 #: ckanext/ytp/request/templates/request/new.html:6
 msgid "New membership request"
-msgstr "Untranslated French"
+msgstr "Nouvelle demande d’inscription"
 
 #: ckanext/ytp/request/templates/request/new.html:11
 #: ckanext/ytp/request/templates/request/new.html:19
 msgid "Request organization membership"
-msgstr "Untranslated French"
+msgstr "Demander une inscription auprès de l’organisation"
 
 #: ckanext/ytp/request/templates/request/new.html:22
 msgid "You can request to be a member of the organization."
-msgstr "Untranslated French"
+msgstr "Vous pouvez demander à vous inscrire auprès de cette organisation."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:14
 msgid "Select an organization..."
-msgstr "Untranslated French"
+msgstr "Sélectionner une organisation..."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:27
 msgid "Select a role..."
-msgstr "Untranslated French"
+msgstr "Sélectionner un rôle..."
 
 #: ckanext/ytp/request/templates/request/new_request_form.html:38
 msgid "Send request"
-msgstr "Untranslated French"
+msgstr "Envoyer la demande"
 
 #: ckanext/ytp/request/templates/request/show.html:3
 #: ckanext/ytp/request/templates/request/show.html:9
 #: ckanext/ytp/request/templates/request/show.html:21
 msgid "Organization membership request"
-msgstr "Untranslated French"
+msgstr "Demande d’inscription auprès de l’organisation"
 
 #: ckanext/ytp/request/templates/request/show.html:12
 msgid ""
 "This shows a given membership request. Only admins can approve, modify or"
 " reject requests."
-msgstr "Untranslated French"
+msgstr ""
+"Cette page affiche une demande d’inscription en particulier. Seuls les administrateurs peuvent approuver, modifier ou refuser les demandes."
 
 #: ckanext/ytp/request/templates/request/show.html:44
 msgid "State"
-msgstr "Untranslated French"
+msgstr "État"
 
 #: ckanext/ytp/request/templates/request/show.html:62
 msgid "Are you sure you want approve this request?"
-msgstr "Untranslated French"
+msgstr "Voulez-vous approuver cette demande ?"
 
 #: ckanext/ytp/request/templates/request/show.html:65
 msgid "Are you sure you want reject this request?"
-msgstr "Untranslated French"
+msgstr "Voulez-vous refuser cette demande ?"
 
 #: ckanext/ytp/request/templates/snippets/organization.html:8
 msgid "Request to Join"
-msgstr "Untranslated French"
+msgstr "Demander l’inscription"
 
 #: ckanext/ytp/request/templates/snippets/organization.html:15
 msgid "Leave"
-msgstr "Untranslated French"
+msgstr "Quitter"
 
 #: ckanext/ytp/request/templates/snippets/organization.html:18
 msgid ""
 "Are you sure you want to cancel this pending request to join the "
 "organisation?"
-msgstr "Untranslated French"
+msgstr ""
+"Voulez-vous annuler cette demande d’inscription auprès de l’organisation ?"
 
 #: ckanext/ytp/request/templates/snippets/organization.html:21
 msgid "Cancel Request"
-msgstr "Untranslated French"
+msgstr "Annuler la demande"
