@@ -4,6 +4,7 @@ python:
 - 2.7
 env:
 - CKANVERSION=2.8.2
+- CKANVERSION=2.8.5
 services:
 - postgresql
 - redis-server
@@ -15,6 +16,7 @@ after_success:
 - coveralls
 notifications:
   slack:
+    if: branch IN (master, development)
     rooms:
       secure: ZO+OLAC3d+VugEPIybfunCg5SF1scerLbRFY/ysRfJl1TiwbrQ0/isv2EHNWo6dihLxlv3R8IKzr2Fl2A+/FyeZkMGw7a/c9hKRp1t2p6n3ziHwV/ZoebXc+8vVMYbrpH8B781x0RKA2NWDQwlcCO0sf874br99lhYysUCbIVMg1krNeLS66zGalGuW8UMPlgMjxTu9KxB+ltTJVxg3r6y3HRRI1RkwNjyzI0fUStVBttMlUVCqh9eft7o5A4WpJTghExKagvAGs8PeB2Ne+cWqgZhS0n/k/+9XSJiTY4x4+fZXw3OXiVjmuN8tHtscldbUTpxYMvVx+UBeH85nSI2IPDvEm2foUr1/xgPabLc0HGqsGlaeL0ZlnizhxvP9uT/B4Orog2t6/X8RtvhSLyfBclA7wj8fyKzwBb1wQrnbvNqA9MD67l8GHfA6NzZA4VZDL83wYL7o1XxSTdCTvNEVbR2139M4l88fFm+NUz5NI/Z/nUqBqenz+7vvOVe+ZS8HjwhdTXjm9y1eHM5f86CX+lts7nHi+so1t+AaPTWxxzT7YJhiTZ0OFm3gsKPuIjeLQ2cKZx5Lk91m+r73NdsWavRv6y3xc4um2z+yOzrhBf+Cgd1MU6mo1Ku1TwCU+RZ+fNJ6ewOItwPQ/IYc/GQHTvyK7o8mS2N8viQ7XiFE=
     on_success: change
