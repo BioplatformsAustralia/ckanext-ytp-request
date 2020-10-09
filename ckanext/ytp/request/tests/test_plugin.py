@@ -26,7 +26,7 @@ class TestViewingActionedReferral(helpers.FunctionalTestBase):
 
     @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')
     @mock.patch('ckanext.ytp.request.logic.action.update.flash_success')
-    def test_admin_config_update(self, mocked_create_flash, mocked_update_flash):
+    def test_viewing_actioned_referral(self, mocked_create_flash, mocked_update_flash):
         app = self._get_test_app()
 
         # setup
