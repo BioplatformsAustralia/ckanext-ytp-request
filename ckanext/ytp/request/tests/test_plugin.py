@@ -56,10 +56,11 @@ class TestViewingActionedReferral(helpers.FunctionalTestBase):
             action='show',
             mrequest_id=membership_request['id']            
         )
-        response = app.get(
-            url,
-            extra_environ={'REMOTE_USER': sysadmin['name'].encode('ascii')},
-            status=200
-        )
-
-        # app.get() will raise a "Bad response" error if the page 404s
+        try:
+            app.get(
+                url,
+                extra_environ={'REMOTE_USER': sysadmin['name'].encode('ascii')},
+                status=200
+            )
+        except BadResponseError:
+            self.fail('Membership request failed to display after being actioned')
