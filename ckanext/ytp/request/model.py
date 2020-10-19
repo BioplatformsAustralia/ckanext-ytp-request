@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey
+from sqlalchemy import Column, MetaData
 from sqlalchemy import types
 from sqlalchemy.ext.declarative import declarative_base
 
