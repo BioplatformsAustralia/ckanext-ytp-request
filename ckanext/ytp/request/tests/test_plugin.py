@@ -1,44 +1,60 @@
-"""Tests for plugin.py."""
 # encoding: utf-8
+from nose.tools import assert_equal
 
-# from nose.tools import assert_raises
-import ckan.model as model
-import ckan.plugins
-# import ckan.tests.factories as factories
-# import ckan.logic as logic
+import mock
+from ckan.lib.helpers import url_for
+
+import ckan.tests.helpers as helpers
+import ckan.tests.factories as factories
+
+webtest_submit = helpers.webtest_submit
+PLUGIN_CONTROLLER = 'ckanext.ytp.request.controller:YtpRequestController'
 
 
-class TestYTPRequestsPlugin(object):
-    '''Tests for the ckanext.example_iauthfunctions.plugin module.
-
-    Specifically tests that overriding parent auth functions will cause
-    child auth functions to use the overridden version.
+class TestViewingActionedReferral(helpers.FunctionalTestBase):
     '''
-    @classmethod
-    def setup_class(cls):
-        '''Nose runs this method once to setup our test class.'''
-        # Test code should use CKAN's plugins.load() function to load plugins
-        # to be tested.
-        ckan.plugins.load('ytp_request')
+        Test that viewing an already actioned membership request does not 404
+    '''
 
-    def teardown(self):
-        '''Nose runs this method after each test method in our test class.'''
-        # Rebuild CKAN's database after each test method, so that each test
-        # method runs with a clean slate.
-        model.repo.rebuild_db()
+    _load_plugins = (u'ytp_request', )
 
-    @classmethod
-    def teardown_class(cls):
-        '''
-        Nose runs this method once after all the test methods in our class
-        have been run.
-        '''
-        # We have to unload the plugin we loaded, so it doesn't affect any
-        # tests that run after ours.
-        ckan.plugins.unload('ytp_request')
+    @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')  # mock1
+    @mock.patch('ckanext.ytp.request.logic.action.update.flash_success')  # mock2
+    def test_viewing_actioned_referral(self, mock1, mock2):
+        app = self._get_test_app()
 
-    def sample_test(self):
-        '''
-        Placeholder test.
-        '''
-        pass
+        # setup
+        org = factories.Organization()
+        sysadmin = factories.Sysadmin()
+        regular_user = factories.User()
+
+        # user creates membership request
+        membership_request = helpers.call_action(
+            'member_request_create',
+            {'user': regular_user['name']},
+            group=org['name'],
+            role='member'
+        )
+
+        # admin approves membership
+        helpers.call_action(
+            'member_request_approve',
+            {'user': sysadmin['name']},
+            approve='approve',
+            mrequest_id=membership_request['id']
+        )
+
+        # admin view membership request page again
+        url = url_for(
+            controller=PLUGIN_CONTROLLER,
+            action='show',
+            mrequest_id=membership_request['id']
+        )
+
+        # test request no longer 404s
+        response = app.get(
+            url,
+            extra_environ={'REMOTE_USER': sysadmin['name'].encode('ascii')},
+            expect_errors=True
+        )
+        assert_equal(response.status_int, 200)
