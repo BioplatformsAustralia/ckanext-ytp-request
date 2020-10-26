@@ -64,16 +64,6 @@ def _process(context, action, data_dict):
     member.state = state
     if role:
         member.capacity = role
-    revision = model.repo.new_revision()
-    revision.author = user
-
-    if approve:
-        message = 'Member request approved by admin.'
-    else:
-        message = 'Member request rejected by log.'
-    if role:
-        message = message + " Role changed"
-    revision.message = message
 
     # TODO: Move this query to a helper method since it is widely used
     # Fetch the newest member_request associated to this membership (sort by
@@ -86,7 +76,15 @@ def _process(context, action, data_dict):
     member_request.status = request_status
     member_request.handling_date = datetime.datetime.utcnow()
     member_request.handled_by = user
+
+    if approve:
+        message = 'Member request approved by admin.'
+    else:
+        message = 'Member request rejected by log.'
+    if role:
+        message = message + " Role changed"
     member_request.message = message
+    
     if role:
         member_request.role = role
     member.save()
