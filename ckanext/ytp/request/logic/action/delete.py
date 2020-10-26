@@ -103,10 +103,6 @@ def _process_request(context, organization_id, member, status):
     )
     model.Session.add(member_request)
 
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'Member request deleted by user'
-
     member.save()
     model.repo.commit()
 
