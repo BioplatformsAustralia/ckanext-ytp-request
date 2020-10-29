@@ -1,9 +1,4 @@
 # encoding: utf-8
-import pydevd_pycharm
-pydevd_pycharm.settrace('host.docker.internal', port=9876, stdoutToServer=True, stderrToServer=True)
-
-
-from nose.tools import assert_equal
 
 import pytest
 import mock
@@ -73,4 +68,4 @@ class TestViewingActionedReferral(object):
             extra_environ={'REMOTE_USER': sysadmin['name'].encode('ascii')},
             expect_errors=True
         )
-        assert_equal(response.status_int, 200)
+        assert response.status_code == 200
