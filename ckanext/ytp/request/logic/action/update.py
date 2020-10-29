@@ -1,6 +1,5 @@
 from ckan import model, logic
 from ckanext.ytp.request.model import MemberRequest
-from ckan.common import c
 from ckanext.ytp.request.helper import get_default_locale
 from ckanext.ytp.request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
@@ -86,7 +85,7 @@ def _process(context, action, data_dict):
     # BFW: In case of pending state overwrite it since it is no final state
     member_request.status = request_status
     member_request.handling_date = datetime.datetime.utcnow()
-    member_request.handled_by = c.userobj.name
+    member_request.handled_by = user
     member_request.message = message
     if role:
         member_request.role = role

@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from sqlalchemy import Column, MetaData, ForeignKey
+from sqlalchemy import Column, MetaData
 from sqlalchemy import types
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -37,7 +37,7 @@ class MemberRequest(Base):
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
     # Reference to the table containing the composite key for organization and
     # user
-    membership_id = Column(types.UnicodeText, ForeignKey(model.Member.id))
+    membership_id = Column(types.UnicodeText)
     request_date = Column(types.DateTime, default=datetime.datetime.now)
     role = Column(types.UnicodeText)
     handling_date = Column(types.DateTime)

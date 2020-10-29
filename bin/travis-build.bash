@@ -63,4 +63,7 @@ echo "Moving test.ini into a subdir..."
 mkdir subdir
 mv test.ini subdir
 
+echo "Initialising ckanext-ytp-request DB tables."
+paster --plugin=ckanext-ytp-request initdb -c subdir/test.ini
+
 echo "travis-build.bash is done."

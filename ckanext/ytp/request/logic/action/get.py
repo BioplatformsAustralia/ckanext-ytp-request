@@ -15,13 +15,13 @@ def member_request(context, data_dict):
     mrequest_id = data_dict.get('mrequest_id', None)
 
     membership = model.Session.query(model.Member).get(mrequest_id)
-    if not membership or membership.state != 'pending':
+    if not membership:
         raise logic.NotFound("Member request not found")
 
     # Return most current instance from memberrequest table
     member_request = model.Session.query(MemberRequest).filter(
         MemberRequest.membership_id == mrequest_id).order_by('request_date desc').limit(1).first()
-    if not member_request or member_request.status != 'pending':
+    if not member_request:
         raise logic.NotFound(
             "Member request associated with membership not found")
 
@@ -30,7 +30,7 @@ def member_request(context, data_dict):
     member_dict['organization_name'] = membership.group.name
     member_dict['group_id'] = membership.group_id
     member_dict['role'] = member_request.role
-    member_dict['state'] = 'pending'
+    member_dict['state'] = member_request.status
     member_dict['request_date'] = member_request.request_date.strftime(
         "%d - %b - %Y")
     member_dict['user_id'] = membership.table_id
