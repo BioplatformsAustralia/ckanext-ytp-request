@@ -4,6 +4,7 @@ from ckanext.ytp.request.helper import get_default_locale
 from ckanext.ytp.request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
 from ckan.common import _
+from sqlalchemy import asc, desc
 import logging
 import datetime
 
@@ -70,7 +71,7 @@ def _process(context, action, data_dict):
     # last modified field)
     member_request = model.Session.query(MemberRequest) \
         .filter(MemberRequest.membership_id == member.id) \
-        .order_by('request_date desc').limit(1).first()
+        .order_by(desc(MemberRequest.request_date)).limit(1).first()
 
     # BFW: In case of pending state overwrite it since it is no final state
     member_request.status = request_status
