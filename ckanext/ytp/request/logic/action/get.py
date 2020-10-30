@@ -3,7 +3,7 @@ from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
-from sqlalchemy import asc, desc
+from sqlalchemy import desc
 
 import logging
 import ckan.authz as authz
