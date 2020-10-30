@@ -1,2 +1,2 @@
 ckantoolkit==0.0.4
-pytest==6.1.2
+pytest==4.6.11
