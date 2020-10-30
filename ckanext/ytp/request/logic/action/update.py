@@ -4,7 +4,7 @@ from ckanext.ytp.request.helper import get_default_locale
 from ckanext.ytp.request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
 from ckan.common import _
-from sqlalchemy import asc, desc
+from sqlalchemy import desc
 import logging
 import datetime
 
