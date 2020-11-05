@@ -85,7 +85,7 @@ def _process(context, action, data_dict):
     if role:
         message = message + " Role changed"
     member_request.message = message
-    
+
     if role:
         member_request.role = role
     member.save()

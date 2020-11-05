@@ -12,11 +12,13 @@ import ckan.tests.factories as factories
 
 PLUGIN_CONTROLLER = 'ckanext.ytp.request.controller:YtpRequestController'
 
+
 @pytest.fixture
 def initdb():
     model.Session.remove()
     model.Session.configure(bind=model.meta.engine)
     rmodel.init_tables()
+
 
 @pytest.mark.usefixtures(u'initdb')
 @pytest.mark.usefixtures(u'clean_db')

@@ -74,7 +74,6 @@ def _process_request(context, organization_id, member, status):
     :param member: id of the member
     :type member: string
     '''
-    user = context.get("user")
 
     # Logical delete on table member
     member.state = 'deleted'
