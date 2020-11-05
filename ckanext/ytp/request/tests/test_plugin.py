@@ -1,27 +1,39 @@
 # encoding: utf-8
-from nose.tools import assert_equal
 
+import pytest
 import mock
 from ckan.lib.helpers import url_for
+
+import ckan.model as model
+import ckanext.ytp.request.model as rmodel
 
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
 
-webtest_submit = helpers.webtest_submit
 PLUGIN_CONTROLLER = 'ckanext.ytp.request.controller:YtpRequestController'
 
 
-class TestViewingActionedReferral(helpers.FunctionalTestBase):
+@pytest.fixture
+def initdb():
+    model.Session.remove()
+    model.Session.configure(bind=model.meta.engine)
+    rmodel.init_tables()
+
+
+@pytest.mark.usefixtures(u'initdb')
+@pytest.mark.usefixtures(u'clean_db')
+@pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
+@pytest.mark.usefixtures(u'with_plugins')
+@pytest.mark.usefixtures(u'with_request_context')
+@pytest.mark.usefixtures(u'mail_server')
+class TestViewingActionedReferral(object):
     '''
         Test that viewing an already actioned membership request does not 404
     '''
 
-    _load_plugins = (u'ytp_request', )
-
     @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')  # mock1
     @mock.patch('ckanext.ytp.request.logic.action.update.flash_success')  # mock2
-    def test_viewing_actioned_referral(self, mock1, mock2):
-        app = self._get_test_app()
+    def test_viewing_actioned_referral(self, mock1, mock2, app):
 
         # setup
         org = factories.Organization()
@@ -57,4 +69,4 @@ class TestViewingActionedReferral(helpers.FunctionalTestBase):
             extra_environ={'REMOTE_USER': sysadmin['name'].encode('ascii')},
             expect_errors=True
         )
-        assert_equal(response.status_int, 200)
+        assert response.status_code == 200

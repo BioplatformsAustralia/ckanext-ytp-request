@@ -4,6 +4,7 @@ from ckanext.ytp.request.helper import get_default_locale
 from ckanext.ytp.request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
 from ckan.common import _
+from sqlalchemy import desc
 import logging
 import datetime
 
@@ -64,8 +65,18 @@ def _process(context, action, data_dict):
     member.state = state
     if role:
         member.capacity = role
-    revision = model.repo.new_revision()
-    revision.author = user
+
+    # TODO: Move this query to a helper method since it is widely used
+    # Fetch the newest member_request associated to this membership (sort by
+    # last modified field)
+    member_request = model.Session.query(MemberRequest) \
+        .filter(MemberRequest.membership_id == member.id) \
+        .order_by(desc(MemberRequest.request_date)).limit(1).first()
+
+    # BFW: In case of pending state overwrite it since it is no final state
+    member_request.status = request_status
+    member_request.handling_date = datetime.datetime.utcnow()
+    member_request.handled_by = user
 
     if approve:
         message = 'Member request approved by admin.'
@@ -73,20 +84,8 @@ def _process(context, action, data_dict):
         message = 'Member request rejected by log.'
     if role:
         message = message + " Role changed"
-    revision.message = message
-
-    # TODO: Move this query to a helper method since it is widely used
-    # Fetch the newest member_request associated to this membership (sort by
-    # last modified field)
-    member_request = model.Session.query(MemberRequest) \
-        .filter(MemberRequest.membership_id == member.id) \
-        .order_by('request_date desc').limit(1).first()
-
-    # BFW: In case of pending state overwrite it since it is no final state
-    member_request.status = request_status
-    member_request.handling_date = datetime.datetime.utcnow()
-    member_request.handled_by = user
     member_request.message = message
+
     if role:
         member_request.role = role
     member.save()
