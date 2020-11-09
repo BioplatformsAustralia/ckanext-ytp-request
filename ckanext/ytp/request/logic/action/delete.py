@@ -4,6 +4,7 @@ from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.common import c
 from sqlalchemy.sql import func
+from sqlalchemy import desc
 from ckanext.ytp.request.helper import get_safe_locale
 from ckan.lib.helpers import flash_success
 from ckan.common import _
@@ -73,7 +74,6 @@ def _process_request(context, organization_id, member, status):
     :param member: id of the member
     :type member: string
     '''
-    user = context.get("user")
 
     # Logical delete on table member
     member.state = 'deleted'
@@ -81,7 +81,7 @@ def _process_request(context, organization_id, member, status):
     # last modified field)
     member_request = model.Session.query(MemberRequest) \
         .filter(MemberRequest.membership_id == member.id) \
-        .order_by('request_date desc').limit(1).first()
+        .order_by(desc(MemberRequest.request_date)).limit(1).first()
 
     # BFW: Create a new instance every time membership status is changed
     message = u'Member request cancelled by own user'
@@ -102,10 +102,6 @@ def _process_request(context, organization_id, member, status):
         message=message
     )
     model.Session.add(member_request)
-
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'Member request deleted by user'
 
     member.save()
     model.repo.commit()

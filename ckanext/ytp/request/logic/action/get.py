@@ -3,6 +3,7 @@ from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp.request.model import MemberRequest
 from ckanext.ytp.request.helper import get_organization_admins
+from sqlalchemy import desc
 
 import logging
 import ckan.authz as authz
@@ -20,7 +21,7 @@ def member_request(context, data_dict):
 
     # Return most current instance from memberrequest table
     member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == mrequest_id).order_by('request_date desc').limit(1).first()
+        MemberRequest.membership_id == mrequest_id).order_by(desc(MemberRequest.request_date)).limit(1).first()
     if not member_request:
         raise logic.NotFound(
             "Member request associated with membership not found")
@@ -121,7 +122,7 @@ def _membeship_request_list_dictize(obj_list, context):
         # by last modified field)
         member_request = model.Session.query(MemberRequest) \
             .filter(MemberRequest.membership_id == obj.id) \
-            .order_by('request_date desc').limit(1).first()
+            .order_by(desc(MemberRequest.request_date)).limit(1).first()
         # Filter out those with cancel state as there is no need to show them to the end user
         # Show however those with 'rejected' state as user may want to know about them
         # HUOM! If a user creates itself a organization has already a
@@ -160,7 +161,7 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_request = model.Session.query(MemberRequest) \
             .filter(MemberRequest.membership_id == obj.id) \
             .filter(MemberRequest.status == 'pending') \
-            .order_by('request_date desc').limit(1).first()
+            .order_by(desc(MemberRequest.request_date)).limit(1).first()
         # This should never happen but..
         my_date = ""
         if member_request is not None:
