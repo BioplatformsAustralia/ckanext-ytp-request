@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-08 20:14+0000\n"
+"POT-Creation-Date: 2020-11-19 13:57+0000\n"
 "PO-Revision-Date: 2019-12-23 08:39+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.7.0\n"
 
 #: ckanext/ytp/request/controller.py:14
 msgid "Unauthorized"
@@ -55,7 +55,8 @@ msgid ""
 "Best wishes,\n"
 "The AIDS Data Repository\n"
 msgstr ""
-"L’utilisateur %(user)s (%(email)s) a demandé une inscription auprès de l’organisation %(organization)s.\n"
+"L’utilisateur %(user)s (%(email)s) a demandé une inscription auprès de "
+"l’organisation %(organization)s.\n"
 "\n"
 "%(link)s\n"
 "\n"
@@ -78,7 +79,8 @@ msgid ""
 "        The AIDS Data Repository\n"
 "        "
 msgstr ""
-"        Votre demande d’inscription auprès de l’organisation %(organization)s en tant que %(role)s\n"
+"        Votre demande d’inscription auprès de l’organisation "
+"%(organization)s en tant que %(role)s\n"
 "        a été approuvée.\n"
 "\n"
 "        Cordialement,\n"
@@ -103,8 +105,10 @@ msgid ""
 "        The AIDS Data Repository\n"
 "        "
 msgstr ""
-"        Malheureusement, votre demande d’inscription auprès de l’organisation %(organization)s\n"
-"        en tant que %(role)s a été refusée. Si vous estimez que c’est une erreur,\n"
+"        Malheureusement, votre demande d’inscription auprès de "
+"l’organisation %(organization)s\n"
+"        en tant que %(role)s a été refusée. Si vous estimez que c’est une"
+" erreur,\n"
 "        veuillez vous adresser à l’administrateur de votre organisation.\n"
 "\n"
 "        Cordialement,\n"
@@ -112,19 +116,21 @@ msgstr ""
 "        "
 
 #: ckanext/ytp/request/logic/action/create.py:39
-#: ckanext/ytp/request/logic/action/get.py:47
+#: ckanext/ytp/request/logic/action/get.py:48
 #: ckanext/ytp/request/templates/organization/members.html:12
-#: ckanext/ytp/request/templates/request/list.html:29
-#: ckanext/ytp/request/templates/request/mylist.html:29
+#: ckanext/ytp/request/templates/request/list.html:28
+#: ckanext/ytp/request/templates/request/mylist.html:28
 #: ckanext/ytp/request/templates/request/new_request_form.html:24
 #: ckanext/ytp/request/templates/request/show.html:48
 msgid "Role"
 msgstr "Rôle"
 
 #: ckanext/ytp/request/logic/action/create.py:39
-#: ckanext/ytp/request/logic/action/get.py:47
+#: ckanext/ytp/request/logic/action/get.py:48
 msgid "As a sysadmin, you already have access to all organizations"
-msgstr "En tant qu’administrateur système, vous avez accès à toutes les organisations."
+msgstr ""
+"En tant qu’administrateur système, vous avez accès à toutes les "
+"organisations."
 
 #: ckanext/ytp/request/logic/action/create.py:53
 msgid "You already have a pending request to the organization"
@@ -139,30 +145,30 @@ msgid "Duplicate organization request"
 msgstr "Demande déjà déposée auprès de l’organisation"
 
 #: ckanext/ytp/request/logic/action/create.py:61
-#: ckanext/ytp/request/templates/request/list.html:27
-#: ckanext/ytp/request/templates/request/mylist.html:28
+#: ckanext/ytp/request/templates/request/list.html:26
+#: ckanext/ytp/request/templates/request/mylist.html:27
 #: ckanext/ytp/request/templates/request/new_request_form.html:11
 #: ckanext/ytp/request/templates/request/show.html:25
 msgid "Organization"
 msgstr "Organisation"
 
-#: ckanext/ytp/request/logic/action/create.py:112
+#: ckanext/ytp/request/logic/action/create.py:108
 msgid "Membership request sent to organisation administrator"
 msgstr "Demande d’inscription envoyée à l’administrateur de l’organisation"
 
-#: ckanext/ytp/request/logic/action/delete.py:38
+#: ckanext/ytp/request/logic/action/delete.py:39
 msgid "Membership request cancelled"
 msgstr "Demande d’inscription annulée"
 
-#: ckanext/ytp/request/logic/action/delete.py:63
+#: ckanext/ytp/request/logic/action/delete.py:64
 msgid "Membership cancelled"
 msgstr "Inscription annulée"
 
-#: ckanext/ytp/request/logic/action/update.py:108
+#: ckanext/ytp/request/logic/action/update.py:106
 msgid "Membership request approved"
 msgstr "Demande d’inscription approuvée"
 
-#: ckanext/ytp/request/logic/action/update.py:110
+#: ckanext/ytp/request/logic/action/update.py:108
 msgid "Membership request rejected"
 msgstr "Demande d’inscription refusée"
 
@@ -180,44 +186,44 @@ msgid "Membership requests"
 msgstr "Demandes d’inscription"
 
 #: ckanext/ytp/request/templates/organization/members.html:11
-#: ckanext/ytp/request/templates/request/list.html:28
+#: ckanext/ytp/request/templates/request/list.html:27
 #: ckanext/ytp/request/templates/request/show.html:29
 msgid "User"
 msgstr "Utilisateur"
 
 #: ckanext/ytp/request/templates/organization/members.html:13
-#: ckanext/ytp/request/templates/request/list.html:30
-#: ckanext/ytp/request/templates/request/mylist.html:30
+#: ckanext/ytp/request/templates/request/list.html:29
+#: ckanext/ytp/request/templates/request/mylist.html:29
 #: ckanext/ytp/request/templates/request/show.html:41
 msgid "Request date"
 msgstr "Date de la demande"
 
 #: ckanext/ytp/request/templates/organization/members.html:14
-#: ckanext/ytp/request/templates/request/list.html:31
-#: ckanext/ytp/request/templates/request/mylist.html:34
+#: ckanext/ytp/request/templates/request/list.html:30
+#: ckanext/ytp/request/templates/request/mylist.html:33
 msgid "Action"
 msgstr "Action"
 
 #: ckanext/ytp/request/templates/organization/members.html:24
-#: ckanext/ytp/request/templates/request/list.html:42
-#: ckanext/ytp/request/templates/request/show.html:63
+#: ckanext/ytp/request/templates/request/list.html:41
+#: ckanext/ytp/request/templates/request/show.html:66
 msgid "Approve"
 msgstr "Approuver"
 
 #: ckanext/ytp/request/templates/organization/members.html:25
-#: ckanext/ytp/request/templates/request/list.html:43
-#: ckanext/ytp/request/templates/request/show.html:66
+#: ckanext/ytp/request/templates/request/list.html:42
+#: ckanext/ytp/request/templates/request/show.html:68
 msgid "Reject"
 msgstr "Refuser"
 
 #: ckanext/ytp/request/templates/organization/members.html:26
-#: ckanext/ytp/request/templates/request/list.html:44
+#: ckanext/ytp/request/templates/request/list.html:43
 msgid "Modify"
 msgstr "Modifier"
 
 #: ckanext/ytp/request/templates/request/list.html:3
 #: ckanext/ytp/request/templates/request/list.html:7
-#: ckanext/ytp/request/templates/request/list.html:21
+#: ckanext/ytp/request/templates/request/list.html:20
 msgid "Received membership requests"
 msgstr "Demandes d’inscription reçues"
 
@@ -228,10 +234,15 @@ msgid ""
 " can edit the organization, datasets and accept membership requests. "
 "Editor can only edit datasets."
 msgstr ""
-"Toutes les demandes d’inscription reçues sont répertoriées ici. L’administrateur de l’organisation peut les approuver ou les refuser. Pour traiter une demande, cliquez sur « Modifier ». Les administrateurs peuvent modifier l’organisation et les jeux de données, et accepter les demandes d’inscription. L’éditeur peut uniquement modifier les jeux de données."
+"Toutes les demandes d’inscription reçues sont répertoriées ici. "
+"L’administrateur de l’organisation peut les approuver ou les refuser. "
+"Pour traiter une demande, cliquez sur « Modifier ». Les administrateurs "
+"peuvent modifier l’organisation et les jeux de données, et accepter les "
+"demandes d’inscription. L’éditeur peut uniquement modifier les jeux de "
+"données."
 
-#: ckanext/ytp/request/templates/request/list.html:50
-#: ckanext/ytp/request/templates/request/mylist.html:66
+#: ckanext/ytp/request/templates/request/list.html:49
+#: ckanext/ytp/request/templates/request/mylist.html:65
 msgid "No requests found."
 msgstr "Aucune demande trouvée."
 
@@ -246,38 +257,40 @@ msgid ""
 "any pending request or already accepted membership from the menu on the "
 "right."
 msgstr ""
-"Toutes les inscriptions et les demandes d’inscription sont répertoriées ici. Vous pouvez annuler toute demande en cours ou toute inscription déjà acceptée à partir du menu sur la droite de l’écran."
+"Toutes les inscriptions et les demandes d’inscription sont répertoriées "
+"ici. Vous pouvez annuler toute demande en cours ou toute inscription déjà"
+" acceptée à partir du menu sur la droite de l’écran."
 
-#: ckanext/ytp/request/templates/request/mylist.html:22
+#: ckanext/ytp/request/templates/request/mylist.html:21
 msgid "My memberships"
 msgstr "Mes inscriptions"
 
-#: ckanext/ytp/request/templates/request/mylist.html:31
+#: ckanext/ytp/request/templates/request/mylist.html:30
 msgid "Status"
 msgstr "État d’avancement"
 
-#: ckanext/ytp/request/templates/request/mylist.html:32
+#: ckanext/ytp/request/templates/request/mylist.html:31
 msgid "Handling date"
 msgstr "Date de traitement"
 
-#: ckanext/ytp/request/templates/request/mylist.html:33
+#: ckanext/ytp/request/templates/request/mylist.html:32
 msgid "Handler"
 msgstr "Traitée par"
 
-#: ckanext/ytp/request/templates/request/mylist.html:48
+#: ckanext/ytp/request/templates/request/mylist.html:47
 #: ckanext/ytp/request/templates/snippets/organization.html:12
 msgid "Are you sure you want to end the membership?"
 msgstr "Voulez-vous annuler cette inscription ?"
 
-#: ckanext/ytp/request/templates/request/mylist.html:51
+#: ckanext/ytp/request/templates/request/mylist.html:50
 msgid "Cancel membership"
 msgstr "Annuler l’inscription"
 
-#: ckanext/ytp/request/templates/request/mylist.html:54
+#: ckanext/ytp/request/templates/request/mylist.html:53
 msgid "Are you sure you want to cancel this pending request?"
 msgstr "Voulez-vous annuler cette demande en cours ?"
 
-#: ckanext/ytp/request/templates/request/mylist.html:57
+#: ckanext/ytp/request/templates/request/mylist.html:56
 msgid "Cancel request"
 msgstr "Annuler la demande"
 
@@ -317,19 +330,30 @@ msgid ""
 "This shows a given membership request. Only admins can approve, modify or"
 " reject requests."
 msgstr ""
-"Cette page affiche une demande d’inscription en particulier. Seuls les administrateurs peuvent approuver, modifier ou refuser les demandes."
+"Cette page affiche une demande d’inscription en particulier. Seuls les "
+"administrateurs peuvent approuver, modifier ou refuser les demandes."
 
 #: ckanext/ytp/request/templates/request/show.html:44
 msgid "State"
 msgstr "État"
 
-#: ckanext/ytp/request/templates/request/show.html:62
+#: ckanext/ytp/request/templates/request/show.html:65
 msgid "Are you sure you want approve this request?"
 msgstr "Voulez-vous approuver cette demande ?"
 
-#: ckanext/ytp/request/templates/request/show.html:65
+#: ckanext/ytp/request/templates/request/show.html:67
 msgid "Are you sure you want reject this request?"
 msgstr "Voulez-vous refuser cette demande ?"
+
+#: ckanext/ytp/request/templates/request/show.html:72
+#, fuzzy
+#| msgid "Membership Request has already been approved, or does not exist."
+msgid "This request has already been actioned"
+msgstr "La demande d’inscription a déjà été approuvée ou n’existe pas."
+
+#: ckanext/ytp/request/templates/request/show.html:74
+msgid "No further action is required"
+msgstr ""
 
 #: ckanext/ytp/request/templates/snippets/organization.html:8
 msgid "Request to Join"
@@ -343,9 +367,9 @@ msgstr "Quitter"
 msgid ""
 "Are you sure you want to cancel this pending request to join the "
 "organisation?"
-msgstr ""
-"Voulez-vous annuler cette demande d’inscription auprès de l’organisation ?"
+msgstr "Voulez-vous annuler cette demande d’inscription auprès de l’organisation ?"
 
 #: ckanext/ytp/request/templates/snippets/organization.html:21
 msgid "Cancel Request"
 msgstr "Annuler la demande"
+
