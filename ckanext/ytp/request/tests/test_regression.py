@@ -2,16 +2,11 @@
 
 import pytest
 import mock
-from ckan.lib.helpers import url_for
-import logging
 import ckan.model as model
 import ckanext.ytp.request.model as rmodel
 from ckan.logic import ValidationError
-
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
-
-PLUGIN_CONTROLLER = 'ckanext.ytp.request.controller:YtpRequestController'
 
 
 @pytest.fixture
@@ -27,9 +22,9 @@ def initdb():
 @pytest.mark.usefixtures(u'with_plugins')
 @pytest.mark.usefixtures(u'with_request_context')
 @pytest.mark.usefixtures(u'mail_server')
-class TestViewingActionedReferral(object):
+class TestRegression(object):
     '''
-        Test that viewing an already actioned membership request does not 404
+        Regression tests to ensure previous bugs do not re-occur.
     '''
 
     @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')  # mock1
