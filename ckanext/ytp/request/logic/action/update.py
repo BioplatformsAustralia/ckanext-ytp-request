@@ -5,6 +5,7 @@ from ckanext.ytp.request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
 from ckan.common import _
 from sqlalchemy import desc
+import ckan.plugins.toolkit as t
 import logging
 import datetime
 
@@ -49,7 +50,10 @@ def _process(context, action, data_dict):
     role = data_dict.get("role", None)
     if not mrequest_id:
         raise logic.NotFound
-    if role is not None and role != 'admin' and role != 'editor':
+
+    valid_roles = t.get_action('member_roles_list')(context, {})
+    valid_roles = [r['value'] for r in valid_roles] + [None]
+    if role not in valid_roles:
         raise logic.ValidationError("Role is not a valid value")
 
     member = model.Session.query(model.Member).filter(
