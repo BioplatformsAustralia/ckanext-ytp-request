@@ -1,7 +1,7 @@
 from ckan import model, logic
-from ckanext.ytp.request.model import MemberRequest
-from ckanext.ytp.request.helper import get_default_locale
-from ckanext.ytp.request.mail import mail_process_status
+from ckanext.ytp_request.model import MemberRequest
+from ckanext.ytp_request.helper import get_default_locale
+from ckanext.ytp_request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
 from ckan.common import _
 from sqlalchemy import desc

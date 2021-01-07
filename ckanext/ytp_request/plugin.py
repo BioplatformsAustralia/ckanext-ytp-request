@@ -1,17 +1,17 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements
 from ckan.common import c
+from ckan.lib.plugins import DefaultTranslation
+
 import ckantoolkit as toolkit
 import logging
 import authz
-import os
-import sys
 
 
 log = logging.getLogger(__name__)
 
 
-class YtpRequestPlugin(plugins.SingletonPlugin):
+class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     implements(plugins.IRoutes, inherit=True)
     implements(plugins.IConfigurer, inherit=True)
@@ -53,7 +53,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
 
     # IActions
     def get_actions(self):
-        from ckanext.ytp.request.logic.action import get, create, update, delete
+        from ckanext.ytp_request.logic.action import get, create, update, delete
 
         return {
             "member_request_create": create.member_request_create,
@@ -69,7 +69,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
 
     # IAuthFunctions
     def get_auth_functions(self):
-        from ckanext.ytp.request.logic.auth import get, create, update, delete
+        from ckanext.ytp_request.logic.auth import get, create, update, delete
 
         return {
             "member_request_create": create.member_request_create,
@@ -85,7 +85,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
     # IRoutes #
     def before_map(self, m):
         """ CKAN autocomplete discards vocabulary_id from request. Create own api for this. """
-        controller = 'ckanext.ytp.request.controller:YtpRequestController'
+        controller = 'ckanext.ytp_request.controller:YtpRequestController'
         m.connect('member_request_create', '/member-request/new',
                   action='new', controller=controller)
         m.connect('member_requests_mylist', '/member-request/mylist',
@@ -104,28 +104,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin):
                   '/member-request/{mrequest_id}', action='show', controller=controller)
         return m
 
-    # ITranslation
-
-    def i18n_directory(self):
-        '''Change the directory of the *.mo translation files'''
-        plugin_module_name = '.'.join(self.__module__.split('.')[:4])
-        plugin_module = sys.modules[plugin_module_name]
-        plugin_module_path = os.path.join(os.path.dirname(plugin_module.__file__))
-        i18n_path = "/".join(plugin_module_path.split('/')[:-3] + ['i18n'])
-        log.debug('i18n Path: {}'.format(i18n_path))
-        return i18n_path
-
-    def i18n_locales(self):
-        '''Change the list of locales that this plugin handles'''
-        directory = self.i18n_directory()
-        locales = [
-            d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))
-        ]
-        log.debug("Locales: {}".format(locales))
-        return locales
-
+    # ITranslations
     def i18n_domain(self):
-        '''Change the gettext domain handled by this plugin'''
         domain = 'ckanext-ytp-request'
-        log.debug("Domain: {}".format(domain))
         return domain
