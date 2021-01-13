@@ -10,7 +10,7 @@ import ckanext.ytp_request.model as rmodel
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
 
-PLUGIN_CONTROLLER = 'ckanext.ytp_request.request.controller:YtpRequestController'
+PLUGIN_CONTROLLER = 'ckanext.ytp_request.controller:YtpRequestController'
 
 
 @pytest.fixture
@@ -31,8 +31,8 @@ class TestViewingActionedReferral(object):
         Test that viewing an already actioned membership request does not 404
     '''
 
-    @mock.patch('ckanext.ytp_request.request.logic.action.create.flash_success')  # mock1
-    @mock.patch('ckanext.ytp_request.request.logic.action.update.flash_success')  # mock2
+    @mock.patch('ckanext.ytp_request.logic.action.create.flash_success')  # mock1
+    @mock.patch('ckanext.ytp_request.logic.action.update.flash_success')  # mock2
     def test_viewing_actioned_referral(self, mock1, mock2, app):
 
         # setup
