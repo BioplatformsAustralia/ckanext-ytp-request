@@ -1,11 +1,11 @@
 from ckan import model, logic
-from ckanext.ytp.request.model import MemberRequest
+from ckanext.ytp_request.model import MemberRequest
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
 from ckan.common import c
 from sqlalchemy.sql import func
 from sqlalchemy import desc
-from ckanext.ytp.request.helper import get_safe_locale
+from ckanext.ytp_request.helper import get_safe_locale
 from ckan.lib.helpers import flash_success
 from ckan.common import _
 

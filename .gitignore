@@ -33,3 +33,6 @@ nosetests.xml
 test.py
 execute.py
 .settings
+
+# Translations
+*.pot

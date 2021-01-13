@@ -3,7 +3,7 @@
 import pytest
 import mock
 import ckan.model as model
-import ckanext.ytp.request.model as rmodel
+import ckanext.ytp_request.model as rmodel
 from ckan.logic import ValidationError
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
@@ -27,8 +27,8 @@ class TestRegression(object):
         Regression tests to ensure previous bugs do not re-occur.
     '''
 
-    @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')  # mock1
-    @mock.patch('ckanext.ytp.request.logic.action.update.flash_success')  # mock2
+    @mock.patch('ckanext.ytp_request.logic.action.create.flash_success')  # mock1
+    @mock.patch('ckanext.ytp_request.logic.action.update.flash_success')  # mock2
     def test_update_request_with_all_valid_roles(self, update_success, create_success, app):
         """
         Checks that the member request can be updated using any of the valid
@@ -62,8 +62,8 @@ class TestRegression(object):
 
             assert update_success.call_count == count+1, "Failed with role {}".format(role)
 
-    @mock.patch('ckanext.ytp.request.logic.action.create.flash_success')  # mock1
-    @mock.patch('ckanext.ytp.request.logic.action.update.flash_success')  # mock2
+    @mock.patch('ckanext.ytp_request.logic.action.create.flash_success')  # mock1
+    @mock.patch('ckanext.ytp_request.logic.action.update.flash_success')  # mock2
     def test_update_request_fails_for_invalid_roles(self, update_success, create_success, app):
         """
         Checks that the member request cannot be approved with an invalid role.
