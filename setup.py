@@ -15,13 +15,13 @@ setup(
     url='',
     license='',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-    namespace_packages=['ckanext', 'ckanext.ytp', 'ckanext.ytp.request'],
+    namespace_packages=['ckanext', 'ckanext.ytp_request'],
     zip_safe=False,
     install_requires=[
         # -*- Extra requirements: -*-
     ],
     message_extractors={
-        'ckanext/ytp/request': [
+        'ckanext/ytp_request': [
             ('**.py', 'python', None),
             ('templates/**.html', 'ckan', None)
         ]
@@ -29,9 +29,12 @@ setup(
     include_package_data=True,
     entry_points='''
         [ckan.plugins]
-        ytp_request=ckanext.ytp.request.plugin:YtpRequestPlugin
+        ytp_request=ckanext.ytp_request.plugin:YtpRequestPlugin
+
+        [babel.extractors]
+        ckan = ckan.lib.extract:extract_ckan
 
         [paste.paster_command]
-        initdb = ckanext.ytp.request.command:InitDBCommand
+        initdb = ckanext.ytp_request.command:InitDBCommand
     '''
 )
