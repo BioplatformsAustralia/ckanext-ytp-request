@@ -75,6 +75,8 @@ def _process_request(context, organization_id, member, status):
     :type member: string
     '''
 
+    user = context.get("user")
+
     # Logical delete on table member
     member.state = 'deleted'
     # Fetch the newest member_request associated to this membership (sort by
@@ -102,6 +104,10 @@ def _process_request(context, organization_id, member, status):
         message=message
     )
     model.Session.add(member_request)
+
+    revision = model.repo.new_revision()
+    revision.author = user
+    revision.message = u'Member request deleted by user'
 
     member.save()
     model.repo.commit()
