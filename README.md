@@ -27,6 +27,19 @@ Add to ckan.ini
 ```
 ckan.plugins = ... ytp_request
 ```
+## Include / Exclude Organizations in listing
+
+In your ckan.ini file, you can set which organisations are to be included or excluded from the
+member request selector
+
+```
+## Member Request Settings
+# If empty, all organisations are included.  If not, only those listed are included
+# Entries are seperated by whitespace
+ckanext.ytp_request.include =
+ckanext.ytp_request.exclude = grasslands bpa-barcode2
+```
+
 
 ## BPA Development Environment setup
 

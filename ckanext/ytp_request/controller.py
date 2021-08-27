@@ -2,7 +2,7 @@ from ckan import logic, model
 from ckan.lib import helpers
 from ckan.lib.base import BaseController, render, abort, request
 from ckan.plugins import toolkit
-from ckan.common import c, _
+from ckan.common import config, c, _
 import ckan.lib.navl.dictization_functions as dict_fns
 import logging
 
@@ -21,7 +21,17 @@ class YtpRequestController(BaseController):
         data_dict['type'] = 'organization'
         # TODO: Filter our organizations where the user is already a member or
         # has a pending request
-        return toolkit.get_action('organization_list')({}, data_dict)
+
+        orglist = toolkit.get_action('organization_list')({}, data_dict)
+
+        # Include or exclude organizations based on our include/exclude lists
+        include = config.get('ckanext.ytp_request.include').split()
+        exclude = config.get('ckanext.ytp_request.exclude').split()
+        if include:
+            orglist = [o for o in orglist if o['name'] in include]
+        orglist = [o for o in orglist if o['name'] not in exclude]
+
+        return orglist
 
     def new(self, errors=None, error_summary=None):
         context = {'user': c.user or c.author,
