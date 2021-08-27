@@ -19,7 +19,8 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 %(link)s
 
 Best wishes,
-The AIDS Data Repository
+%(sitename)s
+%(siteemail)s
 """)
 
 
@@ -36,7 +37,8 @@ def _MESSAGE_MEMBERSHIP_APPROVED():
         access has been approved.
 
         Best wishes,
-        The AIDS Data Repository
+        %(sitename)s
+        %(siteemail)s
         """
     )
 
@@ -55,12 +57,13 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
         mistake, please contact the organisation's administrator directly.
 
         Best wishes,
-        The AIDS Data Repository
+        %(sitename)
+        %(siteemail)
         """
     )
 
 
-def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
+def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email, site_name, site_email):
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
@@ -69,7 +72,9 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         'user': user_name,
         'email': user_email,
         'organization': group_name,
-        'link': url
+        'link': url,
+        'sitename': site_name,
+        'siteemail': site_email,
     }
 
     try:
@@ -78,7 +83,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         log.exception("Mail could not be sent")
 
 
-def mail_process_status(locale, member_user, approve, group_name, capacity):
+def mail_process_status(locale, member_user, approve, group_name, capacity, site_name, site_email):
     current_locale = get_lang()
     if locale == 'en':
         _reset_lang()
@@ -97,7 +102,9 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
     }
     message = message_template % {
         'role': role_name,
-        'organization': group_name
+        'organization': group_name,
+        'sitename': site_name,
+        'siteemail': site_email,
     }
 
     try:

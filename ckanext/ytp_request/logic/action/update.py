@@ -8,6 +8,7 @@ from sqlalchemy import desc
 import ckan.plugins.toolkit as t
 import logging
 import datetime
+import os
 
 log = logging.getLogger(__name__)
 
@@ -102,13 +103,15 @@ def _process(context, action, data_dict):
 
     member_user = model.Session.query(model.User).get(member.table_id)
     admin_user = model.User.get(user)
+    site_name = config.get('ckan.site_description', "")
+    site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
 
     locale = member_request.language or get_default_locale()
     _log_process(member_user, member.group.display_name, approve, admin_user)
     # TODO: Do we need to set a message in the UI if mail was not sent
     # successfully?
     mail_process_status(locale, member_user, approve,
-                        member.group.display_name, member.capacity)
+                        member.group.display_name, member.capacity, site_name, site_email)
 
     if action == 'approve':
         flash_success(_("Membership request approved"))

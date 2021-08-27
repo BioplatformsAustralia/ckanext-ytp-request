@@ -7,6 +7,7 @@ from ckan.lib.helpers import url_for, flash_success
 from ckanext.ytp_request.mail import mail_new_membership_request
 from ckanext.ytp_request.helper import get_safe_locale
 import logging
+import os
 
 log = logging.getLogger(__name__)
 
@@ -96,17 +97,20 @@ def _create_member_request(context, data_dict):
     logging.warning("Fetched member's group ID: " + str(fetched_member.group_id))
 
     url = config.get('ckan.site_url', "")
+    site_name = config.get('ckan.site_description', "")
+    site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
+
     if url:
         url = url + url_for('member_request_show', mrequest_id=member.id)
     # Locale should be admin locale since mail is sent to admins
     if role == 'admin':
         for admin in _get_ckan_admins():
             mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email)
     else:
         for admin in _get_organization_admins(group.id):
             mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email)
 
     flash_success(
         _("Membership request sent to organisation administrator")
