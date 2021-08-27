@@ -106,10 +106,8 @@ def get_available_roles(context, data_dict=None):
     if organization_id:
         if get_organization_admins(organization_id):
             roles = [role for role in roles if role['value'] != 'editor']
-        return roles
-    else:
-        return None
 
+    return roles
 
 def _membeship_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
