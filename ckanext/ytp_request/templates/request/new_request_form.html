@@ -1,40 +1,44 @@
 {% import 'macros/form.html' as form %}
 {% resource  "request_js/request.js" %}
 
-<form class="dataset-form form-horizontal" method="post" data-module="basic-form" id="membership-request-form">
-  {% block error_summary %}
-    {{ form.errors(error_summary) }}
-  {% endblock %}
-
-  {% block basic_fields %}
-    <div class="control-group">
-      <label for="field-organizations" class="control-label">{{ _('Organization') }}</label>
-      <div class="controls">
-        <select id="field-organizations" name="organization" data-module="autocomplete">
-          <option value="" {% if not selected_organization %} selected="selected" {% endif %}>{{ _('Select an organization...') }}</option>
-          {% for organization in organizations %}
-            {% set select = (selected_organization and selected_organization == organization.name) %}
-            <option value="{{ organization.id }}" {% if select %} selected="selected" {% endif %}>{{ organization.display_name }}</option>
+      {% if my_requests %}
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+             <th>{% trans %}Organization{% endtrans %}</th>
+             <th>{% trans %}Status{% endtrans %}</th>
+          </tr>
+        </thead>
+        <tfoot> </tfoot>
+        <tbody>
+        {% for organization in organizations %}
+          {% for mrequest in my_requests %}
+	    {% if ( mrequest["organization_name"] == organization["name"] ) %}
+            <tr>
+              <td>{{ organization.display_name }}</td>
+              <td>
+                {% if mrequest.state == "active" %}
+	          {{ mrequest.role|upper }}
+		{% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
+                {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
+                <a class="btn btn-primary" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                <i class="icon-circle-arrow-right"></i>
+                  {% trans %}Cancel request{% endtrans %}
+                </a>
+		{% else %}
+		  {# State is Never/Cancelled/Rejected #}
+		  {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
+                    <a class="btn btn-primary" href="{{ h.url_for('member_request_create', organization=organization.id, role=c.user_role, save="submit") }}">
+                       <i class="fa fa-plus-circle"></i>
+                       {% trans %}Request to Join{% endtrans %}
+                    </a>
+                  {% endif %}
+                {% endif %}
+	      </td>
+            </tr>
+            {% endif %}
           {% endfor %}
-        </select>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <label for="field-role" class="control-label">{{ _('Role') }}</label>
-      <div class="controls">
-        <select id="field-role" name="role" data-module="autocomplete">
-          <option value="">{{ _('Select a role...') }}</option>
-          {% for role in c.roles %}
-            {% set select = (role.value == c.user_role) %}
-            <option value="{{ role.value }}" {% if select %} selected="selected" {% endif %}>{{ role.text }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-  {% endblock %}
-
-  <div class="form-actions">
-    <button class="btn btn-primary" name="save" type="submit">{% block save_text %}{{ _('Send request') }}{% endblock %}</button>
-  </div>
-</form>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
