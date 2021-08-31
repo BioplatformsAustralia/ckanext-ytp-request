@@ -57,8 +57,8 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
         mistake, please contact the organisation's administrator directly.
 
         Best wishes,
-        %(sitename)
-        %(siteemail)
+        %(sitename)s
+        %(siteemail)s
         """
     )
 

@@ -3,7 +3,7 @@ from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_default_locale
 from ckanext.ytp_request.mail import mail_process_status
 from ckan.lib.helpers import flash_success
-from ckan.common import _
+from ckan.common import config, _
 from sqlalchemy import desc
 import ckan.plugins.toolkit as t
 import logging
