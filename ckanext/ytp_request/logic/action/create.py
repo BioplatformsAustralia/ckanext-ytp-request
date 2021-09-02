@@ -34,6 +34,8 @@ def _create_member_request(context, data_dict):
     if not group or group.type != 'organization':
         raise logic.NotFound
 
+    message = data_dict.get('message', "")
+
     user = context.get('user', None)
 
     if authz.is_sysadmin(user):
@@ -85,7 +87,11 @@ def _create_member_request(context, data_dict):
     model.Session.flush()
 
     memberRequest = MemberRequest(
-        membership_id=member.id, role=role, status="pending", language=locale)
+        membership_id=member.id,
+        role=role,
+        message=message,
+        status="pending",
+        language=locale)
     member_id = member.id
     model.Session.add(memberRequest)
     model.repo.commit()
@@ -106,11 +112,11 @@ def _create_member_request(context, data_dict):
     if role == 'admin':
         for admin in _get_ckan_admins():
             mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
     else:
         for admin in _get_organization_admins(group.id):
             mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email)
+                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
 
     flash_success(
         _("Membership request sent to organisation administrator")

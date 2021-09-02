@@ -18,6 +18,10 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 
 %(link)s
 
+Details of their request are:
+
+%(user_message)s
+
 Best wishes,
 %(sitename)s
 %(siteemail)s
@@ -63,7 +67,7 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
     )
 
 
-def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email, site_name, site_email):
+def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email, site_name, site_email, user_message):
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
@@ -73,6 +77,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         'email': user_email,
         'organization': group_name,
         'link': url,
+        'user_message': user_message,
         'sitename': site_name,
         'siteemail': site_email,
     }
