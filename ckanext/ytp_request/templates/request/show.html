@@ -40,6 +40,7 @@
               <tr>
                 <th>{% trans %}Request date{% endtrans %}</th>
                 <td>{{ membership.request_date }}</td>
+              </tr>
               <tr>
                   <th>{% trans %}State{% endtrans %}</th>
                   <td>{{ membership.state|capitalize }}</td>
@@ -57,6 +58,10 @@
                       <span>{{ membership.role|capitalize }}</span>
                     {% endif %}                      
                   </td>
+              </tr>
+              <tr>
+                <th>{% trans %}Message{% endtrans %}</th>
+                <td>{{ membership.message }}</td>
               </tr>
           </tbody>
       </table>      

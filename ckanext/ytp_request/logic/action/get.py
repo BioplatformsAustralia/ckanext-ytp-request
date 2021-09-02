@@ -32,6 +32,7 @@ def member_request(context, data_dict):
     member_dict['group_id'] = membership.group_id
     member_dict['role'] = member_request.role
     member_dict['state'] = member_request.status
+    member_dict['message'] = member_request.message
     member_dict['request_date'] = member_request.request_date.strftime(
         "%d - %b - %Y")
     member_dict['user_id'] = membership.table_id
@@ -129,11 +130,13 @@ def _membeship_request_list_dictize(obj_list, context):
         member_dict['organization_id'] = obj.group_id
         member_dict['role'] = 'admin'
         member_dict['state'] = 'active'
+        member_dict['message'] = ''
         # We use the member_request state since there is also rejected and
         # cancel
         if member_request is not None and member_request.status != 'cancel':
             member_dict['state'] = member_request.status
             member_dict['role'] = member_request.role
+            member_dict['message'] = member_request.message
             member_dict['request_date'] = member_request.request_date.strftime(
                 "%d - %b - %Y")
             if member_request.handling_date:
