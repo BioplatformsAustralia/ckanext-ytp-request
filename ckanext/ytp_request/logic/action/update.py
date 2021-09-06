@@ -49,6 +49,7 @@ def _process(context, action, data_dict):
     user = context.get("user")
     mrequest_id = data_dict.get("mrequest_id")
     role = data_dict.get("role", None)
+    reason = data_dict.get("message", "")
     if not mrequest_id:
         raise logic.NotFound
 
@@ -76,7 +77,7 @@ def _process(context, action, data_dict):
     if approve:
         message = 'Member request approved by admin.'
     else:
-        message = 'Member request rejected by log.'
+        message = 'Member request rejected by admin.\n\n{}'.format(reason)
     if role:
         message = message + " Role changed"
     revision.message = message
@@ -111,7 +112,7 @@ def _process(context, action, data_dict):
     # TODO: Do we need to set a message in the UI if mail was not sent
     # successfully?
     mail_process_status(locale, member_user, approve,
-                        member.group.display_name, member.capacity, site_name, site_email)
+                        member.group.display_name, member.capacity, site_name, site_email, reason)
 
     if action == 'approve':
         flash_success(_("Membership request approved"))

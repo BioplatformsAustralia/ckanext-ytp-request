@@ -16,6 +16,8 @@
 {% endblock %}
 
 {% block primary_content %}
+{% resource  "request_js/request.js" %}
+
   <section class="module">
     <div class="module-content">
       <h1>{% trans %}Received membership requests{% endtrans %}</h1>
@@ -42,7 +44,9 @@
             <td>{{ member_request.request_date }}</td>
             <td>{{ member_request.message }}</td>
             <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
-            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.mid) }}" class="btn btn-danger">{% trans %}Reject{% endtrans %}</a></td>
+            <td>
+	      {%- snippet "request/snippets/request_reject_button.html", mrequest_id=member_request.mid, organization=member_request.group_name, user_name=member_request.user_name -%}
+            </td>
             <td><a href="{{ h.url_for('member_request_show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
           </tr>
         {% endfor %}
@@ -53,4 +57,7 @@
       {% endif %}
     </div>
   </section>
+
+
+{%- snippet "request/snippets/request_reject_modal.html" -%}
 {% endblock %}

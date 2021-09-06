@@ -1,6 +1,7 @@
 {% ckan_extends %}
 
 {% block primary_content_inner %}
+{% resource  "request_js/request.js" %}
 {% set member_requests = h.get_member_request_list(organization.id) %}
 {% if member_requests %}
   <h3>{% trans %}Membership requests{% endtrans %}</h3>
@@ -22,12 +23,15 @@
         <td>{{ member_request.role }}</td>
         <td>{{ member_request.request_date }}</td>
         <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
-        <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.mid) }}" class="btn btn-danger">{% trans %}Reject{% endtrans %}</a></td>
+        <td>
+	  {%- snippet "request/snippets/request_reject_button.html", mrequest_id=member_request.mid, organization=organization.name, user_name=member_request.user_name -%}
+        </td>
         <td><a href="{{ h.url_for('member_request_show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
+  {%- snippet "request/snippets/request_reject_modal.html" -%}
   {% endif %}
   {{super()}}
 {% endblock %}

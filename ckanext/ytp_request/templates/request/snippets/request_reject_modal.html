@@ -1,0 +1,36 @@
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" id="membership-request-reject-form">
+<div class="modal fade" id="memberRequestRejectModal" tabindex="-1" role="dialog" aria-labelledby="memberRequestRejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="memberRequestRejectModalLabel">
+          {% trans %}Reject request to join{% endtrans %}
+          <span class="modal-details">
+          </span>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+          <div class="modal-reason">
+          Please note the reasons for the rejection
+          </div>
+          <div class="form-group">
+            <label for="field-message" class="col-form-label">Rejection</label>
+            <textarea class="form-control" id="field-message" name="message"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <div class="form-actions">
+          <button class="btn btn-danger" name="save" type="submit">
+            {% trans %}Reject{% endtrans %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

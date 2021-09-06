@@ -184,7 +184,8 @@ class YtpRequestController(BaseController):
     def _processbyadmin(self, mrequest_id, approve):
         context = {'user': c.user or c.author}
         role = request.params.get('role', None)
-        data_dict = {"mrequest_id": mrequest_id, 'role': role}
+        message = request.params.get('message', None)
+        data_dict = {"mrequest_id": mrequest_id, 'role': role, 'message': message}
         try:
             if approve:
                 toolkit.get_action('member_request_approve')(

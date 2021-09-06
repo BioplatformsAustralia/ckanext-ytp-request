@@ -60,6 +60,9 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
         with %(role)s access has been rejected.  If you think this was a
         mistake, please contact the organisation's administrator directly.
 
+	The reasons for the rejection was stated as:
+	%(reason)s
+
         Best wishes,
         %(sitename)s
         %(siteemail)s
@@ -88,7 +91,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         log.exception("Mail could not be sent")
 
 
-def mail_process_status(locale, member_user, approve, group_name, capacity, site_name, site_email):
+def mail_process_status(locale, member_user, approve, group_name, capacity, site_name, site_email, reason=None):
     current_locale = get_lang()
     if locale == 'en':
         _reset_lang()
@@ -110,6 +113,7 @@ def mail_process_status(locale, member_user, approve, group_name, capacity, site
         'organization': group_name,
         'sitename': site_name,
         'siteemail': site_email,
+        'reason': reason,
     }
 
     try:
