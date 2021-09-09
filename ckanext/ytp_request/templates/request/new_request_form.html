@@ -12,32 +12,39 @@
         <tfoot> </tfoot>
         <tbody>
         {% for organization in organizations %}
-          {% for mrequest in my_requests %}
-	    {% if ( mrequest["organization_name"] == organization["name"] ) %}
-            <tr>
-              <td>{{ organization.display_name }}</td>
-              <td>
-                {% if mrequest.state == "active" %}
-	          {{ mrequest.role|upper }}
-		{% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
-                {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
-                <a class="btn btn-primary" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
-                <i class="icon-circle-arrow-right"></i>
-                  {% trans %}Cancel request{% endtrans %}
-                </a>
-		{% else %}
-		  {# State is Never/Cancelled/Rejected #}
-		  {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}">
-                       <i class="fa fa-plus-circle"></i>
-                       {% trans %}Request to join{% endtrans %}
-		    </button>
+          <tr>
+            <td>{{ organization.display_name }}</td>
+            <td>
+              {% set vars = { 'request' : False } %}
+
+              {% for mrequest in my_requests %}
+                {% if ( mrequest["organization_name"] == organization["name"] ) %}
+                  {% if mrequest.state == "active" %}
+
+                    {% if vars.update({'request':True}) %} {% endif %}
+                    {{ mrequest.role|upper }}
+                  {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
+                    {% if vars.update({'request':True}) %} {% endif %}
+                    {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
+                    <a class="btn btn-primary" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                    <i class="icon-circle-arrow-right"></i>
+                      {% trans %}Cancel request{% endtrans %}
+                    </a>
                   {% endif %}
                 {% endif %}
-	      </td>
-            </tr>
-            {% endif %}
-          {% endfor %}
+              {% endfor %}
+
+              {% if not vars.request %}
+                {# State is Never/Cancelled/Rejected #}
+                {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}">
+                    <i class="fa fa-plus-circle"></i>
+                    {% trans %}Request to join{% endtrans %}
+                  </button>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
         {% endfor %}
         </tbody>
       </table>
@@ -51,17 +58,17 @@
       <div class="modal-header">
         <div class="modal-title" id="memberRequestModalLabel">
           {% trans %}Request to join{% endtrans %}
-	  <span class="modal-orgname">
-	  </span>
-	</div>
+          <span class="modal-orgname">
+          </span>
+        </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
           <div class="modal-reason">
-	  Describe why you wish to be a part of this organization
-	  </div>
+          Describe why you wish to be a part of this organization
+          </div>
           <div class="form-group">
             <label for="field-message" class="col-form-label">Request</label>
             <textarea class="form-control" id="field-message" name="message"></textarea>
@@ -74,8 +81,8 @@
         <div class="form-actions">
           <button class="btn btn-primary" name="save" type="submit">
             <i class="fa fa-plus-circle"></i>
-	    {% block save_text %}{{ _('Send request') }}{% endblock %}
-	  </button>
+            {% block save_text %}{{ _('Send request') }}{% endblock %}
+          </button>
         </div>
       </div>
     </div>
