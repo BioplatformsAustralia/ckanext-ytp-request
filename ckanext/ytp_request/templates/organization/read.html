@@ -1,0 +1,7 @@
+{% ckan_extends %}
+
+{% block primary_content_inner %}
+  {% resource  "request_js/request.js" %}
+  {{ super() }}
+  {%- snippet "request/snippets/request_create_modal.html" -%}
+{% endblock %}

@@ -1,12 +1,10 @@
 {% ckan_extends %}
 
 {% block follow %}
+{% resource  "request_js/request.js" %}
 {{ super() }}
 {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
-   <a class="btn btn-primary" href="{{ h.url_for('member_request_create', selected_organization=c.group_dict.name) }}">
-       <i class="fa fa-plus-circle"></i>
-       {% trans %}Request to Join{% endtrans %}
-   </a>
+   {%- snippet "request/snippets/request_create_button.html", organization=c.group_dict -%}
 {% endif %}
 {% if h.check_access('member_request_membership_cancel', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
    {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
