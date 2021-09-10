@@ -1,0 +1,4 @@
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request_create') }}" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}">
+                    <i class="fa fa-plus-circle"></i>
+                    {% trans %}Request to join{% endtrans %}
+                  </button>

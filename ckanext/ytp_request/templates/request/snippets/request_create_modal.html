@@ -1,0 +1,38 @@
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" id="membership-request-create-form">
+<div class="modal fade" id="memberRequestModal" tabindex="-1" role="dialog" aria-labelledby="memberRequestModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="memberRequestModalLabel">
+          {% trans %}Request to join{% endtrans %}
+          <span class="modal-orgname">
+          </span>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="modal-reason">
+          Describe why you wish to be a part of this organization
+          </div>
+          <div class="form-group">
+            <label for="field-message" class="col-form-label">Request</label>
+            <textarea class="form-control" id="field-message" name="message"></textarea>
+          </div>
+      </div>
+      <input id="field-role" type="hidden" name="role" value="member">
+      <input id="field-organizations" type="hidden" name="organization" value="">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <div class="form-actions">
+          <button class="btn btn-primary" name="save" type="submit">
+            <i class="fa fa-plus-circle"></i>
+            {% block save_text %}{{ _('Send request') }}{% endblock %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
