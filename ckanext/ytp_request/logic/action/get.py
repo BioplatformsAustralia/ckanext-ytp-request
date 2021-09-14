@@ -54,7 +54,7 @@ def member_requests_mylist(context, data_dict):
     # in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(
         model.Member.table_id == user_object.id).all()
-    return _membeship_request_list_dictize(membership_requests, context)
+    return _membership_request_list_dictize(membership_requests, context)
 
 
 def member_requests_list(context, data_dict):
@@ -110,7 +110,7 @@ def get_available_roles(context, data_dict=None):
 
     return roles
 
-def _membeship_request_list_dictize(obj_list, context):
+def _membership_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
     logging.warning(obj_list)
