@@ -117,6 +117,8 @@ def _membership_request_list_dictize(obj_list, context):
     for obj in obj_list:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
+	if not organization.is_organization:
+	    continue
         # Fetch the newest member_request associated to this membership (sort
         # by last modified field)
         member_request = model.Session.query(MemberRequest) \
