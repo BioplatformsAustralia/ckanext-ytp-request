@@ -1,11 +1,12 @@
 from ckan import model, logic, authz
 from ckan.lib.dictization import model_dictize
-from ckan.common import _
+from ckan.common import _, config
 from pylons import config
 from ckanext.ytp_request.model import MemberRequest
 from ckan.lib.helpers import url_for, flash_success
 from ckanext.ytp_request.mail import mail_new_membership_request
 from ckanext.ytp_request.helper import get_safe_locale
+import ckan.plugins.toolkit as toolkit
 import logging
 import os
 
@@ -102,25 +103,43 @@ def _create_member_request(context, data_dict):
     logging.warning(repr(group))
     logging.warning("Fetched member's group ID: " + str(fetched_member.group_id))
 
-    url = config.get('ckan.site_url', "")
-    site_name = config.get('ckan.site_description', "")
-    site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
+    if group.name not in config.get('ckanext.ytp_request.autoregister').split():
+        # Normal workflow
+        url = config.get('ckan.site_url', "")
+        site_name = config.get('ckan.site_description', "")
+        site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
 
-    if url:
-        url = url + url_for('member_request_show', mrequest_id=member.id)
-    # Locale should be admin locale since mail is sent to admins
-    if role == 'admin':
-        for admin in _get_ckan_admins():
-            mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+        if url:
+            url = url + url_for('member_request_show', mrequest_id=member.id)
+        # Locale should be admin locale since mail is sent to admins
+        if role == 'admin':
+            for admin in _get_ckan_admins():
+                mail_new_membership_request(
+                    locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+        else:
+            for admin in _get_organization_admins(group.id):
+                mail_new_membership_request(
+                    locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+
+        flash_success(
+            _("Membership request sent to organisation administrator")
+        )
     else:
-        for admin in _get_organization_admins(group.id):
-            mail_new_membership_request(
-                locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+        # Auto approval workflow
+        auto_approve_dict = {"mrequest_id": member.id, 'message': message}
+        try:
+            logic.get_action('member_request_autoapprove')(
+                    context, auto_approve_dict)
+        except logic.NotAuthorized as e:
+	    raise logic.NotAuthorized(e)
+        except logic.NotFound as e:
+	    raise logic.NotFound(e)
+        except logic.ValidationError as e:
+	    raise logic.ValidationError(e)
 
-    flash_success(
-        _("Membership request sent to organisation administrator")
-    )
+        flash_success(
+            _("Membership request has been automatically approved")
+        )
 
     return member
 

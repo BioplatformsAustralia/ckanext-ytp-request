@@ -33,15 +33,24 @@ def member_request_approve(context, data_dict):
     _process(context, 'approve', data_dict)
 
 
+def member_request_autoapprove(context, data_dict):
+    '''
+    Automatically approve request in listed organizations. Member request
+    must be provided since we need both organization/user
+    '''
+    logic.check_access('member_request_autoapprove', context, data_dict)
+    _process(context, 'autoapprove', data_dict)
+
+
 def _process(context, action, data_dict):
     '''
     Approve or reject member request.
     :param member request: member request id
     :type member: string
-    :param approve: approve or reject request
+    :param approve: approve, autoapprove or reject request
     :type accept: boolean
     '''
-    approve = action == 'approve'  # else 'reject'
+    approve = (action == 'approve' or action == 'autoapprove')  # else 'reject'
     # Old table member we respect the existing states but we differentiate in
     # between cancel and rejected in our new table
     state = "active" if approve else "deleted"
@@ -74,8 +83,12 @@ def _process(context, action, data_dict):
     revision = model.repo.new_revision()
     revision.author = user
 
-    if approve:
+    if action == 'approve':
         message = 'Member request approved by admin.'
+	reason = ""
+    elif action == 'autoapprove':
+        message = 'Member request automatically approved.'
+	reason = "\n         This membership was automatically approved.\n\n"
     else:
         message = 'Member request rejected by admin.\n\n{}'.format(reason)
     if role:
@@ -108,7 +121,7 @@ def _process(context, action, data_dict):
     site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
 
     locale = member_request.language or get_default_locale()
-    _log_process(member_user, member.group.display_name, approve, admin_user)
+    _log_process(member_user, member.group.display_name, approve, action, admin_user)
     # TODO: Do we need to set a message in the UI if mail was not sent
     # successfully?
     mail_process_status(locale, member_user, approve,
@@ -122,10 +135,11 @@ def _process(context, action, data_dict):
     return True
 
 
-def _log_process(member_user, member_org, approve, admin_user):
+def _log_process(member_user, member_org, approve, action, admin_user):
     if approve:
-        log.info("Membership request of %s approved to %s by admin: %s" % (
+        log.info("Membership request of %s approved (%s) to %s by admin: %s" % (
             member_user.fullname if member_user.fullname else member_user.name,
+	    action,
             member_org,
             admin_user.fullname if admin_user.fullname else admin_user.name)
         )

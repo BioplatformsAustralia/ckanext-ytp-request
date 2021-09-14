@@ -163,6 +163,10 @@ class YtpRequestController(BaseController):
         """ Controller to approve member request (only admins or group editors can do that) """
         return self._processbyadmin(mrequest_id, True)
 
+    def autoapprove(self, mrequest_id):
+        """ Controller to auto approve member request """
+        return self._process(mrequest_id)
+
     def membership_cancel(self, organization_id):
         """ Logged in user can cancel already approved/existing memberships """
         context = {'user': c.user or c.author}
@@ -194,6 +198,22 @@ class YtpRequestController(BaseController):
                 toolkit.get_action('member_request_reject')(context, data_dict)
                 id = 'rejected'
             helpers.redirect_to("member_requests_list", id=id)
+        except logic.NotAuthorized:
+            abort(401, self.not_auth_message)
+        except logic.NotFound:
+            abort(404, self.request_not_found_message)
+        except logic.ValidationError as e:
+            abort(400, str(e))
+
+    def _process(self, mrequest_id):
+        context = {'user': c.user or c.author}
+        message = request.params.get('message', None)
+        data_dict = {"mrequest_id": mrequest_id, 'message': message}
+        try:
+            toolkit.get_action('member_request_autoapprove')(
+                context, data_dict)
+            id = 'approved'
+            helpers.redirect_to("member_requests_mylist", id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:

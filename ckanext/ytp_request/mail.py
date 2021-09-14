@@ -39,7 +39,7 @@ def _MESSAGE_MEMBERSHIP_APPROVED():
         """\
         Your membership request to organization %(organization)s with %(role)s
         access has been approved.
-
+        %(reason)s
         Best wishes,
         %(sitename)s
         %(siteemail)s
@@ -60,8 +60,8 @@ def _MESSAGE_MEMBERSHIP_REJECTED():
         with %(role)s access has been rejected.  If you think this was a
         mistake, please contact the organisation's administrator directly.
 
-	The reasons for the rejection was stated as:
-	%(reason)s
+        The reasons for the rejection was stated as:
+        %(reason)s
 
         Best wishes,
         %(sitename)s
