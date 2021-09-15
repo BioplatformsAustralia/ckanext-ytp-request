@@ -136,6 +136,11 @@ def _membership_request_list_dictize(obj_list, context):
         # We use the member_request state since there is also rejected and
         # cancel
         if member_request is not None and member_request.status != 'cancel':
+	    if member_request.status == 'active' and \
+	         obj.state == 'deleted':
+		    # Handle users that have been deleted elsewhere
+		    # and not via this extension
+		    continue
             member_dict['state'] = member_request.status
             member_dict['role'] = member_request.role
             member_dict['message'] = member_request.message
