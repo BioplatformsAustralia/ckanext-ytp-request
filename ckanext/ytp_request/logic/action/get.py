@@ -129,6 +129,7 @@ def _membership_request_list_dictize(obj_list, context):
         # HUOM! If a user creates itself a organization has already a
         # membership but doesnt have a member_request
         member_dict['organization_name'] = organization.name
+        member_dict['organization_display_name'] = organization.display_name
         member_dict['organization_id'] = obj.group_id
         member_dict['role'] = 'admin'
         member_dict['state'] = 'active'
