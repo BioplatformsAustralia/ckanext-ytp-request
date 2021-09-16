@@ -45,9 +45,6 @@ def member_requests_mylist(context, data_dict):
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context.get('user', None)
-    if authz.is_sysadmin(user):
-        raise logic.ValidationError({}, {_("Role"): _(
-            "As a sysadmin, you already have access to all organizations")})
 
     user_object = model.User.get(user)
     # Return current state for memberships for all organizations for the user
