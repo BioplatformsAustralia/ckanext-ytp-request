@@ -140,6 +140,8 @@ class YtpRequestController(BaseController):
             return render('request/list.html', extra_vars=extra_vars)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
+        except logic.ValidationError as e:
+            abort(400, str(e))
 
     def cancel(self):
         """ Logged in user can cancel pending requests not approved yet by admins/editors"""
@@ -154,6 +156,8 @@ class YtpRequestController(BaseController):
             abort(401, self.not_auth_message)
         except logic.NotFound:
             abort(404, self.request_not_found_message)
+        except logic.ValidationError as e:
+            abort(400, str(e))
 
     def reject(self, mrequest_id):
         """ Controller to reject member request (only admins or group editors can do that """
@@ -179,6 +183,8 @@ class YtpRequestController(BaseController):
             abort(401, self.not_auth_message)
         except logic.NotFound:
             abort(404, self.request_not_found_message)
+        except logic.ValidationError as e:
+            abort(400, str(e))
 
     def _get_available_roles(self, context, organization_id):
         data_dict = {'organization_id': organization_id}
