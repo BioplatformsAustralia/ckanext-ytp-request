@@ -32,26 +32,21 @@
         <thead>
           <tr>
              <th>{% trans %}Organization{% endtrans %}</th>
-             <th>{% trans %}Role{% endtrans %}</th>
-             <th>{% trans %}Request date{% endtrans %}</th>
-             <th>{% trans %}Message{% endtrans %}</th>
-             <th>{% trans %}Status{% endtrans %}</th>
-             <th>{% trans %}Handling date{% endtrans %}</th>
-             <th>{% trans %}Handler{% endtrans %}</th>
-             <th>{% trans %}Action{% endtrans %}</th>
+             <th colspan="2">{% trans %}Details{% endtrans %}</th>
           </tr>
         </thead>
         <tfoot> </tfoot>
         <tbody>
         {% for mrequest in my_requests %}
-          <tr>
-            <td>{{ mrequest.organization_display_name }}</td>
-            <td>{{ mrequest.role }}</td>
-            <td>{{ mrequest.request_date }}</td>
-            <td>{{ mrequest.message }}</td>
-            <td>{{ mrequest.state }}</td>
-            <td>{{ mrequest.handling_date }}</td>
-            <td>{{ mrequest.handled_by }}</td>
+          <tr style="border-top: 3px solid black">
+            <td rowspan="6">{{ mrequest.organization_display_name }}</td>
+            <td>
+	       {% if mrequest.state == "active" %}
+	         <strong>
+	         {{ mrequest.role|capitalize }}
+		 </strong>
+	       {% endif %}
+	    </td>
             <td>{% if h.check_access('member_request_membership_cancel', {'organization_id': mrequest.organization_id}) %}
               {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
               <a class="btn btn-danger" href="{{ h.url_for('member_request_membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
@@ -66,6 +61,30 @@
               </a>
               {% endif %}
             </td>
+          </tr>
+          <tr>
+             <td>{% trans %}Status{% endtrans %}</td>
+             <td>{{ mrequest.state|capitalize }}
+	       {% if mrequest.state != "active" %}
+	         ( {{ mrequest.role }} )
+	       {% endif %}
+	     </td>
+          </tr>
+          <tr>
+             <td>{% trans %}Message{% endtrans %}</td>
+             <td>{{ mrequest.message }}</td>
+          </tr>
+          <tr>
+             <td>{% trans %}Request date{% endtrans %}</td>
+             <td>{{ mrequest.request_date }}</td>
+          </tr>
+          <tr>
+             <td>{% trans %}Handling date{% endtrans %}</td>
+             <td>{{ mrequest.handling_date }}</td>
+          </tr>
+          <tr>
+             <td>{% trans %}Handler{% endtrans %}</td>
+             <td>{{ mrequest.handled_by }}</td>
           </tr>
         {% endfor %}
         </tbody>
