@@ -1,4 +1,4 @@
-from ckan import model, logic
+from ckan import model, logic, authz
 from ckanext.ytp_request.model import MemberRequest
 from sqlalchemy.sql.expression import or_
 from ckan.lib.dictization import model_dictize
@@ -76,6 +76,11 @@ def _process_request(context, organization_id, member, status):
     '''
 
     user = context.get("user")
+
+    # Avoid sysadmins attempting to cancel memberships or requests
+    if authz.is_sysadmin(user):
+        raise logic.ValidationError({}, {_("Role"): _(
+           "As a sysadmin, you already have access to all organizations")})
 
     # Logical delete on table member
     member.state = 'deleted'
