@@ -3,14 +3,14 @@
 {% block breadcrumb_content %}
   <li><a href="{{ h.url_for('member_requests_mylist') }}">{{ _('Memberships') }}</a></li>
   <li><a href="{{ h.url_for('user.read', id=c.userobj.name) }}">{{ c.userobj.display_name }}</a></li>
-  <li class="active"><a href="#">{{ _('Memberships and Requests') }}</a></li>
+  <li class="active"><a href="#">{{ _('Memberships') }}</a></li>
 {% endblock %}
 
-{% block subtitle %}{{ _('My own memberships') }}{% endblock %}
+{% block subtitle %}{{ _('My memberships') }}{% endblock %}
 
 {% block secondary_content %}
   <section class="module module-narrow">
-    <h2 class="module-heading"><i class="icon-large icon-info-sign"></i> {{ _('My own memberships') }}</h2>
+    <h2 class="module-heading"><i class="fa fa-info-circle"></i> {{ _('My memberships') }}</h2>
     <div class="module-content">
       <p>
         {% trans -%}
