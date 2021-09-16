@@ -1,5 +1,12 @@
 {% extends "request/page.html" %}
 
+{% block flash %}
+  {% if h.check_access('sysadmin') %}
+    {% set aaa = h.flash_notice(_('Accessing as sysadmin, you have "Access All Areas" ...')) %}
+  {% endif %}
+  {{ super() }}
+{% endblock %}
+
 {% block actions_content %}
 {% endblock %}
 
