@@ -29,6 +29,17 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_helpers(self):
 
+        def is_admin(user):
+            """Determine if current user is an admin of any organization"""
+            if authz.is_sysadmin(user):
+	       return True
+	    context = {'user': c.user or c.author }
+
+            mylist = toolkit.get_action(
+                'member_requests_mylist')(context, {})
+
+            return len([o for o in mylist if o['role'] == 'admin' and o['state'] == 'active']) > 0
+
         def is_sysadmin(user):
             """Determine if current user is sys admin"""
             return authz.is_sysadmin(user)
@@ -46,9 +57,15 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
                 )
             return member_requests
 
+        def pending_approvals():
+            """Get count of pending membership approval requests"""
+	    return len(get_list(org_id=None))
+
         return {
             'is_sysadmin': is_sysadmin,
-            'get_member_request_list': get_list
+            'is_admin': is_admin,
+            'get_member_request_list': get_list,
+            'pending_approvals': pending_approvals,
         }
 
     # IActions
