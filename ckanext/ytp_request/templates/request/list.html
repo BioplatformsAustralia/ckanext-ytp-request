@@ -46,14 +46,22 @@
         <tbody>
         {% for member_request in member_requests %}
           <tr>
-            <td>{{ member_request.group_name }}</td>
-            <td>{{ member_request.user_name }}</td>
+            <td>{{ member_request.group_display_name }}</td>
+            <td>
+              <a href="{{ h.url_for('user.read', id=member_request.user_name) }}">
+                {% if member_request.fullname %}
+                {{ member_request.fullname }} ({{ member_request.user_name }})
+                {% else %}
+                {{ member_request.user_name }}
+                {% endif %}
+              </a>
+            </td>
             <td>{{ member_request.role }}</td>
             <td>{{ member_request.request_date }}</td>
             <td>{{ member_request.message }}</td>
             <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
             <td>
-	      {%- snippet "request/snippets/request_reject_button.html", mrequest_id=member_request.mid, organization=member_request.group_name, user_name=member_request.user_name -%}
+              {%- snippet "request/snippets/request_reject_button.html", mrequest_id=member_request.mid, organization=member_request.group_name, user_name=member_request.user_name -%}
             </td>
             <td><a href="{{ h.url_for('member_request_show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
           </tr>
