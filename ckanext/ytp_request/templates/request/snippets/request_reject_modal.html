@@ -23,11 +23,13 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <div class="form-actions">
-          <button class="btn btn-danger" name="save" type="submit">
-            {% trans %}Reject{% endtrans %}
-          </button>
+	  <div class="btn-toolbar pull-right">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-danger" name="save" type="submit">
+              {% trans %}Reject{% endtrans %}
+            </button>
+          </div>
         </div>
       </div>
     </div>
