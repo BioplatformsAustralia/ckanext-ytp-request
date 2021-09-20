@@ -122,7 +122,7 @@ def _create_member_request(context, data_dict):
                     locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
 
         flash_success(
-            _("Membership request sent to organisation administrator")
+            _("Membership request for {} sent to organisation administrator").format(group.display_name)
         )
     else:
         # Auto approval workflow
