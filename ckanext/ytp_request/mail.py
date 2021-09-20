@@ -14,7 +14,8 @@ def _SUBJECT_MEMBERSHIP_REQUEST():
 
 def _MESSAGE_MEMBERSHIP_REQUEST():
     return _("""\
-User %(user)s (%(email)s) has requested membership to organization %(organization)s.
+User %(user)s (%(email)s) has requested membership to organization:
+    %(organization)s.
 
 %(link)s
 
@@ -37,13 +38,14 @@ def _SUBJECT_MEMBERSHIP_APPROVED():
 def _MESSAGE_MEMBERSHIP_APPROVED():
     return _(
         """\
-        Your membership request to organization %(organization)s with %(role)s
-        access has been approved.
-        %(reason)s
-        Best wishes,
-        %(sitename)s
-        %(siteemail)s
-        """
+Your membership request to organization
+    %(organization)s
+with %(role)s access has been approved.
+%(reason)s
+Best wishes,
+%(sitename)s
+%(siteemail)s
+"""
     )
 
 
@@ -56,17 +58,19 @@ def _SUBJECT_MEMBERSHIP_REJECTED():
 def _MESSAGE_MEMBERSHIP_REJECTED():
     return _(
         """\
-        Unfortunately your membership request to organization %(organization)s
-        with %(role)s access has been rejected.  If you think this was a
-        mistake, please contact the organisation's administrator directly.
+Unfortunately your membership request to organization
+    %(organization)s
+with %(role)s access has been rejected.  If you think this was a
+mistake, please contact the organisation's administrator directly.
 
-        The reasons for the rejection was stated as:
-        %(reason)s
+The reasons for the rejection was stated as:
 
-        Best wishes,
-        %(sitename)s
-        %(siteemail)s
-        """
+%(reason)s
+
+Best wishes,
+%(sitename)s
+%(siteemail)s
+"""
     )
 
 
