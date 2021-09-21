@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block content_action %}
+  <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">
+  <i class="fa fa-user-plus"></i>
+  {{ _('Request memberships') }}
+  </a>
+
+  {{ super() }}
+{% endblock %}
+
