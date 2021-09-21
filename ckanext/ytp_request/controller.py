@@ -153,7 +153,11 @@ class YtpRequestController(BaseController):
             toolkit.get_action('member_request_cancel')(
                 context, {"organization_id": organization_id})
             id = 'cancel'
-            helpers.redirect_to('member_requests_mylist', id=id)
+	    returnto = request.params.get('return', None)
+	    if returnto:
+                helpers.redirect_to(returnto)
+	    else:
+                helpers.redirect_to('member_requests_mylist', id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
@@ -180,7 +184,11 @@ class YtpRequestController(BaseController):
             toolkit.get_action('member_request_membership_cancel')(
                 context, {"organization_id": organization_id})
             id = 'cancel'
-            helpers.redirect_to('member_requests_mylist', id=id)
+	    returnto = request.params.get('return', None)
+	    if returnto:
+                helpers.redirect_to(returnto)
+	    else:
+                helpers.redirect_to('member_requests_mylist', id=id)
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
         except logic.NotFound:
