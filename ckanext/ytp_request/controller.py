@@ -74,7 +74,10 @@ class YtpRequestController(BaseController):
             # not be sent?
             member = toolkit.get_action(
                 'member_request_create')(context, data_dict)
-            helpers.redirect_to('member_request_create')
+            if 'return' in data_dict:
+                helpers.redirect_to(data_dict['return'])
+            else:
+                helpers.redirect_to('member_request_create')
         except dict_fns.DataError:
             abort(400, _(u'Integrity Error'))
         except logic.NotFound:

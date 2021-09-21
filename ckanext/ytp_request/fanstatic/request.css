@@ -9,3 +9,8 @@
 .modal-header {
     font-weight: bold;
 }
+
+.btn-request {
+    color: rgb(32, 57, 157);
+    background-color: transparent;
+}
