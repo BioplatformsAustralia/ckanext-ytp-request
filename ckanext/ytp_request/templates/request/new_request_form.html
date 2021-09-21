@@ -25,8 +25,9 @@
                     {{ mrequest.role|upper }}
                   {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
                     {% if vars.update({'request':True}) %} {% endif %}
+		    {% set currenturl = h.current_url() %}
                     {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
-                    <a class="btn btn-warning" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                    <a class="btn btn-warning" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id, return=currenturl) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
                     <i class="fa fa-minus-circle"></i>
                       {% trans %}Cancel request{% endtrans %}
                     </a>
