@@ -76,7 +76,7 @@
           <div class="form-actions">
             {% set locale = h.dump_json({'content': _('Are you sure you want approve this request?')}) %}
             <a id="request_approve_url" href="{{ h.url_for('member_request_approve', mrequest_id=membership.id) }}" class="btn btn-primary  pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
-	    {%- snippet "request/snippets/request_reject_button.html", mrequest_id=membership.id, organization=membership.organization_name, user_name=member_user.name -%}
+	    {%- snippet "request/snippets/request_reject_button.html", mrequest_id=membership.id, organization=membership.organization_name, orgname=h.get_organization(org=membership.organization_name).display_name, user_name=member_user.name -%}
           </div>
         {% else %}
           <div>
