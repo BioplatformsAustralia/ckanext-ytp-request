@@ -53,6 +53,10 @@ This CKAN extension is deployed on the BPA Data Portal.  The following are notes
 The environment variable BIOPLATFORMS_HELPDESK_ADDRESS is used as the site email address that 
 messages sent by this plug are sent from.
 
+### ckanext-initiatives
+
+This extension overrides the "Request Access" button from ckanext-initiatives
+
 ### BPA Development Environment setup
 
 ```
