@@ -18,17 +18,19 @@ Tested with CKAN 2.8
 
 ## Installation
 
-Install to you ckan virtual environment
+Install to your ckan virtual environment
 
 ```
-pip install -e  git+https://github.com/yhteentoimivuuspalvelut/ckanext-ytp-request#egg=ckanext-ytp-request
+pip install -e  git+https://github.com/BioplatformsAustralia/ckanext-ytp-request.git#egg=ckanext-ytp-request
 ```
 
-Add to ckan.ini
+Add to ckan.ini.  As the extension extends themes and other extensions, it will need to be
+at the start of the list
 
 ```
-ckan.plugins = ... ytp_request
+ckan.plugins = ytp_request ...
 ```
+
 ## Include / Exclude Organizations in listing
 
 In your ckan.ini file, you can set which organisations are to be included or excluded from the
