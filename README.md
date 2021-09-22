@@ -8,6 +8,8 @@ Features
 
 - Users can request to be part of organization
 - Organization admins and global admins can approve or reject request
+- Selected organizations can be configured to automatically approve requests
+- Users can review their current memberships and requests
 - Request history log
 
 ## Compatibility
