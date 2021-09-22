@@ -14,7 +14,7 @@ Features
 
 ## Compatibility
 
-Tested with CKAN 2.2 - 2.3
+Tested with CKAN 2.8
 
 ## Installation
 
