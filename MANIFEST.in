@@ -1,2 +1,3 @@
-recursive-include ckanext/ytp/request/templates *
-recursive-include ckanext/ytp/request/public *
+recursive-include ckanext/ytp_request/templates *
+recursive-include ckanext/ytp_request/public *
+recursive-include ckanext/ytp_request/i18n *
