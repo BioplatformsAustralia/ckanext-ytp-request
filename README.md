@@ -44,8 +44,16 @@ ckanext.ytp_request.include =
 ckanext.ytp_request.exclude = grasslands bpa-barcode2
 ```
 
+## Bioplatforms Australia Data Portal Specifics
 
-## BPA Development Environment setup
+This CKAN extension is deployed on the BPA Data Portal.  The following are notes in that context.
+
+### Email address used for emails
+
+The environment variable BIOPLATFORMS_HELPDESK_ADDRESS is used as the site email address that 
+messages sent by this plug are sent from.
+
+### BPA Development Environment setup
 
 ```
 docker exec -it dockercompose-bpa-ckan_ckan_1 /bin/bash
