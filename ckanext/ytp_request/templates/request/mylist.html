@@ -54,7 +54,7 @@
 
       <h1>{% trans %}My memberships{% endtrans %}</h1>
 
-      {% if my_requests %}
+      {% if my_requests is defined %}
       <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
