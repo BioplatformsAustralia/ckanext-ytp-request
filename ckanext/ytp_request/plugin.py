@@ -62,10 +62,18 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             """Get count of pending membership approval requests"""
 	    return len(get_list(org_id=None))
 
+        def get_available_organizations():
+            """Return the list of publicly available organizations to join"""
+	    context = {}
+
+            return toolkit.get_action(
+                'get_available_organizations')(context, {})
+
         return {
             'is_sysadmin': is_sysadmin,
             'is_admin': is_admin,
             'get_member_request_list': get_list,
+            'get_available_organizations': get_available_organizations,
             'pending_approvals': pending_approvals,
         }
 
@@ -84,6 +92,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_requests_mylist": get.member_requests_mylist,
             "member_requests_status": get.member_requests_status,
             "get_available_roles": get.get_available_roles,
+            "get_available_organizations": get.get_available_organizations,
             "member_request_show": get.member_request
         }
 

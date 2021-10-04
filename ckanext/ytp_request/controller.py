@@ -15,23 +15,11 @@ class YtpRequestController(BaseController):
     request_not_found_message = _('Membership Request has already been approved, or does not exist.')
 
     def _list_organizations(context, errors=None, error_summary=None):
-        data_dict = {}
-        data_dict['all_fields'] = True
-        data_dict['groups'] = []
-        data_dict['type'] = 'organization'
         # TODO: Filter our organizations where the user is already a member or
         # has a pending request
 
-        orglist = toolkit.get_action('organization_list')({}, data_dict)
+        return toolkit.get_action('get_available_organizations')({}, {})
 
-        # Include or exclude organizations based on our include/exclude lists
-        include = config.get('ckanext.ytp_request.include').split()
-        exclude = config.get('ckanext.ytp_request.exclude').split()
-        if include:
-            orglist = [o for o in orglist if o['name'] in include]
-        orglist = [o for o in orglist if o['name'] not in exclude]
-
-        return orglist
 
     def new(self, errors=None, error_summary=None):
         context = {'user': c.user or c.author,

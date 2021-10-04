@@ -1,6 +1,7 @@
 from ckan import logic, model
-from ckan.common import _
+from ckan.common import config, _
 from ckan.lib.dictization import model_dictize
+from ckan.plugins import toolkit
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins
 from sqlalchemy import desc
@@ -133,6 +134,26 @@ def get_available_roles(context, data_dict=None):
             roles = [role for role in roles if role['value'] != 'editor']
 
     return roles
+
+
+@logic.side_effect_free
+def get_available_organizations(context, data_dict=None):
+    data_dict = {}
+    data_dict['all_fields'] = True
+    data_dict['groups'] = []
+    data_dict['type'] = 'organization'
+
+    orglist = toolkit.get_action('organization_list')({}, data_dict)
+
+    # Include or exclude organizations based on our include/exclude lists
+    include = config.get('ckanext.ytp_request.include').split()
+    exclude = config.get('ckanext.ytp_request.exclude').split()
+    if include:
+        orglist = [o for o in orglist if o['name'] in include]
+    orglist = [o for o in orglist if o['name'] not in exclude]
+
+    return orglist
+
 
 def _membership_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
