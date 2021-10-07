@@ -1,10 +1,12 @@
 {% ckan_extends %}
 
 {% block content_action %}
+  {% if is_myself %}
   <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">
   <i class="fa fa-user-plus"></i>
   {{ _('Request memberships') }}
   </a>
+  {% endif %}
 
   {{ super() }}
 {% endblock %}
