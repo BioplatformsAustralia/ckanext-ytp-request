@@ -29,6 +29,36 @@ Best wishes,
 """)
 
 
+def _SUBJECT_MEMBERSHIP_AUTOAPPROVED():
+    return _(
+        "Organization membership automatically approved (%(organization)s)"
+    )
+
+
+def _MESSAGE_MEMBERSHIP_AUTOAPPROVED():
+    return _(
+        """\
+Your membership request to access data from %(organization)s as
+a %(role)s has been automatically approved.  
+
+Please log in using your username - %(username)s (do not use your email).
+ 
+For information on how to find or download data from the portal, please see 
+our support guides at:
+    https://usersupport.bioplatforms.com/
+
+Please make sure you check the Data Use Agreement for the initiative.
+
+Feel free to contact us if you have any questions.
+ 
+
+Best wishes,
+%(sitename)s
+%(siteemail)s
+"""
+    )
+
+
 def _SUBJECT_MEMBERSHIP_APPROVED():
     return _(
         "Organization membership approved (%(organization)s)"
@@ -38,10 +68,20 @@ def _SUBJECT_MEMBERSHIP_APPROVED():
 def _MESSAGE_MEMBERSHIP_APPROVED():
     return _(
         """\
-Your membership request to organization
-    %(organization)s
-with %(role)s access has been approved.
-%(reason)s
+Your membership request to access data from %(organization)s as
+a %(role)s has been approved.  
+
+Please log in using your username - %(username)s (do not use your email).
+ 
+For information on how to find or download data from the portal, please see 
+our support guides at:
+    https://usersupport.bioplatforms.com/
+
+Please make sure you check the Data Use Agreement for the initiative.
+
+Feel free to contact us if you have any questions.
+ 
+
 Best wishes,
 %(sitename)s
 %(siteemail)s
@@ -58,14 +98,15 @@ def _SUBJECT_MEMBERSHIP_REJECTED():
 def _MESSAGE_MEMBERSHIP_REJECTED():
     return _(
         """\
-Unfortunately your membership request to organization
-    %(organization)s
-with %(role)s access has been rejected.  If you think this was a
-mistake, please contact the organisation's administrator directly.
+Unfortunately, your membership request to access data from %(organization)s has not been granted. 
 
-The reasons for the rejection was stated as:
-
+This is because:
 %(reason)s
+
+If you think this was a mistake, please contact the initiatives project manager directly.
+
+Please make sure you check the Data Use Agreement for the initiative.
+
 
 Best wishes,
 %(sitename)s
@@ -95,7 +136,7 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         log.exception("Mail could not be sent")
 
 
-def mail_process_status(locale, member_user, approve, group_name, capacity, site_name, site_email, reason=None):
+def mail_process_status(locale, member_user, action, approve, group_name, capacity, site_name, site_email, reason=None):
     current_locale = get_lang()
     if locale == 'en':
         _reset_lang()
@@ -104,10 +145,19 @@ def mail_process_status(locale, member_user, approve, group_name, capacity, site
 
     role_name = _(capacity)
 
-    subject_template = _SUBJECT_MEMBERSHIP_APPROVED(
-    ) if approve else _SUBJECT_MEMBERSHIP_REJECTED()
-    message_template = _MESSAGE_MEMBERSHIP_APPROVED(
-    ) if approve else _MESSAGE_MEMBERSHIP_REJECTED()
+    if approve and action is 'autoapprove':
+        subject_template = _SUBJECT_MEMBERSHIP_AUTOAPPROVED()
+    elif approve:
+        subject_template = _SUBJECT_MEMBERSHIP_APPROVED()
+    else:
+        subject_template = _SUBJECT_MEMBERSHIP_REJECTED()
+
+    if approve and action is 'autoapprove':
+        message_template = _MESSAGE_MEMBERSHIP_AUTOAPPROVED()
+    elif approve:
+        message_template = _MESSAGE_MEMBERSHIP_APPROVED()
+    else:
+        message_template = _MESSAGE_MEMBERSHIP_REJECTED()
 
     subject = subject_template % {
         'organization': group_name
@@ -118,6 +168,7 @@ def mail_process_status(locale, member_user, approve, group_name, capacity, site
         'sitename': site_name,
         'siteemail': site_email,
         'reason': reason,
+        'username': member_user.name,
     }
 
     try:
