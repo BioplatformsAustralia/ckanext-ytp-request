@@ -12,7 +12,7 @@ def _member_common_access_check(context, data_dict, status):
     if not organization_id:
         return {'success': False}
 
-    member = get_user_member(organization_id, status)
+    member = get_user_member(organization_id, state=status)
 
     if not member:
         return {'success': False}
