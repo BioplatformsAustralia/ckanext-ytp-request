@@ -5,8 +5,11 @@ from sqlalchemy.sql.expression import or_
 from pylons import config
 
 
-def get_user_member(organization_id, state=None):
+def get_user_member(organization_id, user_id=None, state=None):
     """ Helper function to get member states """
+    if user_id is None:
+        user_id = c.userobj.id
+
     state_query = None
     if not state:
         state_query = or_(model.Member.state == 'active',
@@ -18,7 +21,7 @@ def get_user_member(organization_id, state=None):
         .filter(state_query) \
         .filter(model.Member.table_name == 'user') \
         .filter(model.Member.group_id == organization_id)\
-        .filter(model.Member.table_id == c.userobj.id)
+        .filter(model.Member.table_id == user_id)
     return query.first()
 
 

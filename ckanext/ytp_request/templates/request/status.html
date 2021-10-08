@@ -1,0 +1,128 @@
+{% extends "request/page.html" %}
+
+{% block flash %}
+  {% if h.check_access('sysadmin') %}
+    {% set aaa = h.flash_notice(_('Accessing as sysadmin, you have "Access All Areas" ...')) %}
+  {% endif %}
+  {{ super() }}
+{% endblock %}
+
+{% block breadcrumb_content %}
+  <li><a href="{{ h.url_for('member_requests_mylist') }}">{{ _('Memberships') }}</a></li>
+  <li><a href="{{ h.url_for('user.read', id=member_user.name) }}">{{ member_user.display_name }}</a></li>
+  <li class="active"><a href="#">{{ _('Membership status') }}</a></li>
+{% endblock %}
+
+{% block subtitle %}{{ _('Membership status') }}{% endblock %}
+
+{% block secondary_content %}
+  <section class="module module-narrow">
+    <h2 class="module-heading"><i class="fa fa-info-circle"></i> {{ _('Status') }}</h2>
+    <div class="module-content">
+      <p>
+        {% trans -%}
+        All membership and memberships requests for the user are listed here. You can approve, modify or reject any pending request.
+        {%- endtrans %}
+      </p>
+    </div>
+  </section>
+
+  {%- snippet "request/snippets/request_approve_sidenav.html" -%}
+{% endblock %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+
+
+      <h1>{% trans %}Membership status for{% endtrans %} {{ member_user.fullname }} ({{ member_user.name }})</h1>
+
+
+      {% import 'macros/form.html' as form %}
+      {% resource  "request_js/request.js" %}
+
+            {% if status is defined %}
+            <table class="table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                   <th>{% trans %}Organization{% endtrans %}</th>
+                   <th>{% trans %}Status{% endtrans %}</th>
+                </tr>
+              </thead>
+              <tfoot> </tfoot>
+              <tbody>
+              {% for organization in all_organizations %}
+                {% set vars = { 'request' : False, 'requestable': False } %}
+                {% for o in organizations %}
+                    {% if ( o["name"] == organization["name"] ) %}
+                          {% if vars.update({'requestable':True}) %} {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <tr>
+                  <td>
+		    {% if vars.requestable %}
+		      {{ organization.display_name }}
+                    {% else %}
+		      <i>{{ organization.display_name }}</i>
+                    {% endif %}
+		  </td>
+                    {% for mrequest in status %}
+                      {% if ( mrequest["organization_name"] == organization["name"] ) %}
+                        {% if mrequest.state == "active" %}
+                          {% if vars.update({'request':True}) %} {% endif %}
+                          <td>
+                          {{ mrequest.role|upper }}
+                          </td>
+                        {% elif h.is_admin(c.user) %}
+                          {% if mrequest.state == "pending" %}
+                            {% if vars.update({'request':True}) %} {% endif %}
+
+                            {% if h.check_access('member_request_approve', {'organization_id': mrequest.organization_id, 'mrequest_id': mrequest.mid}) %}
+			      <td>
+                              <a href="{{ h.url_for('member_request_approve', mrequest_id=mrequest.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a>
+                  	      {%- snippet "request/snippets/request_reject_button.html", mrequest_id=mrequest.mid, organization=organization.name, orgname=organization.display_name, user_name=mrequest.user_name -%}
+                              <a href="{{ h.url_for('member_request_show', mrequest_id=mrequest.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a>
+			      </td>
+                            {% else %}
+			      <td>
+			      Pending
+                              </td>
+                            {% endif %}
+                          {% endif %}
+                        {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
+                          {% if vars.update({'request':True}) %} {% endif %}
+      		          {% set currenturl = h.current_url() %}
+                          {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
+                          <td>
+                          <a class="btn btn-warning" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id, return=currenturl) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                          <i class="fa fa-minus-circle"></i>
+                            {% trans %}Cancel request{% endtrans %}
+                          </a>
+                          </td>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if not vars.request %}
+                      <td>
+                      {# State is Never/Cancelled/Rejected #}
+		    {% if vars.requestable %}
+		      -
+                    {% else %}
+		      <i>Not requestable, needs to be manually added via Organization &gt; Manage &gt; Members</i>
+                    {% endif %}
+                      </td>
+                    {% endif %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            {%- snippet "request/snippets/request_reject_modal.html" -%}
+            {% endif %}
+	    <p>
+	    Organizations in italics are not presented to regular users, and memberships for those need to be manually managed.
+	    </p>
+
+    </div>
+  </section>
+{% endblock %}

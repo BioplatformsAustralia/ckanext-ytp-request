@@ -41,7 +41,32 @@ def member_requests_list(context, data_dict):
     return _only_registered_user()
 
 
+def member_requests_status(context, data_dict):
+    """ Show request access check """
+    return _only_admin_user()
+
+
 def _only_registered_user():
     if not authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
     return {'success': True}
+
+
+def _only_admin_user():
+    """ Only allowed to sysadmins or organization admins """
+    if not authz.auth_is_loggedin_user():
+        return {'success': False, 'msg': _('User is not logged in')}
+
+    if not c.userobj:
+        return {'success': False}
+
+    if authz.is_sysadmin(c.user):
+        return {'success': True}
+
+    # Can be an admin in any group
+    query = model.Session.query(model.Member) \
+        .filter(model.Member.state == 'active') \
+        .filter(model.Member.table_name == 'user') \
+        .filter(model.Member.capacity == 'admin') \
+        .filter(model.Member.table_id == c.userobj.id)
+    return {'success': query.count() > 0}

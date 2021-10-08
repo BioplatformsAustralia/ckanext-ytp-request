@@ -1,11 +1,18 @@
 {% ckan_extends %}
 
 {% block content_action %}
+  {% set admin = h.is_admin(c.user) %}
+  {% set user = user_dict %}
   {% if is_myself %}
-  <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">
-  <i class="fa fa-user-plus"></i>
-  {{ _('Request memberships') }}
-  </a>
+    <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">
+    <i class="fa fa-user-plus"></i>
+    {{ _('Request memberships') }}
+    </a>
+  {% elif admin %}
+    <a class="btn btn-default" href="{{ h.url_for('member_requests_status', mrequest_user=user.name) }}">
+    <i class="fa fa-user-plus"></i>
+    {{ _('Membership status') }}
+    </a>
   {% endif %}
 
   {{ super() }}

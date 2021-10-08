@@ -126,6 +126,33 @@ class YtpRequestController(BaseController):
         except logic.NotAuthorized:
             abort(401, self.not_auth_message)
 
+    def status(self, mrequest_user):
+        """" Lists members requests for user"""
+        context = {'user': c.user or c.author}
+        data_dict = {}
+        data_dict['all_fields'] = True
+        data_dict['groups'] = []
+        data_dict['type'] = 'organization'
+        try:
+            member_user = model.User.get(mrequest_user)
+	    organizations = self._list_organizations(context)
+            all_organizations = toolkit.get_action('organization_list')({}, data_dict)
+            status = toolkit.get_action(
+                'member_requests_status')(context, {'mrequest_user': mrequest_user})
+            message = None
+            if id:
+                message = _("Member request processed successfully")
+            extra_vars = {
+	       'status': status,
+	       'mrequest_user': mrequest_user,
+               'organizations': organizations,
+               'all_organizations': all_organizations,
+               "member_user": member_user,
+	       'message': message}
+            return render('request/status.html', extra_vars=extra_vars)
+        except logic.NotAuthorized:
+            abort(401, self.not_auth_message)
+
     def list(self):
         """ Lists member requests to be approved by admins"""
         context = {'user': c.user or c.author}

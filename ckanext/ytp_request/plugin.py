@@ -82,6 +82,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
+            "member_requests_status": get.member_requests_status,
             "get_available_roles": get.get_available_roles,
             "member_request_show": get.member_request
         }
@@ -99,6 +100,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_request_membership_cancel": delete.member_request_membership_cancel,
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
+            "member_requests_status": get.member_requests_status,
             "member_request_show": get.member_request
         }
 
@@ -110,6 +112,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
                   action='new', controller=controller)
         m.connect('member_requests_mylist', '/member-request/mylist',
                   action='mylist', controller=controller)
+        m.connect('member_requests_status', '/member-request/status/{mrequest_user}',
+                  action='status', controller=controller)
         m.connect('member_requests_list', '/member-request/list',
                   action='list', controller=controller)
         m.connect('member_request_reject',

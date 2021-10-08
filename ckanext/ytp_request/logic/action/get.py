@@ -4,6 +4,7 @@ from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins
 from sqlalchemy import desc
+from sqlalchemy.sql.expression import or_
 
 import logging
 import ckan.authz as authz
@@ -51,6 +52,32 @@ def member_requests_mylist(context, data_dict):
     # in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(
         model.Member.table_id == user_object.id).all()
+    return _membership_request_list_dictize(membership_requests, context)
+
+
+def member_requests_status(context, data_dict):
+    ''' Admins wil see a list of member requests for a user
+    '''
+    logic.check_access('member_requests_status', context, data_dict)
+
+    user = data_dict.get('mrequest_user', None)
+
+    user_object = model.User.get(user)
+    # Return current state for memberships for all organizations for the user
+    # in context. (last modified date)
+    membership_requests = []
+    organizations = model.Session.query(model.Group).all()
+    for org in organizations:
+	if not org.is_organization:
+	    continue
+        request = model.Session.query(model.Member).filter(
+            or_(model.Member.state == 'active',
+                model.Member.state == 'pending')).filter(
+            model.Member.table_name == "user").filter(
+            model.Member.group_id == org.id).filter(
+            model.Member.table_id == user_object.id).first()
+	if request:
+            membership_requests.append(request)
     return _membership_request_list_dictize(membership_requests, context)
 
 
@@ -144,6 +171,7 @@ def _membership_request_list_dictize(obj_list, context):
             member_dict['message'] = member_request.message
             member_dict['request_date'] = member_request.request_date.strftime(
                 "%d - %b - %Y")
+            member_dict['mid'] = obj.id
             if member_request.handling_date:
                 member_dict['handling_date'] = member_request.handling_date.strftime(
                     "%d - %b - %Y")
