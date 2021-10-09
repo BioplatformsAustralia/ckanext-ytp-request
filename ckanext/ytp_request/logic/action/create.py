@@ -12,6 +12,8 @@ import os
 
 log = logging.getLogger(__name__)
 
+class EmailUser:
+    pass
 
 def member_request_create(context, data_dict):
     '''
@@ -111,15 +113,26 @@ def _create_member_request(context, data_dict):
 
         if url:
             url = url + url_for('member_request_show', mrequest_id=member.id)
-        # Locale should be admin locale since mail is sent to admins
-        if role == 'admin':
-            for admin in _get_ckan_admins():
+
+	# We can override where the request email notifications get sent
+        override = config.get('ckanext.ytp_request.override','').split()
+        if override:
+            for email in override:
+	        admin = EmailUser()
+		admin.email = email
+		admin.display_name = email.replace('@',' _AT_ ')
                 mail_new_membership_request(
-                    locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
-        else:
-            for admin in _get_organization_admins(group.id):
-                mail_new_membership_request(
-                    locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+	else:
+            # Locale should be admin locale since mail is sent to admins
+            if role == 'admin':
+                for admin in _get_ckan_admins():
+                    mail_new_membership_request(
+                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+            else:
+                for admin in _get_organization_admins(group.id):
+                    mail_new_membership_request(
+                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
 
         flash_success(
             _("Membership request for {} sent to organisation administrator").format(group.display_name)

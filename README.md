@@ -44,6 +44,21 @@ ckanext.ytp_request.include =
 ckanext.ytp_request.exclude = grasslands bpa-barcode2
 ```
 
+## Override email destination for membership request emails
+
+In your ckan.ini file, you can set a series of email addresses as destinations
+to which you can send the membership request emails to.   This will override the default
+behaviour of sending to all the relevant admin users.
+
+```
+## Member Request Email Settings
+# If empty or not present, request emails will be sent to the relevant admin users
+# If not, emails will only be sent to these email addresses
+# Entries are seperated by whitespace
+ckanext.ytp_request.override = a@example.com b@example.com
+```
+
+
 ## Bioplatforms Australia Data Portal Specifics
 
 This CKAN extension is deployed on the BPA Data Portal.  The following are notes in that context.
