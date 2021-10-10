@@ -68,15 +68,15 @@ def member_requests_status(context, data_dict):
     membership_requests = []
     organizations = model.Session.query(model.Group).all()
     for org in organizations:
-	if not org.is_organization:
-	    continue
+        if not org.is_organization:
+            continue
         request = model.Session.query(model.Member).filter(
             or_(model.Member.state == 'active',
                 model.Member.state == 'pending')).filter(
             model.Member.table_name == "user").filter(
             model.Member.group_id == org.id).filter(
             model.Member.table_id == user_object.id).first()
-	if request:
+        if request:
             membership_requests.append(request)
     return _membership_request_list_dictize(membership_requests, context)
 
@@ -141,8 +141,8 @@ def _membership_request_list_dictize(obj_list, context):
     for obj in obj_list:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
-	if not organization.is_organization:
-	    continue
+        if not organization.is_organization:
+            continue
         # Fetch the newest member_request associated to this membership (sort
         # by last modified field)
         member_request = model.Session.query(MemberRequest) \
@@ -155,17 +155,34 @@ def _membership_request_list_dictize(obj_list, context):
         member_dict['organization_name'] = organization.name
         member_dict['organization_display_name'] = organization.display_name
         member_dict['organization_id'] = obj.group_id
-        member_dict['role'] = 'admin'
+        # find existing role for the user
+        member = model.Session.query(model.Member).\
+            filter(model.Member.group_id == obj.group.id).\
+            filter(model.Member.table_name == 'user').\
+            filter(model.Member.id == obj.id).\
+            filter(model.Member.state == "active").\
+            first()
+
+        trans = authz.roles_trans()
+
+        def translated_capacity(capacity):
+            try:
+                return trans[capacity]
+            except KeyError:
+                return capacity
+
+        member_dict['role'] = translated_capacity(member.capacity)
+        #
         member_dict['state'] = 'active'
         member_dict['message'] = ''
         # We use the member_request state since there is also rejected and
         # cancel
         if member_request is not None and member_request.status != 'cancel':
-	    if member_request.status == 'active' and \
-	         obj.state == 'deleted':
-		    # Handle users that have been deleted elsewhere
-		    # and not via this extension
-		    continue
+            if member_request.status == 'active' and \
+                 obj.state == 'deleted':
+                    # Handle users that have been deleted elsewhere
+                    # and not via this extension
+                    continue
             member_dict['state'] = member_request.status
             member_dict['role'] = member_request.role
             member_dict['message'] = member_request.message
