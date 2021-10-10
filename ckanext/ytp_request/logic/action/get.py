@@ -171,7 +171,10 @@ def _membership_request_list_dictize(obj_list, context):
             except KeyError:
                 return capacity
 
-        member_dict['role'] = translated_capacity(member.capacity)
+        if member:
+            member_dict['role'] = translated_capacity(member.capacity)
+        else:
+            member_dict['role'] = 'member'
         #
         member_dict['state'] = 'active'
         member_dict['message'] = ''
