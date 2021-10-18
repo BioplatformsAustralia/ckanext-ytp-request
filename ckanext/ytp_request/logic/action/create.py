@@ -151,7 +151,7 @@ def _create_member_request(context, data_dict):
 	    raise logic.ValidationError(e)
 
         flash_success(
-            _("Membership request has been automatically approved")
+            _("Membership request for {} has been automatically approved").format(group.display_name)
         )
 
     return member
