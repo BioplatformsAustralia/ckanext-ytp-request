@@ -129,9 +129,12 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         'sitename': site_name,
         'siteemail': site_email,
     }
+    headers = {
+        'Reply-To': "{} <{}>".format(user_name, user_email),
+    }
 
     try:
-        mail_user(admin, subject, message)
+        mail_user(admin, subject, message, headers)
     except Exception:
         log.exception("Mail could not be sent")
 
