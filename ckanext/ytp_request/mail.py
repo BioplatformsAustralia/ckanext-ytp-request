@@ -19,6 +19,8 @@ User %(user)s (%(email)s) has requested membership to organization:
 
 %(link)s
 
+Please click on the link above to either approve or deny their request.
+
 Details of their request are:
 
 %(user_message)s
