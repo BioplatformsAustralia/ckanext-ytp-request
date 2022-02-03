@@ -1,15 +1,19 @@
+# Portuguese (Portugal) translations for ckanext-ytp-request.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ytp-request
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
-# <>, 2015-2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-01-11 08:51+0000\n"
-"PO-Revision-Date: 2021-01-07 10:10+0100\n"
-"Last-Translator: \n"
-"Language: fr\n"
-"Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"PO-Revision-Date: 2022-01-11 08:32+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt_PT\n"
+"Language-Team: pt_PT <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,28 +21,28 @@ msgstr ""
 
 #: ckanext/ytp_request/controller.py:14
 msgid "Unauthorized"
-msgstr "Non autorisé"
+msgstr "Não autorizado"
 
 #: ckanext/ytp_request/controller.py:15
 msgid "Membership Request has already been approved, or does not exist."
-msgstr "La demande d’adhésion a déjà été approuvée ou n’existe pas."
+msgstr "O pedido de adesão já foi aprovado, ou não existe."
 
 #: ckanext/ytp_request/controller.py:62
 msgid "Integrity Error"
-msgstr "Erreur d’intégrité"
+msgstr "Erro de Integridade"
 
 #: ckanext/ytp_request/controller.py:64
 msgid "Item not found"
-msgstr "Élément non trouvé"
+msgstr "Item não encontrado"
 
 #: ckanext/ytp_request/controller.py:103 ckanext/ytp_request/controller.py:118
 msgid "Member request processed successfully"
-msgstr "Demande d’adhésion traitée avec succès"
+msgstr "Pedido de membro processado com sucesso"
 
 #: ckanext/ytp_request/mail.py:11
 #, python-format
 msgid "New membership request (%(organization)s)"
-msgstr "Nouvelle demande d’adhésion (%(organization)s)"
+msgstr "Novo pedido de adesão (%(organization)s)"
 
 #: ckanext/ytp_request/mail.py:16
 #, python-format
@@ -51,17 +55,17 @@ msgid ""
 "Best wishes,\n"
 "The AIDS Data Repository\n"
 msgstr ""
-"L’utilisateur %(user)s (%(email)s) a demandé une adhésion auprès de l’organisation %(organization)s.\n"
+"O utilizador %(user)s (%(email)s) solicitou adesão à organização %(organization)s. \n"
 "\n"
 "%(link)s\n"
 "\n"
-"Cordialement,\n"
-"Le fichier des données sur le sida\n"
+"Com os melhores cumprimentos,\n"
+"O Repositório de Dados sobre a SIDA\n"
 
 #: ckanext/ytp_request/mail.py:27
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
-msgstr "adhésion auprès de l’organisation approuvée (%(organization)s)"
+msgstr "Adesão à organização (%(organization)s) aprovada"
 
 #: ckanext/ytp_request/mail.py:33
 #, python-format
@@ -74,17 +78,16 @@ msgid ""
 "        The AIDS Data Repository\n"
 "        "
 msgstr ""
-"        Votre demande d’adhésion auprès de l’organisation %(organization)s en tant que %(role)s\n"
-"        a été approuvée.\n"
+"        O seu pedido de adesão à organização %(organization)s com acesso %(role)s foi aprovado.\n"
 "\n"
-"        Cordialement,\n"
-"        Le fichier des données sur le sida\n"
+"        Com os melhores cumprimentos,\n"
+"        O Repositório de Dados sobre a SIDA\n"
 "        "
 
 #: ckanext/ytp_request/mail.py:45
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
-msgstr "adhésion auprès de l’organisation refusée (%(organization)s)"
+msgstr "Adesão à organização (%(organization)s) rejeitada "
 
 #: ckanext/ytp_request/mail.py:51
 #, python-format
@@ -99,12 +102,10 @@ msgid ""
 "        The AIDS Data Repository\n"
 "        "
 msgstr ""
-"        Malheureusement, votre demande d’adhésion auprès de l’organisation %(organization)s\n"
-"        en tant que %(role)s a été refusée. Si vous estimez que c’est une erreur,\n"
-"        veuillez vous adresser à l’administrateur de votre organisation.\n"
+"Infelizmente o seu pedido de adesão à organização %(organization)s com acesso %(role)s foi rejeitado. Se considerar que se tratou de um erro, por favor, contacte diretamente o administrador da organização.\n"
 "\n"
-"        Cordialement,\n"
-"        Le fichier des données sur le sida\n"
+"        Com os melhores cumprimentos,\n"
+"        O Repositório de Dados sobre a SIDA\n"
 "        "
 
 #: ckanext/ytp_request/logic/action/create.py:39
@@ -115,24 +116,24 @@ msgstr ""
 #: ckanext/ytp_request/templates/request/new_request_form.html:24
 #: ckanext/ytp_request/templates/request/show.html:48
 msgid "Role"
-msgstr "Rôle"
+msgstr "Função"
 
 #: ckanext/ytp_request/logic/action/create.py:39
 #: ckanext/ytp_request/logic/action/get.py:48
 msgid "As a sysadmin, you already have access to all organizations"
-msgstr "En tant qu’administrateur système, vous avez accès à toutes les organisations."
+msgstr "Como administrador de sistema, já tem acesso a todas as organizações"
 
 #: ckanext/ytp_request/logic/action/create.py:53
 msgid "You already have a pending request to the organization"
-msgstr "Vous avez déjà une demande en cours auprès de cette organisation."
+msgstr "Já tem um pedido pendente para a organização"
 
 #: ckanext/ytp_request/logic/action/create.py:56
 msgid "You are already part of the organization"
-msgstr "Vous faites déjà partie de cette organisation."
+msgstr "Já faz parte da organização"
 
 #: ckanext/ytp_request/logic/action/create.py:60
 msgid "Duplicate organization request"
-msgstr "Demande déjà déposée auprès de l’organisation"
+msgstr "Pedido de organização em duplicado"
 
 #: ckanext/ytp_request/logic/action/create.py:61
 #: ckanext/ytp_request/templates/request/list.html:26
@@ -140,82 +141,82 @@ msgstr "Demande déjà déposée auprès de l’organisation"
 #: ckanext/ytp_request/templates/request/new_request_form.html:11
 #: ckanext/ytp_request/templates/request/show.html:25
 msgid "Organization"
-msgstr "Organisation"
+msgstr "Organização"
 
 #: ckanext/ytp_request/logic/action/create.py:108
 msgid "Membership request sent to organisation administrator"
-msgstr "Demande d’adhésion envoyée à l’administrateur de l’organisation"
+msgstr "Pedido de adesão enviado ao administrador da organização"
 
 #: ckanext/ytp_request/logic/action/delete.py:39
 msgid "Membership request cancelled"
-msgstr "Demande d’adhésion annulée"
+msgstr "Pedido de adesão cancelado"
 
 #: ckanext/ytp_request/logic/action/delete.py:64
 msgid "Membership cancelled"
-msgstr "adhésion annulée"
+msgstr "Adesão cancelada"
 
 #: ckanext/ytp_request/logic/action/update.py:110
 msgid "Membership request approved"
-msgstr "Demande d’adhésion approuvée"
+msgstr "Pedido de adesão aprovado"
 
 #: ckanext/ytp_request/logic/action/update.py:112
 msgid "Membership request rejected"
-msgstr "Demande d’adhésion refusée"
+msgstr "Pedido de adesão rejeitado"
 
 #: ckanext/ytp_request/logic/auth/create.py:11
 #: ckanext/ytp_request/logic/auth/get.py:46
 msgid "User is not logged in"
-msgstr "L’utilisateur n’est pas identifié"
+msgstr "O utilizador não foi autenticado"
 
 #: ckanext/ytp_request/logic/auth/create.py:18
 msgid "The user has already a pending request or an active membership"
-msgstr "L’utilisateur a déjà une demande en cours ou est déjà inscrit."
+msgstr "O utilizador já tem um pedido pendente ou uma adesão ativa"
 
 #: ckanext/ytp_request/templates/organization/members.html:6
 msgid "Membership requests"
-msgstr "Demandes d’adhésion"
+msgstr "Pedidos de adesão"
 
 #: ckanext/ytp_request/templates/organization/members.html:11
 #: ckanext/ytp_request/templates/request/list.html:27
 #: ckanext/ytp_request/templates/request/show.html:29
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Utilizador"
 
 #: ckanext/ytp_request/templates/organization/members.html:13
 #: ckanext/ytp_request/templates/request/list.html:29
 #: ckanext/ytp_request/templates/request/mylist.html:29
 #: ckanext/ytp_request/templates/request/show.html:41
 msgid "Request date"
-msgstr "Date de la demande"
+msgstr "Data do pedido"
 
 #: ckanext/ytp_request/templates/organization/members.html:14
 #: ckanext/ytp_request/templates/request/list.html:30
 #: ckanext/ytp_request/templates/request/mylist.html:33
 msgid "Action"
-msgstr "Action"
+msgstr "Ação"
 
 #: ckanext/ytp_request/templates/organization/members.html:24
 #: ckanext/ytp_request/templates/request/list.html:41
 #: ckanext/ytp_request/templates/request/show.html:66
 msgid "Approve"
-msgstr "Approuver"
+msgstr "Aprovar"
 
 #: ckanext/ytp_request/templates/organization/members.html:25
 #: ckanext/ytp_request/templates/request/list.html:42
 #: ckanext/ytp_request/templates/request/show.html:68
 msgid "Reject"
-msgstr "Refuser"
+msgstr "Rejeitar"
 
 #: ckanext/ytp_request/templates/organization/members.html:26
 #: ckanext/ytp_request/templates/request/list.html:43
 msgid "Modify"
-msgstr "Modifier"
+msgstr "Modificar"
 
 #: ckanext/ytp_request/templates/request/list.html:3
 #: ckanext/ytp_request/templates/request/list.html:7
 #: ckanext/ytp_request/templates/request/list.html:20
 msgid "Received membership requests"
-msgstr "Demandes d’adhésion reçues"
+msgstr "Recebeu pedidos de adesão"
 
 #: ckanext/ytp_request/templates/request/list.html:10
 msgid ""
@@ -224,17 +225,17 @@ msgid ""
 " can edit the organization, datasets and accept membership requests. "
 "Editor can only edit datasets."
 msgstr ""
-"Toutes les demandes d’adhésion reçues sont répertoriées ici. L’administrateur de l’organisation peut les approuver ou les refuser. Pour traiter une demande, cliquez sur « Modifier ». Les administrateurs peuvent modifier l’organisation et les ensembles de données, et accepter les demandes d’adhésion. L’éditeur peut uniquement modifier les ensembles de données."
+"Todos os pedidos de adesão recebidos estão listados aqui. A administração da organização pode aprovar ou rejeitar pedidos. Para processar uma solicitação, selecione editar. Os administradores podem editar a organização, os conjuntos de dados e aceitar solicitações de adesão. O editor só pode editar os conjuntos de dados."
 
 #: ckanext/ytp_request/templates/request/list.html:49
 #: ckanext/ytp_request/templates/request/mylist.html:65
 msgid "No requests found."
-msgstr "Aucune demande trouvée."
+msgstr "Não foram encontrados pedidos."
 
 #: ckanext/ytp_request/templates/request/mylist.html:3
 #: ckanext/ytp_request/templates/request/mylist.html:7
 msgid "My own memberships"
-msgstr "Mes adhésions"
+msgstr "Os meus próprios membros"
 
 #: ckanext/ytp_request/templates/request/mylist.html:10
 msgid ""
@@ -242,114 +243,114 @@ msgid ""
 "any pending request or already accepted membership from the menu on the "
 "right."
 msgstr ""
-"Toutes les adhésions et les demandes d’adhésion sont répertoriées ici. Vous pouvez annuler toute demande en cours ou toute adhésion déjà acceptée à partir du menu sur la droite de l’écran."
+"Todos os pedidos de adesão e adesões aceites estão listados aqui. Pode cancelar qualquer pedido de adesão pendente ou já aceite a partir do menu à direita."
 
 #: ckanext/ytp_request/templates/request/mylist.html:21
 msgid "My memberships"
-msgstr "Mes adhésions"
+msgstr "Os meus membros"
 
 #: ckanext/ytp_request/templates/request/mylist.html:30
 msgid "Status"
-msgstr "État d’avancement"
+msgstr "Estado"
 
 #: ckanext/ytp_request/templates/request/mylist.html:31
 msgid "Handling date"
-msgstr "Date de traitement"
+msgstr "Data de processamento"
 
 #: ckanext/ytp_request/templates/request/mylist.html:32
 msgid "Handler"
-msgstr "Traité par"
+msgstr "Gestor"
 
 #: ckanext/ytp_request/templates/request/mylist.html:47
 #: ckanext/ytp_request/templates/snippets/organization.html:12
 msgid "Are you sure you want to end the membership?"
-msgstr "Êtes-vous sûr de vouloir mettre fin à cette adhésion ?"
+msgstr "Pretende cancelar a adesão?"
 
 #: ckanext/ytp_request/templates/request/mylist.html:50
 msgid "Cancel membership"
-msgstr "Annuler l’adhésion"
+msgstr "Cancelar a adesão"
 
 #: ckanext/ytp_request/templates/request/mylist.html:53
 msgid "Are you sure you want to cancel this pending request?"
-msgstr "Êtes-vous sûr de vouloir annuler cette demande en cours ?"
+msgstr "Pretende cancelar este pedido pendente?"
 
 #: ckanext/ytp_request/templates/request/mylist.html:56
 msgid "Cancel request"
-msgstr "Annuler la demande"
+msgstr "Cancelar pedido"
 
 #: ckanext/ytp_request/templates/request/new.html:6
 msgid "New membership request"
-msgstr "Nouvelle demande d’adhésion"
+msgstr "Novo pedido de adesão"
 
 #: ckanext/ytp_request/templates/request/new.html:11
 #: ckanext/ytp_request/templates/request/new.html:19
 msgid "Request organization membership"
-msgstr "Demander une adhésion auprès de l’organisation"
+msgstr "Fazer um pedido de adesão à organização"
 
 #: ckanext/ytp_request/templates/request/new.html:22
 msgid "You can request to be a member of the organization."
-msgstr "Vous pouvez demander à vous inscrire auprès de cette organisation."
+msgstr "Pode efetuar um pedido de adesão à organização."
 
 #: ckanext/ytp_request/templates/request/new_request_form.html:14
 msgid "Select an organization..."
-msgstr "Sélectionner une organisation..."
+msgstr "Selecione uma organização..."
 
 #: ckanext/ytp_request/templates/request/new_request_form.html:27
 msgid "Select a role..."
-msgstr "Sélectionner un rôle..."
+msgstr "Selecione uma função..."
 
 #: ckanext/ytp_request/templates/request/new_request_form.html:38
 msgid "Send request"
-msgstr "Envoyer la demande"
+msgstr "Enviar pedido"
 
 #: ckanext/ytp_request/templates/request/show.html:3
 #: ckanext/ytp_request/templates/request/show.html:9
 #: ckanext/ytp_request/templates/request/show.html:21
 msgid "Organization membership request"
-msgstr "Demande d’adhésion auprès de l’organisation"
+msgstr "Pedido de adesão à organização"
 
 #: ckanext/ytp_request/templates/request/show.html:12
 msgid ""
 "This shows a given membership request. Only admins can approve, modify or"
 " reject requests."
 msgstr ""
-"Cette page affiche une demande d’adhésion en particulier. Seuls les administrateurs peuvent approuver, modifier ou refuser les demandes."
+"Isto mostra um determinado pedido de adesão. Apenas os administradores podem aprovar, modificar ou rejeitar pedidos."
 
 #: ckanext/ytp_request/templates/request/show.html:44
 msgid "State"
-msgstr "État"
+msgstr "Estado"
 
 #: ckanext/ytp_request/templates/request/show.html:65
 msgid "Are you sure you want approve this request?"
-msgstr "Êtes-vous sûr de vouloir approuver cette demande ?"
+msgstr "Pretende aprovar este pedido?"
 
 #: ckanext/ytp_request/templates/request/show.html:67
 msgid "Are you sure you want reject this request?"
-msgstr "Êtes-vous sûr de vouloir refuser cette demande ?"
+msgstr "Pretende rejeitar este pedido?"
 
 #: ckanext/ytp_request/templates/request/show.html:72
 msgid "This request has already been actioned"
-msgstr "La demande d’adhésion a déjà été approuvée ou n’existe pas."
+msgstr "Este pedido já foi atendido"
 
 #: ckanext/ytp_request/templates/request/show.html:74
 msgid "No further action is required"
-msgstr "Aucune autre action est nécessaire"
+msgstr "Nenhuma outra ação é necessária"
 
 #: ckanext/ytp_request/templates/snippets/organization.html:8
 msgid "Request to Join"
-msgstr "Demander l’adhésion"
+msgstr "Pedido de adesão"
 
 #: ckanext/ytp_request/templates/snippets/organization.html:15
 msgid "Leave"
-msgstr "Quitter"
+msgstr "Sair"
 
 #: ckanext/ytp_request/templates/snippets/organization.html:18
 msgid ""
 "Are you sure you want to cancel this pending request to join the "
 "organisation?"
 msgstr ""
-"Êtes-vous sûr de vouloir annuler cette demande d’adhésion auprès de l’organisation ?"
+"Pretende cancelar este pedido pendente para aderir à organização?"
 
 #: ckanext/ytp_request/templates/snippets/organization.html:21
 msgid "Cancel Request"
-msgstr "Annuler la demande"
+msgstr "Pedido de cancelamento"
