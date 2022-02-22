@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0.0-bioplatforms8'
+version = '1.0.0-bioplatforms9'
 
 setup(
     name='ckanext-ytp-request',
