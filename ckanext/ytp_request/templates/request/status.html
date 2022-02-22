@@ -82,6 +82,7 @@
                               <a href="{{ h.url_for('member_request_approve', mrequest_id=mrequest.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a>
                   	      {%- snippet "request/snippets/request_reject_button.html", mrequest_id=mrequest.mid, organization=organization.name, orgname=organization.display_name, user_name=mrequest.user_name -%}
                               <a href="{{ h.url_for('member_request_show', mrequest_id=mrequest.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a>
+                              {%- snippet "request/snippets/request_remove_button.html", mrequest_id=mrequest.mid, organization=organization.name, orgname=organization.display_name, user_name=mrequest.user_name -%}
 			      </td>
                             {% else %}
 			      <td>

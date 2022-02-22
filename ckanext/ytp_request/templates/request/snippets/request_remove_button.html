@@ -1,0 +1,6 @@
+{% if h.check_access('member_request_remove', {'mrequest_id': mrequest_id}) %}
+  {% set locale = h.dump_json({'content': _('Are you sure you want to remove this pending request?')}) %}
+  <a class="btn btn-warning" href="{{ h.url_for('member_request_remove', mrequest_id=mrequest_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+  {% trans %}Remove{% endtrans %}
+  </a>
+{% endif %}

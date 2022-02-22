@@ -23,6 +23,14 @@ def member_request_reject(context, data_dict):
     logic.check_access('member_request_reject', context, data_dict)
     _process(context, 'reject', data_dict)
 
+def member_request_remove(context, data_dict):
+    '''
+    Remove request (from admin or group editor). Member request must be
+    provided since we need both organization/user
+    '''
+    logic.check_access('member_request_remove', context, data_dict)
+    _process(context, 'remove', data_dict)
+
 
 def member_request_approve(context, data_dict):
     '''
@@ -47,10 +55,10 @@ def _process(context, action, data_dict):
     Approve or reject member request.
     :param member request: member request id
     :type member: string
-    :param approve: approve, autoapprove or reject request
+    :param approve: approve, autoapprove, remove or reject request
     :type accept: boolean
     '''
-    approve = (action == 'approve' or action == 'autoapprove')  # else 'reject'
+    approve = (action == 'approve' or action == 'autoapprove')  # else 'reject' or 'remove'
     # Old table member we respect the existing states but we differentiate in
     # between cancel and rejected in our new table
     state = "active" if approve else "deleted"
@@ -89,6 +97,9 @@ def _process(context, action, data_dict):
     elif action == 'autoapprove':
         message = 'Member request automatically approved.'
 	reason = "\n         This membership was automatically approved.\n\n"
+    elif action == 'remove':
+        message = 'Member request removed by admin.'
+        request_status = 'cancel'
     else:
         message = 'Member request rejected by admin.\n\n{}'.format(reason)
     if role:
@@ -124,11 +135,15 @@ def _process(context, action, data_dict):
     _log_process(member_user, member.group.display_name, approve, action, admin_user)
     # TODO: Do we need to set a message in the UI if mail was not sent
     # successfully?
-    mail_process_status(locale, member_user, action, approve,
+    # Email for everything except remove
+    if action in ['approve','reject','autoapprove']:
+        mail_process_status(locale, member_user, action, approve,
                         member.group.display_name, member.capacity, site_name, site_email, reason)
 
     if action == 'approve':
         flash_success(_("Membership request approved"))
+    elif action == 'remove':
+        flash_success(_("Membership request removed"))
     elif action == 'reject':
         flash_success(_("Membership request rejected"))
 

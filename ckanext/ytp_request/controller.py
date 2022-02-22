@@ -182,11 +182,15 @@ class YtpRequestController(BaseController):
 
     def reject(self, mrequest_id):
         """ Controller to reject member request (only admins or group editors can do that """
-        return self._processbyadmin(mrequest_id, False)
+        return self._processbyadmin(mrequest_id, "reject")
+
+    def remove(self, mrequest_id):
+        """ Controller to remove member request (only admins or group editors can do that) """
+        return self._processbyadmin(mrequest_id, "remove")
 
     def approve(self, mrequest_id):
         """ Controller to approve member request (only admins or group editors can do that) """
-        return self._processbyadmin(mrequest_id, True)
+        return self._processbyadmin(mrequest_id, "approve")
 
     def autoapprove(self, mrequest_id):
         """ Controller to auto approve member request """
@@ -215,16 +219,19 @@ class YtpRequestController(BaseController):
         data_dict = {'organization_id': organization_id}
         return toolkit.get_action('get_available_roles')(context, data_dict)
 
-    def _processbyadmin(self, mrequest_id, approve):
+    def _processbyadmin(self, mrequest_id, action):
         context = {'user': c.user or c.author}
         role = request.params.get('role', None)
         message = request.params.get('message', None)
         data_dict = {"mrequest_id": mrequest_id, 'role': role, 'message': message}
         try:
-            if approve:
+            if action == 'approve':
                 toolkit.get_action('member_request_approve')(
                     context, data_dict)
                 id = 'approved'
+            elif action == 'remove':
+                toolkit.get_action('member_request_remove')(context, data_dict)
+                id = 'removed'
             else:
                 toolkit.get_action('member_request_reject')(context, data_dict)
                 id = 'rejected'

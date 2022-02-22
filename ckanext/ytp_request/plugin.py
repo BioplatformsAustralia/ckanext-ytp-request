@@ -84,6 +84,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             "member_request_create": create.member_request_create,
             "member_request_cancel": delete.member_request_cancel,
+            "member_request_remove": update.member_request_remove,
             "member_request_reject": update.member_request_reject,
             "member_request_approve": update.member_request_approve,
             "member_request_autoapprove": update.member_request_autoapprove,
@@ -103,6 +104,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             "member_request_create": create.member_request_create,
             "member_request_cancel": delete.member_request_cancel,
+            "member_request_remove": update.member_request_remove,
             "member_request_reject": update.member_request_reject,
             "member_request_approve": update.member_request_approve,
             "member_request_autoapprove": update.member_request_autoapprove,
@@ -125,6 +127,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
                   action='status', controller=controller)
         m.connect('member_requests_list', '/member-request/list',
                   action='list', controller=controller)
+        m.connect('member_request_remove',
+                  '/member-request/remove/{mrequest_id}', action='remove', controller=controller)
         m.connect('member_request_reject',
                   '/member-request/reject/{mrequest_id}', action='reject', controller=controller)
         m.connect('member_request_approve',

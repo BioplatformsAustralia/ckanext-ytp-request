@@ -15,6 +15,10 @@ def member_request_reject(context, data_dict):
     return _check_admin_access(context, data_dict)
 
 
+def member_request_remove(context, data_dict):
+    return _check_admin_access(context, data_dict)
+
+
 def _check_admin_access(context, data_dict):
     """ Approve access check """
     if authz.is_sysadmin(context.get('user', None)):
