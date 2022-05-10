@@ -20,12 +20,12 @@ def member_request(context, data_dict):
     if membership.table_name != 'user':
         return {'success': False}
 
-    query = model.Session.query(model.Member) \
-        .filter(model.Member.state == 'active') \
-        .filter(model.Member.table_name == 'user') \
-        .filter(model.Member.capacity == 'admin') \
-        .filter(model.Member.table_id == c.userobj.id) \
-        .filter(model.Member.group_id == membership.group_id)
+    query = (model.Session.query(model.Member)
+                          .filter(model.Member.state == 'active')
+                          .filter(model.Member.table_name == 'user')
+                          .filter(model.Member.capacity == 'admin')
+                          .filter(model.Member.table_id == c.userobj.id)
+                          .filter(model.Member.group_id == membership.group_id))
     return {'success': query.count() > 0}
 
 
@@ -44,4 +44,8 @@ def member_requests_list(context, data_dict):
 def _only_registered_user():
     if not authz.auth_is_loggedin_user():
         return {'success': False, 'msg': _('User is not logged in')}
+    return {'success': True}
+
+
+def organization_list_without_memberships(context, data_dict):
     return {'success': True}

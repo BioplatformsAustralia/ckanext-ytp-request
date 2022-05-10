@@ -64,7 +64,7 @@ class YtpRequestController(BaseController):
             abort(404, _('Item not found'))
         except logic.NotAuthorized:
             abort(405, self.not_auth_message)
-        except logic.ValidationError, e:
+        except logic.ValidationError as e:
             errors = e.error_dict
             error_summary = e.error_summary
             return self.new(errors, error_summary)

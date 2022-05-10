@@ -2,22 +2,11 @@
 
 import pytest
 import mock
-import ckan.model as model
-import ckanext.ytp_request.model as rmodel
 from ckan.logic import ValidationError
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
 
 
-@pytest.fixture
-def initdb():
-    model.Session.remove()
-    model.Session.configure(bind=model.meta.engine)
-    rmodel.init_tables()
-
-
-@pytest.mark.usefixtures(u'initdb')
-@pytest.mark.usefixtures(u'clean_db')
 @pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
 @pytest.mark.usefixtures(u'with_plugins')
 @pytest.mark.usefixtures(u'with_request_context')

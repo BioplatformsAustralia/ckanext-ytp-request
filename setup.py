@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 version = '0.2'
 
 setup(
-    name='ckanext-ytp-request',
+    name='ckanext-ytp_request',
     version=version,
     description="Member request for organizations",
     long_description="""\
@@ -30,11 +30,5 @@ setup(
     entry_points='''
         [ckan.plugins]
         ytp_request=ckanext.ytp_request.plugin:YtpRequestPlugin
-
-        [babel.extractors]
-        ckan = ckan.lib.extract:extract_ckan
-
-        [paste.paster_command]
-        initdb = ckanext.ytp_request.command:InitDBCommand
     '''
 )
