@@ -25,6 +25,9 @@ Details of their request are:
 
 %(user_message)s
 
+Current memberships and requests for this user can be viewed by clicking the link below:
+    %(status_link)s
+
 Best wishes,
 %(sitename)s
 %(siteemail)s
@@ -117,7 +120,7 @@ Best wishes,
     )
 
 
-def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email, site_name, site_email, user_message):
+def mail_new_membership_request(locale, admin, group_name, member_request_show_url, user_name, user_email, site_name, site_email, user_message, member_request_status_url):
 
     subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
         'organization': group_name
@@ -126,10 +129,11 @@ def mail_new_membership_request(locale, admin, group_name, url, user_name, user_
         'user': user_name,
         'email': user_email,
         'organization': group_name,
-        'link': url,
+        'link': member_request_show_url,
         'user_message': user_message,
         'sitename': site_name,
         'siteemail': site_email,
+        'status_link': member_request_status_url
     }
     headers = {
         'Reply-To': "{} <{}>".format(user_name, user_email),

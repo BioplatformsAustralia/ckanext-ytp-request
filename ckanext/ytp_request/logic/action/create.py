@@ -107,12 +107,13 @@ def _create_member_request(context, data_dict):
 
     if group.name not in config.get('ckanext.ytp_request.autoregister').split():
         # Normal workflow
-        url = config.get('ckan.site_url', "")
+        base_url = config.get('ckan.site_url', "")
         site_name = config.get('ckan.site_description', "")
         site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
 
-        if url:
-            url = url + url_for('member_request_show', mrequest_id=member.id)
+        if base_url:
+            member_request_show_url = base_url + url_for('member_request_show', mrequest_id=member.id)
+            member_request_status_url = base_url + '/member-request/status/' + user
 
 	# We can override where the request email notifications get sent
         override = config.get('ckanext.ytp_request.override','').split()
@@ -122,17 +123,17 @@ def _create_member_request(context, data_dict):
 		admin.email = email
 		admin.display_name = email.replace('@',' _AT_ ')
                 mail_new_membership_request(
-                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+                        locale, admin, group.display_name, member_request_show_url, userobj.display_name, userobj.email, site_name, site_email, message, member_request_status_url)
 	else:
             # Locale should be admin locale since mail is sent to admins
             if role == 'admin':
                 for admin in _get_ckan_admins():
                     mail_new_membership_request(
-                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+                        locale, admin, group.display_name, member_request_show_url, userobj.display_name, userobj.email, site_name, site_email, message, member_request_status_url)
             else:
                 for admin in _get_organization_admins(group.id):
                     mail_new_membership_request(
-                        locale, admin, group.display_name, url, userobj.display_name, userobj.email, site_name, site_email, message)
+                        locale, admin, group.display_name, member_request_show_url, userobj.display_name, userobj.email, site_name, site_email, message, member_request_status_url)
 
         flash_success(
             _("Membership request for {} sent to organisation administrator").format(group.display_name)
