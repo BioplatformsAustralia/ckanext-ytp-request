@@ -1,6 +1,5 @@
-from ckan.lib.i18n import set_lang, get_lang
+from flask_babel import force_locale
 from ckan.lib.mailer import mail_user
-from pylons import i18n
 from ckan.common import _
 import logging
 
@@ -17,7 +16,7 @@ def _MESSAGE_MEMBERSHIP_REQUEST():
 User %(user)s (%(email)s) has requested membership to organization:
     %(organization)s.
 
-%(link)s
+    %(link)s
 
 Please click on the link above to either approve or deny their request.
 
@@ -121,23 +120,23 @@ Best wishes,
 
 
 def mail_new_membership_request(locale, admin, group_name, member_request_show_url, user_name, user_email, site_name, site_email, user_message, member_request_status_url):
-
-    subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
-        'organization': group_name
-    }
-    message = _MESSAGE_MEMBERSHIP_REQUEST() % {
-        'user': user_name,
-        'email': user_email,
-        'organization': group_name,
-        'link': member_request_show_url,
-        'user_message': user_message,
-        'sitename': site_name,
-        'siteemail': site_email,
-        'status_link': member_request_status_url
-    }
-    headers = {
-        'Reply-To': "{} <{}>".format(user_name, user_email),
-    }
+    with force_locale('en'):
+        subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
+            'organization': group_name
+        }
+        message = _MESSAGE_MEMBERSHIP_REQUEST() % {
+            'user': user_name,
+            'email': user_email,
+            'organization': group_name,
+            'link': member_request_show_url,
+            'user_message': user_message,
+            'sitename': site_name,
+            'siteemail': site_email,
+            'status_link': member_request_status_url
+        }
+        headers = {
+            'Reply-To': "{} <{}>".format(user_name, user_email),
+        }
 
     try:
         mail_user(admin, subject, message, headers)
@@ -147,27 +146,22 @@ def mail_new_membership_request(locale, admin, group_name, member_request_show_u
 
 
 def mail_process_status(locale, member_user, action, approve, group_name, capacity, site_name, site_email, reason=None):
-    current_locale = get_lang()
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
-
-    role_name = _(capacity)
-
-    if approve and action is 'autoapprove':
-        subject_template = _SUBJECT_MEMBERSHIP_AUTOAPPROVED()
-    elif approve:
-        subject_template = _SUBJECT_MEMBERSHIP_APPROVED()
-    else:
-        subject_template = _SUBJECT_MEMBERSHIP_REJECTED()
-
-    if approve and action is 'autoapprove':
-        message_template = _MESSAGE_MEMBERSHIP_AUTOAPPROVED()
-    elif approve:
-        message_template = _MESSAGE_MEMBERSHIP_APPROVED()
-    else:
-        message_template = _MESSAGE_MEMBERSHIP_REJECTED()
+    with force_locale(locale):
+        role_name = _(capacity)
+    
+        if approve and action is 'autoapprove':
+            subject_template = _SUBJECT_MEMBERSHIP_AUTOAPPROVED()
+        elif approve:
+            subject_template = _SUBJECT_MEMBERSHIP_APPROVED()
+        else:
+            subject_template = _SUBJECT_MEMBERSHIP_REJECTED()
+    
+        if approve and action is 'autoapprove':
+            message_template = _MESSAGE_MEMBERSHIP_AUTOAPPROVED()
+        elif approve:
+            message_template = _MESSAGE_MEMBERSHIP_APPROVED()
+        else:
+            message_template = _MESSAGE_MEMBERSHIP_REJECTED()
 
     subject = subject_template % {
         'organization': group_name
@@ -186,12 +180,3 @@ def mail_process_status(locale, member_user, action, approve, group_name, capaci
     except Exception:
         log.exception("Mail could not be sent")
         # raise MailerException("Mail could not be sent")
-    finally:
-        set_lang(current_locale)
-
-
-def _reset_lang():
-    try:
-        i18n.set_lang(None)
-    except TypeError:
-        pass

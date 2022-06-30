@@ -2,7 +2,8 @@ from ckan import model
 from ckan.common import c
 from ckan.lib import helpers
 from sqlalchemy.sql.expression import or_
-from pylons import config
+from ckan.plugins.toolkit import config
+from ckan.plugins import toolkit
 
 
 def get_user_member(organization_id, user_id=None, state=None):
@@ -26,14 +27,9 @@ def get_user_member(organization_id, user_id=None, state=None):
 
 
 def get_organization_admins(group_id):
-    admins = set(
-        model.Session.query(model.User)
-        .join(model.Member, model.User.id == model.Member.table_id)
-        .filter(model.Member.table_name == "user")
-        .filter(model.Member.group_id == group_id)
-        .filter(model.Member.state == 'active')
-        .filter(model.Member.capacity == 'admin')
-    )
+    admins = set(model.Session.query(model.User).join(model.Member, model.User.id == model.Member.table_id).
+                 filter(model.Member.table_name == "user").filter(model.Member.group_id == group_id).
+                 filter(model.Member.state == 'active').filter(model.Member.capacity == 'admin'))
 
     return admins
 
@@ -49,7 +45,18 @@ def get_default_locale():
 
 
 def get_safe_locale():
-    try:
-        return helpers.lang()
-    except Exception:
-        return get_default_locale()
+    return helpers.lang()
+
+
+def get_member_request_list(org_id='hello'):
+    """Get membership requests filtered by organisation ID"""
+    context = {'user': c.user or c.author}
+    member_requests = toolkit.get_action(
+            'member_requests_list'
+    )(context, {})
+    if org_id:
+        member_requests = filter(
+            lambda x: x['group_id'] == org_id,
+            member_requests
+        )
+    return member_requests

@@ -8,12 +8,13 @@
 {% endblock %}
 
 {% block breadcrumb_content %}
-  <li><a href="{{ h.url_for('member_requests_mylist') }}">{{ _('Memberships') }}</a></li>
+  <li><a href="{{ h.url_for('member_requests.mylist') }}">{{ _('Memberships') }}</a></li>
   <li><a href="{{ h.url_for('user.read', id=c.userobj.name) }}">{{ c.userobj.display_name }}</a></li>
   <li class="active"><a href="#">{{ _('My memberships') }}</a></li>
 {% endblock %}
 
 {% block subtitle %}{{ _('My memberships') }}{% endblock %}
+
 
 {% block secondary_content %}
   <section class="module module-narrow">
@@ -51,7 +52,11 @@
 {% block primary_content %}
   <section class="module">
     <div class="module-content">
-
+      {% if message %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+      {% endif %}
       <h1>{% trans %}My memberships{% endtrans %}</h1>
 
       {% if my_requests is defined %}
@@ -78,13 +83,13 @@
               {% if not h.check_access('sysadmin') %}
 	        {% if h.check_access('member_request_membership_cancel', {'organization_id': mrequest.organization_id}) %}
                   {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
-                  <a class="btn btn-danger" href="{{ h.url_for('member_request_membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                  <a class="btn btn-danger" href="{{ h.url_for('member_request.membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
                   <i class="fa fa-minus-circle"></i>
                     {% trans %}Cancel membership{% endtrans %}
                   </a>
                   {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
                   {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
-                  <a class="btn btn-warning" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+                  <a class="btn btn-warning" href="{{ h.url_for('member_request.cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
                   <i class="fa fa-minus-circle"></i>
                     {% trans %}Cancel request{% endtrans %}
                   </a>

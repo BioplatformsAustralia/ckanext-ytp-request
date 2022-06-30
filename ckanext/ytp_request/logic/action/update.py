@@ -2,8 +2,10 @@ from ckan import model, logic
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_default_locale
 from ckanext.ytp_request.mail import mail_process_status
+from sqlalchemy import desc
 from ckan.lib.helpers import flash_success
-from ckan.common import config, _
+from ckan.common import config
+from ckan.common import _
 from sqlalchemy import desc
 import ckan.plugins.toolkit as t
 import logging
@@ -14,12 +16,9 @@ log = logging.getLogger(__name__)
 
 
 def member_request_reject(context, data_dict):
-    '''
-    Cancel request (from admin or group editor). Member request must be
-    provided since we need both organization/user
-    Difference is that this action should be logged and showed to the user.
-    If a user cancels herself her own request can be safely deleted
-    '''
+    ''' Cancel request (from admin or group editor). Member request must be provided since we need both organization/user
+        Difference is that this action should be logged and showed to the user.
+        If a user cancels herself her own request can be safely deleted '''
     logic.check_access('member_request_reject', context, data_dict)
     _process(context, 'reject', data_dict)
 
@@ -33,10 +32,7 @@ def member_request_remove(context, data_dict):
 
 
 def member_request_approve(context, data_dict):
-    '''
-    Approve request (from admin or group editor). Member request must be
-    provided since we need both organization/user
-    '''
+    ''' Approve request (from admin or group editor). Member request must be provided since we need both organization/user'''
     logic.check_access('member_request_approve', context, data_dict)
     _process(context, 'approve', data_dict)
 
@@ -51,8 +47,7 @@ def member_request_autoapprove(context, data_dict):
 
 
 def _process(context, action, data_dict):
-    '''
-    Approve or reject member request.
+    ''' Approve or reject member request.
     :param member request: member request id
     :type member: string
     :param approve: approve, autoapprove, remove or reject request
@@ -119,7 +114,6 @@ def _process(context, action, data_dict):
     member_request.handled_by = user
 
     member_request.message = message
-
     if role:
         member_request.role = role
     member.save()
@@ -159,8 +153,6 @@ def _log_process(member_user, member_org, approve, action, admin_user):
             admin_user.fullname if admin_user.fullname else admin_user.name)
         )
     else:
-        log.info("Membership request of %s rejected to %s by admin: %s" % (
-            member_user.fullname if member_user.fullname else member_user.name,
-            member_org,
-            admin_user.fullname if admin_user.fullname else admin_user.name)
-        )
+        log.info("Membership request of %s rejected to %s by admin: %s" %
+                 (member_user.fullname if member_user.fullname else member_user.name, member_org,
+                  admin_user.fullname if admin_user.fullname else admin_user.name))

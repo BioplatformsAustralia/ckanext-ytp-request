@@ -8,7 +8,7 @@
 {% block subtitle %}{{ _('Organization membership request') }}{% endblock %}
 
 {% block secondary_content %}
-{% resource  "request_js/request.js" %}
+{% asset "request_js/request_js" %}
 
   <section class="module module-narrow">
     <h2 class="module-heading"><i class=""fa fa-user-plus"></i> {{ _('Organization membership request') }}</h2>
@@ -30,7 +30,7 @@
           <tbody>
               <tr>
                   <th>{% trans %}Organization{% endtrans %}</th>
-                  <td><a href="{{ h.url('organization_read', id=membership.organization_name) }}">{{h.get_organization(org=membership.organization_name).display_name}} ({{ membership.organization_name }})</a></td>
+                  <td><a href="{{ h.url('organization.read', id=membership.organization_name) }}">({{ membership.organization_name }})</a></td>
               </tr>
               <tr>
                   <th>{% trans %}User{% endtrans %}</th>

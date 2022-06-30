@@ -1,7 +1,7 @@
-from ckan import model, logic, authz
+from ckan import model, logic
 from ckan.lib.dictization import model_dictize
-from ckan.common import _, config
-from pylons import config
+from ckan.common import _
+from ckan.plugins.toolkit import config
 from ckanext.ytp_request.model import MemberRequest
 from ckan.lib.helpers import url_for, flash_success
 from ckanext.ytp_request.mail import mail_new_membership_request
@@ -9,6 +9,7 @@ from ckanext.ytp_request.helper import get_safe_locale
 import ckan.plugins.toolkit as toolkit
 import logging
 import os
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -16,10 +17,8 @@ class EmailUser:
     pass
 
 def member_request_create(context, data_dict):
-    '''
-    Create new member request. User is taken from context.
-    Sysadmins should not be able to create "member" requests since they have
-    full access to all organizations
+    ''' Create new member request. User is taken from context.
+    Sysadmins should not be able to create "member" requests since they have full access to all organizations
     :param group: name of the group or organization
     :type group: string
     '''
@@ -34,6 +33,7 @@ def _create_member_request(context, data_dict):
     if not role:
         raise logic.NotFound
     group = model.Group.get(data_dict.get('group', None))
+
     if not group or group.type != 'organization':
         raise logic.NotFound
 
@@ -47,10 +47,10 @@ def _create_member_request(context, data_dict):
 
     userobj = model.User.get(user)
 
-    member = model.Session.query(model.Member) \
-        .filter(model.Member.table_name == "user") \
-        .filter(model.Member.table_id == userobj.id) \
-        .filter(model.Member.group_id == group.id).first()
+    member = (model.Session.query(model.Member)
+                           .filter(model.Member.table_name == "user")
+                           .filter(model.Member.table_id == userobj.id)
+                           .filter(model.Member.group_id == group.id).first())
 
     # If there is a member for this organization and it is NOT deleted. Reuse
     # existing if deleted
@@ -62,16 +62,13 @@ def _create_member_request(context, data_dict):
             message = _("You are already part of the organization")
         # Unknown status. Should never happen..
         elif member.state != 'deleted':
-            raise logic.ValidationError(
-                {"organization": _("Duplicate organization request")},
-                {_("Organization"): message}
-            )
+            raise logic.ValidationError({"organization": _(
+                "Duplicate organization request")}, {_("Organization"): message})
     else:
-        member = model.Member(table_name="user", table_id=userobj.id,
+        member = model.Member(table_name="user", table_id=userobj.id, group=group,
                               group_id=group.id, capacity=role, state='pending')
 
-    # TODO: Is there a way to get language associated to all admins.
-    # User table there is nothing as such stored
+    # TODO: Is there a way to get language associated to all admins. User table there is nothing as such stored
     locale = get_safe_locale()
 
     member.state = 'pending'
@@ -166,18 +163,21 @@ def _get_organization_admins(group_id):
         .filter(model.Member.group_id == group_id)
         .filter(model.Member.state == 'active')
         .filter(model.Member.capacity == 'admin')
+        .filter(model.User.email != '')
     )
 
     admins.update(set(
-        model.Session.query(model.User).filter(model.User.sysadmin is True)
-    ))  # noqa
-
+        model.Session.query(model.User)
+        .filter(model.User.sysadmin is True)
+        .filter(model.User.email != '')
+        )
+    )
     return admins
 
 
 def _get_ckan_admins():
     admins = set(
         model.Session.query(model.User).filter(model.User.sysadmin is True)
-    )  # noqa
+    )
 
     return admins

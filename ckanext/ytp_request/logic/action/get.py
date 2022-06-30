@@ -1,16 +1,18 @@
 from ckan import logic, model
 from ckan.common import config, _
 from ckan.lib.dictization import model_dictize
-from ckan.plugins import toolkit
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import or_
+from ckan.plugins import toolkit
 
 import logging
 import ckan.authz as authz
 
 log = logging.getLogger(__name__)
+
+NotFound = logic.NotFound
 
 
 def member_request(context, data_dict):
@@ -23,7 +25,7 @@ def member_request(context, data_dict):
 
     # Return most current instance from memberrequest table
     member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == mrequest_id).order_by(desc(MemberRequest.request_date)).limit(1).first()
+        MemberRequest.membership_id == mrequest_id).order_by(MemberRequest.request_date.desc()).limit(1).first()
     if not member_request:
         raise logic.NotFound(
             "Member request associated with membership not found")
@@ -42,7 +44,7 @@ def member_request(context, data_dict):
 
 
 def member_requests_mylist(context, data_dict):
-    ''' Users wil see a list of their member requests
+    ''' Users will see a list of their member requests
     '''
     logic.check_access('member_requests_mylist', context, data_dict)
 
@@ -98,11 +100,9 @@ def member_requests_list(context, data_dict):
         model.Member.table_name == "user").filter(model.Member.state == 'pending')
 
     if not is_sysadmin:
-        admin_in_groups = model.Session.query(model.Member) \
-            .filter(model.Member.state == "active") \
+        admin_in_groups = model.Session.query(model.Member).filter(model.Member.state == "active")\
             .filter(model.Member.table_name == "user") \
-            .filter(model.Member.capacity == 'admin') \
-            .filter(model.Member.table_id == user_object.id)
+            .filter(model.Member.capacity == 'admin').filter(model.Member.table_id == user_object.id)
 
         if admin_in_groups.count() <= 0:
             return []
@@ -128,6 +128,9 @@ def get_available_roles(context, data_dict=None):
     # If organization has no associated admin, then role editor is not
     # available
     organization_id = logic.get_or_bust(data_dict, 'organization_id')
+
+    # Remove member role from the list
+    roles = [role for role in roles]
 
     if organization_id:
         if get_organization_admins(organization_id):
@@ -158,8 +161,8 @@ def get_available_organizations(context, data_dict=None):
 def _membership_request_list_dictize(obj_list, context):
     """Helper to convert member requests list to dictionary """
     result_list = []
-    logging.warning(obj_list)
-    for obj in obj_list:
+    objs_with_group_id = (g for g in obj_list if g.group_id is not None)
+    for obj in objs_with_group_id:
         member_dict = {}
         organization = model.Session.query(model.Group).get(obj.group_id)
         if not organization.is_organization:
@@ -229,15 +232,14 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict = model_dictize.member_dictize(obj, context)
         user = model.Session.query(model.User).get(obj.table_id)
 
-        member_dict['group_name'] = obj.group.name
-        member_dict['group_display_name'] = obj.group.title
+        if obj.group is not None:
+            member_dict['group_name'] = obj.group.name
+            member_dict['group_display_name'] = obj.group.title
         member_dict['role'] = obj.capacity
         # Member request must always exist since state is pending. Fetch just
         # the latest
-        member_request = model.Session.query(MemberRequest) \
-            .filter(MemberRequest.membership_id == obj.id) \
-            .filter(MemberRequest.status == 'pending') \
-            .order_by(desc(MemberRequest.request_date)).limit(1).first()
+        member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id)\
+            .filter(MemberRequest.status == 'pending').order_by(MemberRequest.request_date.desc()).limit(1).first()
         # This should never happen but..
         my_date = ""
         if member_request is not None:
@@ -246,8 +248,44 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['request_date'] = my_date
         member_dict['mid'] = obj.id
 
-        member_dict['user_name'] = user.name
-        member_dict['fullname'] = user.fullname
+        if user.email is not None:
+            member_dict['user_name'] = user.name
+            member_dict['fullname'] = user.fullname
+        member_dict['user_email'] = user.email
         member_dict['message'] = member_request.message
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
+
+
+@logic.side_effect_free
+def organization_list_without_memberships(context, data_dict):
+
+    model = context['model']
+    if data_dict.get('id'):
+        user_obj = model.User.get(data_dict['id'])
+        if not user_obj:
+            raise NotFound
+        user = user_obj.name
+    else:
+        user = context['user']
+
+    logic.check_access('organization_list_without_memberships', context, data_dict)
+
+    user_id = authz.get_user_id_for_username(user, allow_none=True)
+    if not user_id:
+        return []
+
+    subquery = model.Session.query(model.Group.id)\
+        .filter(model.Member.table_name == 'user')\
+        .filter(model.Member.table_id == user_id)\
+        .filter(model.Group.id == model.Member.group_id)\
+        .filter(model.Member.state.in_(['active', 'pending'])) \
+        .distinct(model.Group.id) \
+        .filter(model.Group.is_organization == True)  # noqa
+
+    groups = model.Session.query(model.Group) \
+        .filter(model.Group.id.notin_(subquery)).all()
+
+    return model_dictize.group_list_dictize(groups,
+                                            context,
+                                            with_package_counts=toolkit.asbool(data_dict.get('include_dataset_count')))
