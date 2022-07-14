@@ -31,8 +31,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
         def is_admin(user):
             """Determine if current user is an admin of any organization"""
             if authz.is_sysadmin(user):
-	       return True
-	    context = {'user': c.user or c.author }
+                return True
+            context = {'user': c.user or c.author }
 
             mylist = toolkit.get_action(
                 'member_requests_mylist')(context, {})
@@ -58,11 +58,11 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
         def pending_approvals():
             """Get count of pending membership approval requests"""
-	    return len(get_list(org_id=None))
+            return len(get_list(org_id=None))
 
         def get_available_organizations():
             """Return the list of publicly available organizations to join"""
-	    context = {}
+            context = {}
 
             return toolkit.get_action(
                 'get_available_organizations')(context, {})
@@ -92,8 +92,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_requests_status": get.member_requests_status,
             "get_available_roles": get.get_available_roles,
             "get_available_organizations": get.get_available_organizations,
-            "member_request_show": get.member_request
-            "organization_list_without_memberships": get.organization_list_without_memberships
+            "member_request_show": get.member_request,
+            "organization_list_without_memberships": get.organization_list_without_memberships,
         }
 
     # IAuthFunctions
@@ -111,8 +111,8 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_requests_list": get.member_requests_list,
             "member_requests_mylist": get.member_requests_mylist,
             "member_requests_status": get.member_requests_status,
-            "member_request_show": get.member_request
-            "organization_list_without_memberships": get.organization_list_without_memberships
+            "member_request_show": get.member_request,
+            "organization_list_without_memberships": get.organization_list_without_memberships,
         }
 
     # IClick
