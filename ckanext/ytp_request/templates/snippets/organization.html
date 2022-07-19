@@ -2,7 +2,7 @@
 
 
 {% block follow %}
-{% resource  "request_js/request.js" %}
+{% asset  "request_js/request_js" %}
 {{ super() }}
 {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin(c.user) %}
    {% set currenturl = h.current_url() %}

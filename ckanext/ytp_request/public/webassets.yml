@@ -6,4 +6,3 @@ request_js:
       - base/main
   contents:
     - javascript/request.js
-

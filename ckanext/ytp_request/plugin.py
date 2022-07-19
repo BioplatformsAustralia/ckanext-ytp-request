@@ -23,7 +23,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public', 'request_js')
-        toolkit.add_resource('fanstatic', 'request')
+        toolkit.add_resource('fanstatic', 'request_css')
         logging.warning("ytp_request plugin enabled")
 
     def get_helpers(self):

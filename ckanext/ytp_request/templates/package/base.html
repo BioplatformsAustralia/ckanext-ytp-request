@@ -1,7 +1,7 @@
 {% ckan_extends %}
 
 {% block primary_content %}
-{% resource  "request_js/request.js" %}
+{% asset  "request_js/request_js" %}
 
 {{ super() }}
 {%- snippet "request/snippets/request_create_modal.html" -%}

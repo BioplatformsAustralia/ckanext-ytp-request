@@ -1,0 +1,4 @@
+request_css:
+  output: ckanext-ytp_request%(version)s_request.css
+  contents:
+    - request.css
