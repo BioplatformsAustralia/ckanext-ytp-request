@@ -112,16 +112,16 @@ def _create_member_request(context, data_dict):
             member_request_show_url = base_url + url_for('member_request_show', mrequest_id=member.id)
             member_request_status_url = base_url + '/member-request/status/' + user
 
-	# We can override where the request email notifications get sent
+        # We can override where the request email notifications get sent
         override = config.get('ckanext.ytp_request.override','').split()
         if override:
             for email in override:
-	        admin = EmailUser()
-		admin.email = email
-		admin.display_name = email.replace('@',' _AT_ ')
+                admin = EmailUser()
+                admin.email = email
+                admin.display_name = email.replace('@',' _AT_ ')
                 mail_new_membership_request(
                         locale, admin, group.display_name, member_request_show_url, userobj.display_name, userobj.email, site_name, site_email, message, member_request_status_url)
-	else:
+        else:
             # Locale should be admin locale since mail is sent to admins
             if role == 'admin':
                 for admin in _get_ckan_admins():
@@ -142,11 +142,11 @@ def _create_member_request(context, data_dict):
             logic.get_action('member_request_autoapprove')(
                     context, auto_approve_dict)
         except logic.NotAuthorized as e:
-	    raise logic.NotAuthorized(e)
+            raise logic.NotAuthorized(e)
         except logic.NotFound as e:
-	    raise logic.NotFound(e)
+            raise logic.NotFound(e)
         except logic.ValidationError as e:
-	    raise logic.ValidationError(e)
+            raise logic.ValidationError(e)
 
         flash_success(
             _("Membership request for {} has been automatically approved").format(group.display_name)

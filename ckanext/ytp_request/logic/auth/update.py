@@ -54,7 +54,7 @@ def member_request_autoapprove(context, data_dict):
         'organization_id', None)
     if organization_id:
         org = toolkit.get_action('organization_show')(data_dict={'id': organization_id})
-	if 'name' not in org:
+        if 'name' not in org:
             return {'success': False, 'msg': _('Organization not found')}
 
         if org['name'] not in config.get('ckanext.ytp_request.autoregister').split():

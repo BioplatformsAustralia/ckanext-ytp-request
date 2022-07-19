@@ -88,10 +88,10 @@ def _process(context, action, data_dict):
 
     if action == 'approve':
         message = 'Member request approved by admin.'
-	reason = ""
+        reason = ""
     elif action == 'autoapprove':
         message = 'Member request automatically approved.'
-	reason = "\n         This membership was automatically approved.\n\n"
+        reason = "\n         This membership was automatically approved.\n\n"
     elif action == 'remove':
         message = 'Member request removed by admin.'
         request_status = 'cancel'
@@ -148,7 +148,7 @@ def _log_process(member_user, member_org, approve, action, admin_user):
     if approve:
         log.info("Membership request of %s approved (%s) to %s by admin: %s" % (
             member_user.fullname if member_user.fullname else member_user.name,
-	    action,
+            action,
             member_org,
             admin_user.fullname if admin_user.fullname else admin_user.name)
         )
