@@ -80,6 +80,6 @@ docker exec -it dockercompose-bpa-ckan_ckan_1 /bin/bash
 
 ```
 source /env/bin/activate
-/docker-entrypoint.sh paster --plugin=ckanext-ytp-request initdb --config=/etc/ckan/default/ckan.ini
+/docker-entrypoint.sh /env/bin/ckan --config /etc/ckan/default/ckan.ini opendata-request init-db
 ```
 
