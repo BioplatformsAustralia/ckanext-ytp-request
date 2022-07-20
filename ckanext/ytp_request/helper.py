@@ -1,4 +1,4 @@
-from ckan import model
+from ckan import model, authz
 from ckan.common import c
 from ckan.lib import helpers
 from sqlalchemy.sql.expression import or_
@@ -60,3 +60,28 @@ def get_member_request_list(org_id='hello'):
             member_requests
         )
     return member_requests
+
+
+def is_admin(user):
+    """Determine if current user is an admin of any organization"""
+    if authz.is_sysadmin(user):
+        return True
+    context = {'user': c.user or c.author }
+
+    mylist = toolkit.get_action(
+        'member_requests_mylist')(context, {})
+
+    return len([o for o in mylist if o['role'] == 'admin' and o['state'] == 'active']) > 0
+
+
+def pending_approvals():
+    """Get count of pending membership approval requests"""
+    return len(get_member_request_list(org_id=None))
+
+
+def get_available_organizations():
+    """Return the list of publicly available organizations to join"""
+    context = {}
+
+    return toolkit.get_action(
+        'get_available_organizations')(context, {})
