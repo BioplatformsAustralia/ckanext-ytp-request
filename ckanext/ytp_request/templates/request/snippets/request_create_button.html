@@ -1,7 +1,7 @@
 {% if return is defined %}
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request_create') }}" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}" data-return="{{ return }}">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request.new') }}" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}" data-return="{{ return }}">
 {% else %}
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request_create') }}" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request.new') }}" data-organization="{{ organization.id }}" data-orgname="{{ organization.display_name }}">
 {% endif %}
                     <i class="fa fa-plus-circle"></i>
                     {% trans %}Request to join{% endtrans %}

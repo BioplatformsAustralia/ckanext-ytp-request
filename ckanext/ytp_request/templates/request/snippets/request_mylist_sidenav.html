@@ -7,7 +7,7 @@
         <p>{% trans %}View a summary of your existing memberships and outstanding requests.{% endtrans %}</p>
         <p class="action">
         {% block request_mylist_add_button %}
-          <a class="btn btn-default" href="{{ h.url_for('member_requests_mylist') }}">{{ _('View memberships') }}</a>
+          <a class="btn btn-default" href="{{ h.url_for('member_request.mylist') }}">{{ _('View memberships') }}</a>
         {% endblock %}
         </p>
       </div>

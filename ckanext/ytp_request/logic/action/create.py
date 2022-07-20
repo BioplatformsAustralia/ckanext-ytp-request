@@ -109,7 +109,7 @@ def _create_member_request(context, data_dict):
         site_email = os.environ.get('BIOPLATFORMS_HELPDESK_ADDRESS',config.get('error_email_from', ""))
 
         if base_url:
-            member_request_show_url = base_url + url_for('member_request_show', mrequest_id=member.id)
+            member_request_show_url = base_url + url_for('member_request.show', mrequest_id=member.id)
             member_request_status_url = base_url + '/member-request/status/' + user
 
         # We can override where the request email notifications get sent

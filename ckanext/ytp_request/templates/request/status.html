@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block breadcrumb_content %}
-  <li><a href="{{ h.url_for('member_requests_mylist') }}">{{ _('Memberships') }}</a></li>
+  <li><a href="{{ h.url_for('member_request.mylist') }}">{{ _('Memberships') }}</a></li>
   <li><a href="{{ h.url_for('user.read', id=member_user.name) }}">{{ member_user.display_name }}</a></li>
   <li class="active"><a href="#">{{ _('Membership status') }}</a></li>
 {% endblock %}
@@ -79,9 +79,9 @@
 
                             {% if h.check_access('member_request_approve', {'organization_id': mrequest.organization_id, 'mrequest_id': mrequest.mid}) %}
 			      <td>
-                              <a href="{{ h.url_for('member_request_approve', mrequest_id=mrequest.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a>
+                              <a href="{{ h.url_for('member_request.approve', mrequest_id=mrequest.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a>
                   	      {%- snippet "request/snippets/request_reject_button.html", mrequest_id=mrequest.mid, organization=organization.name, orgname=organization.display_name, user_name=mrequest.user_name -%}
-                              <a href="{{ h.url_for('member_request_show', mrequest_id=mrequest.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a>
+                              <a href="{{ h.url_for('member_request.show', mrequest_id=mrequest.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a>
                               {%- snippet "request/snippets/request_remove_button.html", mrequest_id=mrequest.mid, organization=organization.name, orgname=organization.display_name, user_name=mrequest.user_name -%}
 			      </td>
                             {% else %}

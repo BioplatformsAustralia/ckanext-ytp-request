@@ -6,7 +6,7 @@
 {% block resource_item_request_access %}
     {% if pkg %}
       {% if pkg.organization %}
-     <button type="button" class="btn btn-request" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request_create') }}" data-organization="{{ pkg.organization.id }}" data-orgname="{{ pkg.organization.title }}" data-return="{{ currenturl }}">
+     <button type="button" class="btn btn-request" data-toggle="modal" data-target="#memberRequestModal" data-action="{{ h.url_for('member_request.new') }}" data-organization="{{ pkg.organization.id }}" data-orgname="{{ pkg.organization.title }}" data-return="{{ currenturl }}">
        <i class="fa fa-icon fa-unlock-alt" style="margin-right: 5px;"></i>
        {% trans %}Request Access{% endtrans %}
      </button>

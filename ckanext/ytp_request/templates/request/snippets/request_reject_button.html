@@ -1,3 +1,3 @@
-              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#memberRequestRejectModal" data-action="{{ h.url_for('member_request_reject', mrequest_id=mrequest_id) }}" data-organization="{{ organization }}" data-username="{{ user_name }}" data-orgname="{{ orgname }}">
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#memberRequestRejectModal" data-action="{{ h.url_for('member_request.reject', mrequest_id=mrequest_id) }}" data-organization="{{ organization }}" data-username="{{ user_name }}" data-orgname="{{ orgname }}">
                 {% trans %}Reject{% endtrans %}
               </button>

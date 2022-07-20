@@ -13,7 +13,7 @@
         <p>{% trans %}There are {{ approvals }} pending.{% endtrans %}</p>
         <p class="action">
         {% block request_approve_button %}
-          <a class="btn btn-default" href="{{ h.url_for('member_requests_list') }}">{{ _('Approve memberships') }}</a>
+          <a class="btn btn-default" href="{{ h.url_for('member_request.member_requests_list') }}">{{ _('Approve memberships') }}</a>
         {% endblock %}
         </p>
       </div>

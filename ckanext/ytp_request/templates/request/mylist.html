@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block breadcrumb_content %}
-  <li><a href="{{ h.url_for('member_requests.mylist') }}">{{ _('Memberships') }}</a></li>
+  <li><a href="{{ h.url_for('member_request.mylist') }}">{{ _('Memberships') }}</a></li>
   <li><a href="{{ h.url_for('user.read', id=c.userobj.name) }}">{{ c.userobj.display_name }}</a></li>
   <li class="active"><a href="#">{{ _('My memberships') }}</a></li>
 {% endblock %}
@@ -37,7 +37,7 @@
         <p>{% trans %}Can't see your desired organization? Request further memberships.{% endtrans %}</p>
         <p class="action">
         {% block request_mylist_add_button %}
-          <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">{{ _('Request memberships') }}</a>
+          <a class="btn btn-default" href="{{ h.url_for('member_request.new') }}">{{ _('Request memberships') }}</a>
         {% endblock %}
         </p>
       </div>

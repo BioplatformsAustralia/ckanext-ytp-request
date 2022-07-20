@@ -4,7 +4,7 @@
   {% set admin = h.is_admin(c.user) %}
   {% set user = user_dict %}
   {% if is_myself %}
-    <a class="btn btn-default" href="{{ h.url_for('member_request_create') }}">
+    <a class="btn btn-default" href="{{ h.url_for('member_request.new') }}">
     <i class="fa fa-user-plus"></i>
     {{ _('Request memberships') }}
     </a>
