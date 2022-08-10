@@ -9,7 +9,7 @@
     {{ _('Request memberships') }}
     </a>
   {% elif admin %}
-    <a class="btn btn-default" href="{{ h.url_for('member_requests_status', mrequest_user=user.name) }}">
+    <a class="btn btn-default" href="{{ h.url_for('member_request.status', mrequest_user=user.name) }}">
     <i class="fa fa-user-plus"></i>
     {{ _('Membership status') }}
     </a>

@@ -14,6 +14,13 @@ def get_blueprint():
     return [member_request]
 
 
+def _list_organizations(context, errors=None, error_summary=None):
+    # TODO: Filter our organizations where the user is already a member or
+    # has a pending request
+
+    return toolkit.get_action('get_available_organizations')({}, {})
+
+
 @member_request.route('/new', methods=['GET', 'POST'])
 def new(errors=None, error_summary=None):
     context = {'user': toolkit.g.get('user') or toolkit.g.get('author'),
@@ -92,6 +99,33 @@ def mylist():
             'my_requests': [],
             'message': toolkit._("As a sysadmin, you already have access to all organizations")})
 
+@member_request.route('/status/<mrequest_user>')
+def status(mrequest_user):
+    """" Lists members requests for user"""
+    context = {'user': toolkit.g.get('user') or toolkit.g.get('author')}
+    data_dict = {}
+    data_dict['all_fields'] = True
+    data_dict['groups'] = []
+    data_dict['type'] = 'organization'
+    try:
+        member_user = model.User.get(mrequest_user)
+        organizations = _list_organizations(context)
+        all_organizations = toolkit.get_action('organization_list')({}, data_dict)
+        status = toolkit.get_action(
+            'member_requests_status')(context, {'mrequest_user': mrequest_user})
+        message = None
+        if id:
+            message = toolkit._("Member request processed successfully")
+        extra_vars = {
+	   'status': status,
+	   'mrequest_user': mrequest_user,
+           'organizations': organizations,
+           'all_organizations': all_organizations,
+           "member_user": member_user,
+	   'message': message}
+        return toolkit.render('request/status.html', extra_vars=extra_vars)
+    except logic.NotAuthorized:
+        toolkit.abort(401, not_auth_message)
 
 @member_request.route('/list')
 def member_requests_list():
@@ -114,13 +148,25 @@ def member_requests_list():
 @member_request.route('/reject/<mrequest_id>', methods=['GET', 'POST'])
 def reject(mrequest_id):
     """ Controller to reject member request (only admins or group editors can do that """
-    return _processbyadmin(mrequest_id, False)
+    return _processbyadmin(mrequest_id, "reject")
+
+
+@member_request.route('/remove/<mrequest_id>', methods=['GET', 'POST'])
+def remove(mrequest_id):
+    """ Controller to remove member request (only admins or group editors can do that """
+    return _processbyadmin(mrequest_id, "remove")
 
 
 @member_request.route('/approve/<mrequest_id>', methods=['GET', 'POST'])
 def approve(mrequest_id):
     """ Controller to approve member request (only admins or group editors can do that) """
-    return _processbyadmin(mrequest_id, True)
+    return _processbyadmin(mrequest_id, "approve")
+
+
+@member_request.route('/autoapprove/<mrequest_id>', methods=['GET', 'POST'])
+def autoapprove(mrequest_id):
+    """ Controller to auto approve member request """
+    return _process(mrequest_id)
 
 
 @member_request.route('/cancel', methods=['GET', 'POST'])
@@ -181,19 +227,40 @@ def _get_available_roles(context, organization_id):
     return toolkit.get_action('get_available_roles')(context, data_dict)
 
 
-def _processbyadmin(mrequest_id, approve):
+def _processbyadmin(mrequest_id, action):
     context = {'user': toolkit.g.get('user') or toolkit.g.get('author')}
     role = toolkit.request.args.get('role', None)
     data_dict = {"mrequest_id": mrequest_id, 'role': role}
     try:
-        if approve:
+        if action == 'approve':
             toolkit.get_action('member_request_approve')(
                 context, data_dict)
             id = 'approved'
+        elif action == 'remove':
+            toolkit.get_action('member_request_remove')(
+                context, data_dict)
+            id = 'removed'
         else:
             toolkit.get_action('member_request_reject')(context, data_dict)
             id = 'rejected'
         return toolkit.redirect_to('member_request.member_requests_list', id=id)
+    except logic.NotAuthorized:
+        toolkit.abort(401, not_auth_message)
+    except logic.NotFound:
+        toolkit.abort(404, request_not_found_message)
+    except logic.ValidationError as e:
+        toolkit.abort(400, str(e))
+
+
+def _process(mrequest_id):
+    context = {'user': toolkit.g.get('user') or toolkit.g.get('author')}
+    message = toolkit.request.args.get('message', None)
+    data_dict = {"mrequest_id": mrequest_id, 'message': message}
+    try:
+        toolkit.get_action('member_request_autoapprove')(
+            context, data_dict)
+        id = 'approved'
+        return toolkit.redirect_to('member_request.member_requests_mylist', id=id)
     except logic.NotAuthorized:
         toolkit.abort(401, not_auth_message)
     except logic.NotFound:
