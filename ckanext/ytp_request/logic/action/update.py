@@ -83,8 +83,6 @@ def _process(context, action, data_dict):
     member.state = state
     if role:
         member.capacity = role
-    revision = model.repo.new_revision()
-    revision.author = user
 
     if action == 'approve':
         message = 'Member request approved by admin.'
@@ -99,7 +97,6 @@ def _process(context, action, data_dict):
         message = 'Member request rejected by admin.\n\n{}'.format(reason)
     if role:
         message = message + " Role changed"
-    revision.message = message
 
     # TODO: Move this query to a helper method since it is widely used
     # Fetch the newest member_request associated to this membership (sort by

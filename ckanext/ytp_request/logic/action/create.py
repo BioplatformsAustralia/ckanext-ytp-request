@@ -75,10 +75,6 @@ def _create_member_request(context, data_dict):
     member.capacity = role
     member.group = group
 
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'New member request'
-
     logging.warning("Member's Group ID: " + str(type(member.group_id)))
     logging.warning(repr(member))
 

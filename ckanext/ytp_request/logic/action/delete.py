@@ -92,11 +92,6 @@ def _process_request(context, organization_id, member, status):
                                    language=locale, handling_date=func.now(), handled_by=c.userobj.name, message=message)
     model.Session.add(member_request)
 
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'Member request deleted by user'
-
     member.save()
-    model.repo.commit()
 
     return model_dictize.member_dictize(member, context)
