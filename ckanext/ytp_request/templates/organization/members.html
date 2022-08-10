@@ -1,7 +1,7 @@
 {% ckan_extends %}
 
 {% block primary_content_inner %}
-{% resource  "request_js/request.js" %}
+{% asset  "request_js/request_js" %}
 {% set member_requests = h.get_member_request_list(organization.id) %}
 {% if member_requests %}
   <h3>{% trans %}Membership requests{% endtrans %}</h3>
