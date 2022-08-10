@@ -38,7 +38,7 @@
               {% if not vars.request %}
                 {# State is Never/Cancelled/Rejected #}
 		{% set user_is_sysadmin = h.check_access('sysadmin', c.user) %}
-                {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not user_is_sysadmin %}
+                {% if h.check_access('member_request_create', {'organization_id': organization.id}) and not user_is_sysadmin %}
 		  {%- snippet "request/snippets/request_create_button.html", organization=organization -%}
                 {% endif %}
               {% endif %}
