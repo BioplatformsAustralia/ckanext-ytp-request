@@ -30,13 +30,22 @@ def new(errors=None, error_summary=None):
     except toolkit.NotAuthorized:
         toolkit.abort(401, not_auth_message)
 
-    organizations = toolkit.get_action('organization_list_without_memberships')(context, {})
+    try:
+        my_requests = toolkit.get_action(
+            'member_requests_mylist')(context, {})
+    except logic.NotAuthorized:
+        toolkit.abort(401, self.not_auth_message)
+
+    organizations = _list_organizations(context)
 
     if toolkit.request.method == 'POST' and not errors:
         success, results = _save_new(context)
         if success:
             member_id = results
-            return toolkit.redirect_to('organization.index', id="newrequest", membership_id=member_id)
+            returnto = toolkit.g.get('return', None)
+            if returnto:
+                return toolkit.redirect_to(returnto)
+            return toolkit.redirect_to('member_request.new')
         else:
             errors, error_summary = results
 
@@ -48,6 +57,7 @@ def new(errors=None, error_summary=None):
     user_role = 'admin'
 
     extra_vars = {'selected_organization': selected_organization, 'organizations': organizations,
+                  'my_requests': my_requests,
                   'errors': errors or {}, 'error_summary': error_summary or {},
                   'roles': roles, 'user_role': user_role}
     extra_vars['form'] = toolkit.render("request/new_request_form.html", extra_vars=extra_vars)
@@ -178,7 +188,11 @@ def cancel():
         toolkit.get_action('member_request_cancel')(
             context, {"organization_id": organization_id})
         id = 'cancel'
-        return toolkit.redirect_to('member_request.mylist', id=id)
+        returnto = toolkit.g.get('return', None)
+        if returnto:
+            return toolkit.redirect_to(returnto)
+        else:
+            return toolkit.redirect_to('member_request.mylist', id=id)
     except logic.NotAuthorized:
         toolkit.abort(401, not_auth_message)
     except logic.NotFound:
