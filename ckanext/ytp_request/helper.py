@@ -64,6 +64,11 @@ def get_member_request_list(org_id='hello'):
 
 def is_admin(user):
     """Determine if current user is an admin of any organization"""
+
+    # Only allow to logged in users as member_requests_mylist needs a user
+    if not authz.auth_is_loggedin_user():
+        return False
+
     if authz.is_sysadmin(user):
         return True
     context = {'user': c.user or c.author }
