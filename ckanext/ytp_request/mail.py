@@ -139,7 +139,7 @@ def mail_new_membership_request(locale, admin, group_name, member_request_show_u
         }
 
     try:
-        mail_user(admin, subject, message, headers)
+        mail_user(admin, subject, message, headers=headers)
     except Exception:
         log.exception(message)
         log.exception("Mail could not be sent")
