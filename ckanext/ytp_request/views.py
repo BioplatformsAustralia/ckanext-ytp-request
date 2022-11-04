@@ -244,7 +244,8 @@ def _get_available_roles(context, organization_id):
 def _processbyadmin(mrequest_id, action):
     context = {'user': toolkit.g.get('user') or toolkit.g.get('author')}
     role = toolkit.request.args.get('role', None)
-    data_dict = {"mrequest_id": mrequest_id, 'role': role}
+    message = toolkit.request.form.get('message', "")
+    data_dict = {"mrequest_id": mrequest_id, 'role': role, 'message': message}
     try:
         if action == 'approve':
             toolkit.get_action('member_request_approve')(
