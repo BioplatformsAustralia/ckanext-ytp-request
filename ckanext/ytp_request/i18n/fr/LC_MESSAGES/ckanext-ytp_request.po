@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp-request 0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 07:38+0000\n"
+"POT-Creation-Date: 2023-01-03 12:08+0000\n"
 "PO-Revision-Date: 2021-01-07 10:10+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -59,14 +59,14 @@ msgstr ""
 "%(link)s\n"
 "\n"
 "Cordialement,\n"
-"Le fichier des données sur le sida\n"
+"Le Réferentiel des données sur le SIDA\n"
 
-#: ckanext/ytp_request/mail.py:26
+#: ckanext/ytp_request/mail.py:28
 #, python-format
 msgid "Organization membership approved (%(organization)s)"
 msgstr "adhésion auprès de l’organisation approuvée (%(organization)s)"
 
-#: ckanext/ytp_request/mail.py:32
+#: ckanext/ytp_request/mail.py:34
 #, python-format
 msgid ""
 "        Your membership request to organization %(organization)s with "
@@ -82,15 +82,15 @@ msgstr ""
 "        a été approuvée.\n"
 "\n"
 "        Cordialement,\n"
-"        Le fichier des données sur le sida\n"
+"        Le Réferentiel des données sur le SIDA\n"
 "        "
 
-#: ckanext/ytp_request/mail.py:44
+#: ckanext/ytp_request/mail.py:46
 #, python-format
 msgid "Organization membership rejected (%(organization)s)"
 msgstr "adhésion auprès de l’organisation refusée (%(organization)s)"
 
-#: ckanext/ytp_request/mail.py:50
+#: ckanext/ytp_request/mail.py:52
 #, python-format
 msgid ""
 "        Unfortunately your membership request to organization "
@@ -103,12 +103,14 @@ msgid ""
 "        The AIDS Data Repository\n"
 "        "
 msgstr ""
-"        Malheureusement, votre demande d’adhésion auprès de l’organisation %(organization)s\n"
-"        en tant que %(role)s a été refusée. Si vous estimez que c’est une erreur,\n"
+"        Malheureusement, votre demande d’adhésion auprès de "
+"l’organisation %(organization)s\n"
+"        en tant que %(role)s a été refusée. Si vous estimez que c’est une"
+" erreur,\n"
 "        veuillez vous adresser à l’administrateur de votre organisation.\n"
 "\n"
 "        Cordialement,\n"
-"        Le fichier des données sur le sida\n"
+"        Le Réferentiel des données sur le SIDA\n"
 "        "
 
 #: ckanext/ytp_request/views.py:7
@@ -228,7 +230,7 @@ msgstr "Demander une adhésion"
 #: ckanext/ytp_request/templates/request/mylist.html:56
 #: ckanext/ytp_request/templates/snippets/organization.html:13
 msgid "Are you sure you want to end the membership?"
-msgstr "Êtes-vous sûr de vouloir mettre fin à cette adhésion ?"
+msgstr "Êtes-vous sûr de vouloir mettre fin à l'adhésion ?"
 
 #: ckanext/ytp_request/templates/organization/read.html:15
 #: ckanext/ytp_request/templates/request/mylist.html:59
@@ -380,3 +382,4 @@ msgstr ""
 #: ckanext/ytp_request/templates/snippets/organization.html:22
 msgid "Cancel Request"
 msgstr "Annuler la demande"
+
