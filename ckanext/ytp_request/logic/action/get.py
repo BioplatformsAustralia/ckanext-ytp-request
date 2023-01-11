@@ -145,12 +145,31 @@ def get_available_organizations(context, data_dict=None):
     data_dict['all_fields'] = True
     data_dict['groups'] = []
     data_dict['type'] = 'organization'
+    data_dict['include_extras'] = True
 
-    orglist = toolkit.get_action('organization_list')({}, data_dict)
-
+    all_orgs = toolkit.get_action('organization_list')({}, data_dict)
+    orglist = toolkit.get_action("organization_list_for_user")(
+        data_dict={
+            "all_fields": True,
+            "include_extras": True,
+            "include_dataset_count": False,
+            "include_groups": True,
+        }
+    )
     # Include or exclude organizations based on our include/exclude lists
     include = config.get('ckanext.ytp_request.include').split()
     exclude = config.get('ckanext.ytp_request.exclude').split()
+
+    for org in all_orgs:
+        if org not in orglist:
+            org_allowed = True  # Assume it is allowed, unless it is marked as private
+            for extra in org.get("extras"):
+                if extra.get("key") == "Private" and extra.get("value") == "True":
+                    org_allowed = False
+            if org_allowed:
+                orglist.append(org)
+
+
     if include:
         orglist = [o for o in orglist if o['name'] in include]
     orglist = [o for o in orglist if o['name'] not in exclude]
