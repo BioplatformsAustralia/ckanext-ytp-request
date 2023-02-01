@@ -9,6 +9,7 @@ from .helper import (
         is_admin,
         get_available_organizations,
         pending_approvals,
+        is_org_autoregister,
     )
 
 log = logging.getLogger(__name__)
@@ -86,4 +87,5 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'is_admin': is_admin,
             'get_available_organizations': get_available_organizations,
             'pending_approvals': pending_approvals,
+            'is_org_autoregister': is_org_autoregister,
         }

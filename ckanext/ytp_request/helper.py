@@ -90,3 +90,8 @@ def get_available_organizations():
 
     return toolkit.get_action(
         'get_available_organizations')(context, {})
+
+def is_org_autoregister(organization):
+    """Determine if the organization is set for autoregistration"""
+
+    return organization["name"] in config.get('ckanext.ytp_request.autoregister').split()

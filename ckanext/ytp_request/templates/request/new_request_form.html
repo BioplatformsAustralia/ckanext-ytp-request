@@ -12,7 +12,8 @@
         <tfoot> </tfoot>
         <tbody>
         {% for organization in organizations %}
-          <tr>
+        {% set org_is_autoregister = h.is_org_autoregister(organization) %}
+        <tr>
             <td>{{ organization.display_name }}</td>
             <td>
               {% set vars = { 'request' : False } %}
@@ -40,6 +41,11 @@
 		{% set user_is_sysadmin = h.check_access('sysadmin', c.user) %}
                 {% if h.check_access('member_request_create', {'organization_id': organization.id}) and not user_is_sysadmin %}
 		  {%- snippet "request/snippets/request_create_button.html", organization=organization -%}
+              {% if (org_is_autoregister) %}
+             (Automatic Registration)
+            {% else %}
+             (Manual Approval)
+            {% endif %}
                 {% endif %}
               {% endif %}
             </td>
