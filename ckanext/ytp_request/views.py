@@ -71,7 +71,8 @@ def _save_new(context):
         data_dict = {
                 'user': toolkit.g.user,
                 'role': toolkit.get_or_bust(toolkit.request.form, 'role'),
-                'group': toolkit.get_or_bust(toolkit.request.form, 'organization')}
+                'group': toolkit.get_or_bust(toolkit.request.form, 'organization'),
+                'message': toolkit.get_or_bust(toolkit.request.form, 'message')}
 
         # TODO: Do we need info message at the UI level when e-mail could
         # not be sent?
