@@ -128,7 +128,7 @@ def _get_organization_admins(group_id):
 
 def _get_ckan_admins():
     admins = set(
-        model.Session.query(model.User).filter(model.User.sysadmin is True)
+        model.Session.query(model.User).filter(model.User.sysadmin)
     )
 
     return admins
