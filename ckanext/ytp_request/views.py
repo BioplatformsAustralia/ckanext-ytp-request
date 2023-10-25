@@ -38,7 +38,7 @@ def new(errors=None, error_summary=None):
     selected_organization = toolkit.request.args.get(
         'selected_organization', None)
     roles = _get_available_roles(context, selected_organization)
-    user_role = 'admin'
+    user_role = 'member'
 
     extra_vars = {'selected_organization': selected_organization, 'organizations': organizations,
                   'errors': errors or {}, 'error_summary': error_summary or {},
