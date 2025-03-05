@@ -59,7 +59,7 @@ def get_member_request_list(org_id='hello'):
             lambda x: x['group_id'] == org_id,
             member_requests
         )
-    return member_requests
+    return list(member_requests)
 
 
 def is_admin(user):

@@ -81,3 +81,22 @@ class TestRegression(object):
                 mrequest_id=membership_request['id'],
                 role=invalid_role
             )
+
+    @mock.patch('ckanext.ytp_request.logic.action.create.flash_success')
+    @mock.patch('ckanext.ytp_request.logic.action.create.mail_new_membership_request')
+    def test_send_mail_on_admin_role_request(self, create_mail_new_membership_request_success, app):
+        """
+        Checks if mail received when a user requests an admin role.
+        """
+        org = factories.Organization()
+        regular_user = factories.User()
+
+        helpers.call_action(
+            'member_request_create',
+            {'user': regular_user['name']},
+            group=org['name'],
+            role='admin'
+        )
+
+        # check if mail_new_membership_request has been called
+        assert create_mail_new_membership_request_success.call_count > 0
