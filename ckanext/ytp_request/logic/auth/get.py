@@ -30,9 +30,7 @@ def member_request(context, data_dict):
 
 
 def member_requests_mylist(context, data_dict):
-    """ Show request access check """
-    # TODO: Sysadmins dont have this functionality since it is pointless. Make
-    # it at the logical level
+    """ Allow logged-in users to view their own membership requests. """
     return _only_registered_user()
 
 

@@ -1,5 +1,5 @@
 from ckan import logic, model
-from ckan.common import config, _
+from ckan.common import config, session, _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins
@@ -55,7 +55,34 @@ def member_requests_mylist(context, data_dict):
     # in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(
         model.Member.table_id == user_object.id).all()
-    return _membership_request_list_dictize(membership_requests, context)
+    results = _membership_request_list_dictize(membership_requests, context)
+
+    # Inject synthetic Auth0-based pending orgs (from login session)
+    pending_ids = session.get("ckanext:oidc-pkce:pending_org_ids", [])
+    existing_ids = {r["organization_id"] for r in results}
+
+    for org_id in pending_ids:
+        if org_id in existing_ids:
+            continue
+
+        try:
+            org = toolkit.get_action("organization_show")(context, {"id": org_id})
+        except toolkit.ObjectNotFound:
+            org = {"id": org_id, "title": org_id, "name": org_id}
+
+        results.append({
+            "organization_name": org["name"],
+            "organization_display_name": org["title"],
+            "organization_id": org_id,
+            "state": "pending",
+            "role": None,
+            "message": "Pending via Auth0",
+            "request_date": None,
+            "handling_date": None,
+            "handled_by": None,
+        })
+
+    return results
 
 
 def member_requests_status(context, data_dict):

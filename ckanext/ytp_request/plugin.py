@@ -1,6 +1,8 @@
 import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 from ckan.lib.plugins import DefaultTranslation
+from ckanext.ytp_request import auth
+
 import logging
 from .cli import get_commands
 from . import views
