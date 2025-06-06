@@ -7,7 +7,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy import types
 from sqlalchemy.ext.declarative import declarative_base
 
-from ckan.lib.base import model
+from ckan import model
 from ckan.model.meta import metadata
 
 log = logging.getLogger(__name__)
