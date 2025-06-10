@@ -23,7 +23,7 @@ class YtpRequestController(BaseController):
 
     def new(self, errors=None, error_summary=None):
         context = {'user': c.user or c.author,
-                   'save': 'save' in request.params}
+                   'save': 'save' in request.args}
         try:
             logic.check_access('member_request_create', context)
         except toolkit.NotAuthorized:
@@ -42,7 +42,7 @@ class YtpRequestController(BaseController):
 
         # FIXME: Don't send as request parameter selected organization. kinda
         # weird
-        selected_organization = request.params.get(
+        selected_organization = request.args.get(
             'selected_organization', None)
         extra_vars = {'selected_organization': selected_organization,
                       'organizations': organizations,
@@ -56,7 +56,7 @@ class YtpRequestController(BaseController):
     def _save_new(self, context):
         try:
             data_dict = logic.clean_dict(dict_fns.unflatten(
-                logic.tuplize_dict(logic.parse_params(request.params))))
+                logic.tuplize_dict(logic.parse_params(request.args))))
             data_dict['group'] = data_dict['organization']
             # TODO: Do we need info message at the UI level when e-mail could
             # not be sent?
@@ -102,7 +102,7 @@ class YtpRequestController(BaseController):
     def mylist(self):
         """" Lists own members requests (possibility to cancel and view current status)"""
         context = {'user': c.user or c.author}
-        id = request.params.get('id', None)
+        id = request.args.get('id', None)
         try:
             my_requests = toolkit.get_action(
                 'member_requests_mylist')(context, {})
@@ -144,7 +144,7 @@ class YtpRequestController(BaseController):
     def list(self):
         """ Lists member requests to be approved by admins"""
         context = {'user': c.user or c.author}
-        id = request.params.get('id', None)
+        id = request.args.get('id', None)
         try:
             member_requests = toolkit.get_action(
                 'member_requests_list')(context, {})
@@ -163,12 +163,12 @@ class YtpRequestController(BaseController):
     def cancel(self):
         """ Logged in user can cancel pending requests not approved yet by admins/editors"""
         context = {'user': c.user or c.author}
-        organization_id = request.params.get('organization_id', None)
+        organization_id = request.args.get('organization_id', None)
         try:
             toolkit.get_action('member_request_cancel')(
                 context, {"organization_id": organization_id})
             id = 'cancel'
-	    returnto = request.params.get('return', None)
+	    returnto = request.args.get('return', None)
 	    if returnto:
                 helpers.redirect_to(returnto)
 	    else:
@@ -203,7 +203,7 @@ class YtpRequestController(BaseController):
             toolkit.get_action('member_request_membership_cancel')(
                 context, {"organization_id": organization_id})
             id = 'cancel'
-	    returnto = request.params.get('return', None)
+	    returnto = request.args.get('return', None)
 	    if returnto:
                 helpers.redirect_to(returnto)
 	    else:
@@ -221,8 +221,8 @@ class YtpRequestController(BaseController):
 
     def _processbyadmin(self, mrequest_id, action):
         context = {'user': c.user or c.author}
-        role = request.params.get('role', None)
-        message = request.params.get('message', None)
+        role = request.args.get('role', None)
+        message = request.args.get('message', None)
         data_dict = {"mrequest_id": mrequest_id, 'role': role, 'message': message}
         try:
             if action == 'approve':
@@ -245,7 +245,7 @@ class YtpRequestController(BaseController):
 
     def _process(self, mrequest_id):
         context = {'user': c.user or c.author}
-        message = request.params.get('message', None)
+        message = request.args.get('message', None)
         data_dict = {"mrequest_id": mrequest_id, 'message': message}
         try:
             toolkit.get_action('member_request_autoapprove')(
