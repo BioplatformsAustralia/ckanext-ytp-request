@@ -1,4 +1,5 @@
 <form class="dataset-form form-horizontal" method="post" data-module="basic-form" id="membership-request-create-form">
+{{ h.csrf_input() if 'csrf_input' in h }}
 <div class="modal fade" id="memberRequestModal" tabindex="-1" role="dialog" aria-labelledby="memberRequestModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

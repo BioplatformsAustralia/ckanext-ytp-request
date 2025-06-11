@@ -22,7 +22,10 @@
   <section class="module">
     <div class="module-content">
       <h1>{% trans %}Manage and request organization membership{% endtrans %}</h1>
-      {% block form %}{{ form | safe }}{% endblock %}
+      {% block form %}
+        {{ form | safe }}
+        {{ h.csrf_input() if 'csrf_input' in h }}
+      {% endblock %}
     </div>
   </section>
 {% endblock %}
