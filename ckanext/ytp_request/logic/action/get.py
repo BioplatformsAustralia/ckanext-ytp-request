@@ -100,6 +100,8 @@ def member_requests_mylist(context, data_dict):
             "handled_by": pending.get("handler"),
         })
 
+        log.info("AMANDA DEBUG: request_date - %s, handling_date - %s, handled_by - %s", pending.get("request_date"), pending.get("handling_date"), pending.get("handler"))
+
     return results
 
 
