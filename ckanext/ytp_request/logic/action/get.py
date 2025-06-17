@@ -49,6 +49,7 @@ def member_requests_mylist(context, data_dict):
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context.get('user', None)
+
     user_object = model.User.get(user)
 
     # Collect standard CKAN membership requests
@@ -59,11 +60,11 @@ def member_requests_mylist(context, data_dict):
     def _format_iso_date(iso_ts):
         try:
             dt = datetime.fromisoformat(iso_ts.replace("Z", "+00:00"))
-            return dt.strftime("%d %b %Y")
+            return dt.strftime("%d - %B - %Y")
         except Exception:
             return iso_ts[:10] if iso_ts else None
 
-    pending_orgs = session.get("ckanext:oidc-pkce:pending_orgs", [])
+    pending_orgs = session.get("ckanext:oidc-pkce:pending_org_ids", [])
     existing_ids = {r["organization_id"] for r in results}
 
     for pending in pending_orgs:
@@ -95,12 +96,10 @@ def member_requests_mylist(context, data_dict):
             "state": pending.get("status", "pending"),
             "role": None,
             "message": message,
-            "request_date": pending.get("request_date"),
-            "handling_date": pending.get("handling_date"),
+            "request_date": request_date_str,
+            "handling_date": _format_iso_date(pending.get("handling_date")),
             "handled_by": pending.get("handler"),
         })
-
-        log.info("AMANDA DEBUG: request_date - %s, handling_date - %s, handled_by - %s", pending.get("request_date"), pending.get("handling_date"), pending.get("handler"))
 
     return results
 
