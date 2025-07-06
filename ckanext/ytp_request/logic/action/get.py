@@ -57,19 +57,8 @@ def member_requests_mylist(context, data_dict):
         model.Member.table_id == user_object.id).all()
     results = _membership_request_list_dictize(membership_requests, context)
 
-<<<<<<< Updated upstream
     # Inject synthetic Auth0-based pending orgs (from login session)
-    pending_ids = session.get("ckanext:oidc-pkce:pending_org_ids", [])
-=======
-    def _format_iso_date(iso_ts):
-        try:
-            dt = datetime.fromisoformat(iso_ts.replace("Z", "+00:00"))
-            return dt.strftime("%d - %B - %Y")
-        except Exception:
-            return iso_ts[:10] if iso_ts else None
-
-    pending_orgs = session.get("ckanext:oidc-pkce-bpa:pending_org_ids", [])
->>>>>>> Stashed changes
+    pending_ids = session.get("ckanext:oidc-pkce-bpa:pending_org_ids", [])
     existing_ids = {r["organization_id"] for r in results}
 
     for org_id in pending_ids:
