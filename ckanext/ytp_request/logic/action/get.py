@@ -44,25 +44,24 @@ def member_request(context, data_dict):
 
 
 def member_requests_mylist(context, data_dict):
-    ''' Users will see a list of their member requests
-    '''
+    ''' Users will see a list of their member requests '''
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context.get('user', None)
-
     user_object = model.User.get(user)
+
     # Return current state for memberships for all organizations for the user
-    # in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(
         model.Member.table_id == user_object.id).all()
     results = _membership_request_list_dictize(membership_requests, context)
 
-    # Inject synthetic Auth0-based pending orgs (from login session)
-    pending_ids = session.get("ckanext:oidc-pkce-bpa:pending_org_ids", [])
+    # Inject synthetic Auth0-based orgs (from login session)
+    all_resources = session.get("ckanext:oidc-pkce-bpa:all_resources_ids", [])
     existing_ids = {r["organization_id"] for r in results}
 
-    for org_id in pending_ids:
-        if org_id in existing_ids:
+    for resource in all_resources:
+        org_id = resource.get("id")
+        if not org_id or org_id in existing_ids:
             continue
 
         try:
@@ -74,12 +73,12 @@ def member_requests_mylist(context, data_dict):
             "organization_name": org["name"],
             "organization_display_name": org["title"],
             "organization_id": org_id,
-            "state": "pending",
+            "state": resource.get("status", "pending"),
             "role": None,
-            "message": "Pending via Auth0",
-            "request_date": None,
-            "handling_date": None,
-            "handled_by": None,
+            "message": None,
+            "request_date": resource.get("request_date"),
+            "handling_date": resource.get("handling_date"),
+            "handled_by": resource.get("handler"),
         })
 
     return results
