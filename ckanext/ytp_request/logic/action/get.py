@@ -56,7 +56,7 @@ def member_requests_mylist(context, data_dict):
     results = _membership_request_list_dictize(membership_requests, context)
 
     # Inject synthetic Auth0-based orgs (from login session)
-    all_resources = session.get("ckanext:oidc-pkce-bpa:all_resources_ids", [])
+    all_resources = session.get("ckanext:oidc-pkce-bpa:org_metadata", [])
     existing_ids = {r["organization_id"] for r in results}
 
     for resource in all_resources:
@@ -73,7 +73,7 @@ def member_requests_mylist(context, data_dict):
             "organization_name": org["name"],
             "organization_display_name": org["title"],
             "organization_id": org_id,
-            "state": resource.get("status", "pending"),
+            "state": resource.get("status"),
             "role": None,
             "message": None,
             "request_date": resource.get("request_date"),
