@@ -2,11 +2,12 @@ from ckan import logic, model
 from ckan.common import _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
-from ckanext.ytp_request.helper import get_organization_admins
+from ckanext.ytp_request.helper import get_organization_admins, is_org_autoregister
 from sqlalchemy import desc
 
 import logging
 import ckan.authz as authz
+from ckan.plugins.toolkit import aslist, config 
 
 log = logging.getLogger(__name__)
 
@@ -173,3 +174,23 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         member_dict['user_name'] = user.name
         result_list.append(member_dict)
     return sorted(result_list, key=sort_key, reverse=reverse)
+
+@logic.side_effect_free
+def autoregister_organization_list(context, data_dict=None):
+    """
+    Return a list of organizations allowed for auto-register.
+    Uses helper.is_org_autoregister to determine eligibility.
+    Response: [{id, name, title}]
+    """
+    # Query all active orgs
+    orgs = (model.Session.query(model.Group)
+            .filter(model.Group.type == 'organization')
+            .filter(model.Group.state == 'active')
+            .all())
+
+    out = []
+    for g in orgs:
+        org_dict = {"id": g.id, "name": g.name, "title": g.title}
+        if is_org_autoregister(org_dict):
+            out.append(org_dict)
+    return out
