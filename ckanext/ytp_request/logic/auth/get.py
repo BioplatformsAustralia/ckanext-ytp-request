@@ -112,6 +112,7 @@ def _apply_on_access(context, package):
 
     # Apply for access automagically
     try:
+        log.info("Create automatic registration on access for %s to %s for package %s" % (user_name, org.get("name"), package.get("name")))
         data_dict = {
                 'user': user_name,
                 'role': 'member',
@@ -121,7 +122,7 @@ def _apply_on_access(context, package):
         member = tk.get_action(
             'member_request_create')(context, data_dict)
     except:
-        log.warn("Failed to create automatic registration on access")
+        log.warn("Failed to create automatic registration on access for %s to %s for package %s" % (user_name, org.get("name"), package.get("name")))
 
     return
 
