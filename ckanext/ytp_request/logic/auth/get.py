@@ -140,41 +140,6 @@ def _apply_on_access(context, package):
 
 @tk.auth_allow_anonymous_access
 @tk.chained_auth_function
-def resource_show(next_auth, context, data_dict=None):
-    # if not enabled, fall through
-    if tk.asbool(config.get('ckanext.ytp_request.autoregister_on_access', False)):
-        return next_auth(context, data_dict)
-
-    # no user, fall through
-    if not c.userobj:
-        return next_auth(context, data_dict)
-
-    log.warn("resource_show")
-    log.warn("context")
-    log.warn(context)
-    log.warn("data_dict")
-    log.warn(data_dict)
-
-    resource = data_dict.get("resource", context.get("resource", {}))
-    if not resource:
-        resource = logic_auth.get_resource_object(context, data_dict)
-    if not isinstance(resource, dict):
-        resource = resource.as_dict()
-
-    package = data_dict.get("package", {})
-    if not package:
-        model = context["model"]
-        package = model.Package.get(resource.get("package_id"))
-        package = package.as_dict()
-
-    _apply_on_access(context, package)
-    
-    log.warn("resource_show_end")
-    # fall through
-    return next_auth(context, data_dict)
-
-@tk.auth_allow_anonymous_access
-@tk.chained_auth_function
 def package_show(next_auth, context, data_dict=None):
     # if not enabled, fall through
     if tk.asbool(config.get('ckanext.ytp_request.autoregister_on_access', False)):
