@@ -90,6 +90,7 @@ def _get_username_from_context(context):
 
 def _apply_on_access(context, package):
     user_name = _get_username_from_context(context)
+    user_id = authz.get_user_id_for_username(user_name)
 
     if not isinstance(package, dict):
         package = package.as_dict()
@@ -97,7 +98,7 @@ def _apply_on_access(context, package):
     pkg_organization_id = package.get("owner_org", "")
 
     # Check if user is already part of org
-    if get_user_member(pkg_organization_id, user_name):
+    if get_user_member(pkg_organization_id, user_id):
         return
 
     # Check if organisation is autoregister
