@@ -89,37 +89,26 @@ def _get_username_from_context(context):
     return user_name
 
 def _apply_on_access(context, package):
-    log.warn("_apply_on_access")
     user_name = _get_username_from_context(context)
-    log.warn(user_name)
 
-    log.warn("package_dict")
     if not isinstance(package, dict):
         package = package.as_dict()
     # Get organisation for package
     pkg_organization_id = package.get("owner_org", "")
 
-    log.warn("gum")
     # Check if user is already part of org
     if get_user_member(pkg_organization_id, user_name):
         return
 
-    log.warn("os")
     # Check if organisation is autoregister
     org = tk.get_action('organization_show')(data_dict={'id': pkg_organization_id})
-    log.warn("org")
-    log.warn(org)
     if 'name' not in org:   #something hinky here
         return
-    log.warn(org.get("id"))
-    log.warn(org.get("name"))
 
-    log.warn("autoreg")
     if org['name'] not in config.get('ckanext.ytp_request.autoregister').split():
         # Not an autoapprove org
         return
 
-    log.warn("apply")
     # Apply for access automagically
     try:
         data_dict = {
@@ -128,14 +117,11 @@ def _apply_on_access(context, package):
                 'group': org.get("id"),
                 'message': 'Registration on access',
             }
-        log.warn(context)
-        log.warn(data_dict)
         member = tk.get_action(
             'member_request_create')(context, data_dict)
     except:
         log.warn("Failed to create automatic registration on access")
 
-    log.warn("_apply_on_access end")
     return
 
 @tk.auth_allow_anonymous_access
@@ -149,14 +135,8 @@ def package_show(next_auth, context, data_dict=None):
     if not c.userobj:
         return next_auth(context, data_dict)
 
-    log.warn("package_show")
-    log.warn("context")
-    log.warn(context)
-    log.warn("data_dict")
-    log.warn(data_dict)
     package = get_package_object(context, data_dict)
 
     _apply_on_access(context, package)
-    log.warn("package_show end")
     # fall through
     return next_auth(context, data_dict)
