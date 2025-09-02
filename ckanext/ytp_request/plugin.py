@@ -70,6 +70,9 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
             "member_requests_status": get.member_requests_status,
             "member_request_show": get.member_request,
             "organization_list_without_memberships": get.organization_list_without_memberships,
+            "resource_show": get.resource_show,
+            "resource_view_show": get.resource_show,
+            "package_show": get.package_show,
         }
 
     # IClick
