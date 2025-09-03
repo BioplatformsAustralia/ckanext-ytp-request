@@ -130,7 +130,7 @@ def _apply_on_access(context, package):
 @tk.chained_auth_function
 def package_show(next_auth, context, data_dict=None):
     # if not enabled, fall through
-    if tk.asbool(config.get('ckanext.ytp_request.autoregister_on_access', False)):
+    if not tk.asbool(config.get('ckanext.ytp_request.autoregister_on_access', False)):
         return next_auth(context, data_dict)
 
     # no user, fall through
