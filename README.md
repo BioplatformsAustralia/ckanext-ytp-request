@@ -44,6 +44,21 @@ ckanext.ytp_request.include =
 ckanext.ytp_request.exclude = grasslands bpa-barcode2
 ```
 
+## Auto Approval and Registration Organizations
+
+Memberships requests to particular organizations can be automatically approved.
+
+```
+ckanext.ytp_request.autoregister = grasslands amd
+```
+
+To enable this on viewing a dataset associated with the organization, set the following
+config to True
+
+```
+ckanext.ytp_request.autoregister_on_access = True
+```
+
 ## Override email destination for membership request emails
 
 In your ckan.ini file, you can set a series of email addresses as destinations
