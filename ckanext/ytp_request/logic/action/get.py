@@ -195,12 +195,20 @@ def get_available_organizations(context, data_dict=None):
             if org_allowed:
                 orglist.append(org)
 
-
     if include:
         orglist = [o for o in orglist if o['name'] in include]
     orglist = [o for o in orglist if o['name'] not in exclude]
 
-    return orglist
+    unique = []
+    seen = set()
+    for org in orglist:
+        name = org.get("name")
+        if name in seen:
+            continue
+        seen.add(name)
+        unique.append(org)
+
+    return unique
 
 
 def _membership_request_list_dictize(obj_list, context):

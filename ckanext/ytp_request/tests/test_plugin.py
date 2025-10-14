@@ -62,3 +62,31 @@ class TestViewingActionedReferral(object):
             expect_errors=True
         )
         assert response_for_approved_request.status_code == 404
+
+
+@pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
+@pytest.mark.ckan_config(u'ckanext.ytp_request.include', u'')
+@pytest.mark.ckan_config(u'ckanext.ytp_request.exclude', u'')
+@pytest.mark.usefixtures(u'with_plugins')
+@pytest.mark.usefixtures(u'with_request_context')
+def test_available_organizations_return_single_entry_per_name():
+    org = factories.Organization()
+    member = factories.User()
+    sysadmin = factories.Sysadmin()
+
+    helpers.call_action(
+        'member_create',
+        {'user': sysadmin['name']},
+        id=org['name'],
+        object=member['name'],
+        object_type='user',
+        capacity='member',
+    )
+
+    organisations = helpers.call_action(
+        'get_available_organizations',
+        {'user': member['name']},
+    )
+
+    matches = [o for o in organisations if o['name'] == org['name']]
+    assert len(matches) == 1
