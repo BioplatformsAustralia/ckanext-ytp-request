@@ -74,7 +74,7 @@ def member_requests_mylist(context, data_dict):
             "organization_display_name": org["title"],
             "organization_id": org_id,
             "state": resource.get("status"),
-            "role": None,
+            "role": 'member',
             "message": None,
             "request_date": resource.get("request_date"),
             "handling_date": resource.get("handling_date"),
@@ -253,7 +253,7 @@ def _membership_request_list_dictize(obj_list, context):
         else:
             member_dict['role'] = 'member'
         #
-        member_dict['state'] = 'active'
+        member_dict['state'] = obj.state or 'active'
         member_dict['message'] = ''
         # We use the member_request state since there is also rejected and
         # cancel
@@ -273,6 +273,13 @@ def _membership_request_list_dictize(obj_list, context):
                 member_dict['handling_date'] = member_request.handling_date.strftime(
                     "%d - %b - %Y")
                 member_dict['handled_by'] = member_request.handled_by
+        elif member_request is None:
+            # No member_request record — trust the member object's state
+            member_dict['message'] = ''
+
+        if member_dict['state'] in ('deleted', 'cancel', 'inactive', None):
+            continue
+
         if member_request is None or member_request.status != 'cancel':
             result_list.append(member_dict)
     return result_list
