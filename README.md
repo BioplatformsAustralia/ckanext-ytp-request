@@ -59,6 +59,12 @@ config to True
 ckanext.ytp_request.autoregister_on_access = True
 ```
 
+To disable sending an email, set the following config to False
+
+```
+ckanext.ytp_request.autoregister_email = False
+```
+
 ## Override email destination for membership request emails
 
 In your ckan.ini file, you can set a series of email addresses as destinations

@@ -7,7 +7,7 @@ from ckan.lib.helpers import flash_success
 from ckan.common import config
 from ckan.common import _
 from sqlalchemy import desc
-import ckan.plugins.toolkit as t
+import ckan.plugins.toolkit as tk
 import logging
 import datetime
 import os
@@ -65,7 +65,7 @@ def _process(context, action, data_dict):
     if not mrequest_id:
         raise logic.NotFound
 
-    valid_roles = t.get_action('member_roles_list')(context, {})
+    valid_roles = tk.get_action('member_roles_list')(context, {})
     valid_roles = [r['value'] for r in valid_roles] + [None]
     if role not in valid_roles:
         raise logic.ValidationError("Role is not a valid value")
@@ -128,7 +128,8 @@ def _process(context, action, data_dict):
     # successfully?
     # Email for everything except remove
     if action in ['approve','reject','autoapprove']:
-        mail_process_status(locale, member_user, action, approve,
+        if action not in ['autoapprove',] or tk.asbool(config.get('ckanext.ytp_request.autoregister_email', True)):
+            mail_process_status(locale, member_user, action, approve,
                         member.group.display_name, member.capacity, site_name, site_email, reason)
 
     if action == 'approve':
