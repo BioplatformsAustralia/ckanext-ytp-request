@@ -144,9 +144,14 @@ def _create_member_request(context, data_dict):
         except logic.ValidationError as e:
             raise logic.ValidationError(e)
 
-        flash_success(
-            _("Membership request for {} has been automatically approved").format(group.display_name)
-        )
+        if data_dict.get('mode','manual') == 'on-access':
+            flash_success(
+                _("Automatically providing access to {}").format(group.display_name, message)
+            )
+        else:
+            flash_success(
+                _("Membership request for {} has been automatically approved").format(group.display_name)
+            )
 
     return member
 

@@ -118,6 +118,7 @@ def _apply_on_access(context, package):
                 'role': 'member',
                 'group': org.get("id"),
                 'message': 'Registration on access',
+                'mode': 'on-access',
             }
         member = tk.get_action(
             'member_request_create')(context, data_dict)
