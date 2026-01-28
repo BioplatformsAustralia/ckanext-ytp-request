@@ -2,7 +2,7 @@ from ckan import logic, model
 from ckan.common import config, session, _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
-from ckanext.ytp_request.helper import get_organization_admins
+from ckanext.ytp_request.helper import get_organization_admins, oidc_managed_org_identifiers
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import or_
 from ckan.plugins import toolkit
@@ -198,6 +198,13 @@ def get_available_organizations(context, data_dict=None):
     if include:
         orglist = [o for o in orglist if o['name'] in include]
     orglist = [o for o in orglist if o['name'] not in exclude]
+    managed_identifiers = oidc_managed_org_identifiers()
+    if managed_identifiers:
+        orglist = [
+            o
+            for o in orglist
+            if o['name'] not in managed_identifiers and str(o['id']) not in managed_identifiers
+        ]
 
     unique = []
     seen = set()
