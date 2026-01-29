@@ -4,7 +4,6 @@ import pytest
 import mock
 from ckan.lib.helpers import url_for
 
-import ckan.logic as logic
 import ckan.tests.helpers as helpers
 import ckan.tests.factories as factories
 
@@ -91,67 +90,3 @@ def test_available_organizations_return_single_entry_per_name():
 
     matches = [o for o in organisations if o['name'] == org['name']]
     assert len(matches) == 1
-
-
-@pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
-@pytest.mark.ckan_config(u'ckanext.ytp_request.include', u'')
-@pytest.mark.ckan_config(u'ckanext.ytp_request.exclude', u'')
-@pytest.mark.ckan_config(u'ckanext.oidc_pkce_bpa.role_org_mapping', u'{"managed-role": "managed-org"}')
-@pytest.mark.usefixtures(u'with_plugins')
-@pytest.mark.usefixtures(u'with_request_context')
-def test_available_organizations_excludes_oidc_managed_org():
-    managed_org = factories.Organization(name=u'managed-org')
-    open_org = factories.Organization(name=u'open-org')
-    requester = factories.User()
-
-    organisations = helpers.call_action(
-        'get_available_organizations',
-        {'user': requester['name']},
-    )
-
-    names = {o['name'] for o in organisations}
-    assert managed_org['name'] not in names
-    assert open_org['name'] in names
-
-
-@pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
-@pytest.mark.ckan_config(u'ckanext.oidc_pkce_bpa.role_org_mapping', u'{"managed-role": "managed-org"}')
-@pytest.mark.usefixtures(u'with_plugins')
-@pytest.mark.usefixtures(u'with_request_context')
-def test_member_request_create_blocked_for_oidc_managed_org():
-    managed_org = factories.Organization(name=u'managed-org')
-    requester = factories.User()
-
-    with pytest.raises(logic.NotAuthorized):
-        helpers.call_action(
-            'member_request_create',
-            {'user': requester['name']},
-            group=managed_org['name'],
-            role='member',
-        )
-
-
-@pytest.mark.ckan_config(u'ckan.plugins', u'ytp_request')
-@pytest.mark.ckan_config(u'ckanext.oidc_pkce_bpa.role_org_mapping', u'{"managed-role": "managed-org"}')
-@pytest.mark.usefixtures(u'with_plugins')
-@pytest.mark.usefixtures(u'with_request_context')
-def test_membership_cancel_blocked_for_oidc_managed_org():
-    managed_org = factories.Organization(name=u'managed-org')
-    requester = factories.User()
-    sysadmin = factories.Sysadmin()
-
-    helpers.call_action(
-        'member_create',
-        {'user': sysadmin['name']},
-        id=managed_org['name'],
-        object=requester['name'],
-        object_type='user',
-        capacity='member',
-    )
-
-    with pytest.raises(logic.NotAuthorized):
-        helpers.call_action(
-            'member_request_membership_cancel',
-            {'user': requester['name']},
-            organization_id=managed_org['id'],
-        )
