@@ -1,5 +1,5 @@
 from ckan import logic, model
-from ckan.common import config, _
+from ckan.common import config, session, _
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
 from ckanext.ytp_request.helper import get_organization_admins
@@ -44,18 +44,44 @@ def member_request(context, data_dict):
 
 
 def member_requests_mylist(context, data_dict):
-    ''' Users will see a list of their member requests
-    '''
+    ''' Users will see a list of their member requests '''
     logic.check_access('member_requests_mylist', context, data_dict)
 
     user = context.get('user', None)
-
     user_object = model.User.get(user)
+
     # Return current state for memberships for all organizations for the user
-    # in context. (last modified date)
     membership_requests = model.Session.query(model.Member).filter(
         model.Member.table_id == user_object.id).all()
-    return _membership_request_list_dictize(membership_requests, context)
+    results = _membership_request_list_dictize(membership_requests, context)
+
+    # Inject synthetic Auth0-based orgs (from login session)
+    all_resources = session.get("ckanext:oidc-pkce-bpa:org_metadata", [])
+    existing_ids = {r["organization_id"] for r in results}
+
+    for resource in all_resources:
+        org_id = resource.get("id")
+        if not org_id or org_id in existing_ids:
+            continue
+
+        try:
+            org = toolkit.get_action("organization_show")(context, {"id": org_id})
+        except toolkit.ObjectNotFound:
+            org = {"id": org_id, "title": org_id, "name": org_id}
+
+        results.append({
+            "organization_name": org["name"],
+            "organization_display_name": org["title"],
+            "organization_id": org_id,
+            "state": resource.get("status"),
+            "role": 'member',
+            "message": None,
+            "request_date": resource.get("request_date"),
+            "handling_date": resource.get("handling_date"),
+            "handled_by": resource.get("handler"),
+        })
+
+    return results
 
 
 def member_requests_status(context, data_dict):
@@ -169,12 +195,20 @@ def get_available_organizations(context, data_dict=None):
             if org_allowed:
                 orglist.append(org)
 
-
     if include:
         orglist = [o for o in orglist if o['name'] in include]
     orglist = [o for o in orglist if o['name'] not in exclude]
 
-    return orglist
+    unique = []
+    seen = set()
+    for org in orglist:
+        name = org.get("name")
+        if name in seen:
+            continue
+        seen.add(name)
+        unique.append(org)
+
+    return unique
 
 
 def _membership_request_list_dictize(obj_list, context):
@@ -219,7 +253,7 @@ def _membership_request_list_dictize(obj_list, context):
         else:
             member_dict['role'] = 'member'
         #
-        member_dict['state'] = 'active'
+        member_dict['state'] = obj.state or 'active'
         member_dict['message'] = ''
         # We use the member_request state since there is also rejected and
         # cancel
@@ -239,6 +273,13 @@ def _membership_request_list_dictize(obj_list, context):
                 member_dict['handling_date'] = member_request.handling_date.strftime(
                     "%d - %b - %Y")
                 member_dict['handled_by'] = member_request.handled_by
+        elif member_request is None:
+            # No member_request record — trust the member object's state
+            member_dict['message'] = ''
+
+        if member_dict['state'] in ('deleted', 'cancel', 'inactive', None):
+            continue
+
         if member_request is None or member_request.status != 'cancel':
             result_list.append(member_dict)
     return result_list
