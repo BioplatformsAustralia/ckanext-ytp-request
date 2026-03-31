@@ -3,6 +3,7 @@ from ckan.plugins import toolkit
 from ckan import logic, model, authz
 
 
+user_not_found_message = toolkit._('User not found')
 not_auth_message = toolkit._('Unauthorized')
 request_not_found_message = toolkit._('Request not found')
 
@@ -137,6 +138,8 @@ def status(mrequest_user):
         return toolkit.render('request/status.html', extra_vars=extra_vars)
     except logic.NotAuthorized:
         toolkit.abort(401, not_auth_message)
+    except logic.NotFound:
+        toolkit.abort(404, user_not_found_message)
 
 @member_request.route('/list')
 def member_requests_list():

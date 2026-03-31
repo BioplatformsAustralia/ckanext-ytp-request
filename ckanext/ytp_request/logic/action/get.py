@@ -92,6 +92,10 @@ def member_requests_status(context, data_dict):
     user = data_dict.get('mrequest_user', None)
 
     user_object = model.User.get(user)
+
+    if not user_object:
+        raise logic.NotFound("User not found")
+
     # Return current state for memberships for all organizations for the user
     # in context. (last modified date)
     membership_requests = []
